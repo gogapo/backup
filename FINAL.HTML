@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEVOLUÇÃO DE IRS POR MUNICÍPIO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #333;
+            text-transform: uppercase;
+        }
+        .search-container,
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 20px 15px;
+            padding: 0 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Caixa de input e select */
+        .search-container input,
+        .search-container select,
+        .button-container select,
+        .button-container button {
+            padding: 12px 16px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            width: 48%; /* Corrigido para garantir que a largura seja 100% */
+        }
+
+        /* Caixa de input e select */
+
+        #popup-content input,
+        #popup-content select {
+            padding: 12px 16px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            width: 100%; /* Corrigido para garantir que a largura seja 100% */
+        }
+
+        /* Botões */
+        button {
+            padding: 12px 30px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+        #testarValorBtn,
+        .calc-btn {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        #testarValorBtn:hover,
+        .calc-btn:hover {
+            background-color: #0056b3;
+        }
+        .filter-btn {
+            background-color: #6c757d;
+            color: white;
+            margin: 5px;
+        }
+        .filter-btn:hover {
+            background-color: #5a6268;
+        }
+
+        /* Dropdowns */
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        /* Tabela */
+        table {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 1rem;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Pop-up */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        #popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        .close-btn {
+            background-color: #ff4444;
+            color: white;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            background-color: #cc0000;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .search-container input,
+            .search-container select,
+            .button-container select,
+            .button-container button {
+                width: 100%;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+            .button-container {
+                flex-direction: column;
+            }
+
+            table {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Devolução de IRS por Município</h1>
+
+    <div class="search-container">
+        <input type="text" id="search" oninput="resetSelect()" onkeyup="filterTable()" placeholder="Escreva aqui o município - ou filtre na barra a seguir">
+        <select id="concelhoSelect" onchange="resetInput(); selectConcelho()">
+            <option value="">Filtre aqui o município</option>
+        </select>
+    </div>
+
+    <div class="button-container">
+        <button id="testarValorBtn" onclick="openPopup()">TESTAR VALOR EM EUROS</button>
+        <select id="ordenarSelect" onchange="resetFilters(); ordenarTabela()">
+            <option value="">ORDENAR</option>
+            <option value="maior">Ordenar de maior para menor devolução</option>
+            <option value="menor">Ordenar de menor para maior devolução</option>
+            <option value="alfabeticoA">Ordenar alfabeticamente de A-Z</option>
+            <option value="alfabeticoZ">Ordenar alfabeticamente de Z-A</option>
+        </select>
+    </div>
+
+    <table id="tabelaConcelhos">
+        <thead>
+            <tr>
+                <th id="municipio-header">MUNICÍPIO</th>
+                <th id="devolucao-header">% DE IRS QUE DEVOLVE</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div id="popup">
+        <div id="popup-content">
+            <h3>BENEFÍCIO MUNICIPAL DE IRS</h3>
+            <h5>Sugestão: insira o "valor da coleta líquida" que consta da sua nota de liquidação de IRS do ano passado. Ou use um valor qualquer para efeitos de teste.</h5>
+            <select id="municipioSelect" onchange="verificarCampos()">
+                <option value="">Escolha aqui um município</option>
+            </select>
+            <input type="text" id="coletaLiquida" placeholder="Insira aqui o valor da coleta líquida" oninput="verificarCampos()" onkeydown="checkEnter(event)">
+            <br/><br/><br/><button class="calc-btn" onclick="calcularDevolucao()">CALCULAR</button>
+            <button class="close-btn" onclick="closePopup()">FECHAR ESTA JANELA</button>
+            <p style="font-size:1.5em;font-weight:bold" id="resultado"></p>
+        </div>
+    </div>
+
+    <script>
+        const dados = [
+            ["ABRANTES", 0.50], ["AGUEDA", 5.00], ["AGUIAR DA BEIRA", 5.00], ["ALANDROAL", 0.00],
+            ["ALBERGARIA-A-VELHA", 2.25], ["ALBUFEIRA", 5.00], ["ALCACER DO SAL", 1.00], ["ALCANENA", 0.20],
+            ["ALCOBAÇA", 2.60], ["ALCOCHETE", 1.00], ["ALCOUTIM", 5.00], ["ALENQUER", 0.20], ["ALFANDEGA DA FE", 0.00],
+            ["ALIJO", 2.00], ["ALJEZUR", 5.00], ["ALJUSTREL", 0.00], ["ALMADA", 1.50], ["ALMEIDA", 5.00],
+            ["ALMEIRIM", 0.00], ["ALMODOVAR", 1.00], ["ALPIARÇA", 0.00], ["ALTER DO CHÃO", 2.50],
+            ["ALVAIAZERE", 2.50], ["ALVITO", 1.00], ["AMADORA", 1.20], ["AMARANTE", 0.00], ["AMARES", 0.00],
+            ["ANADIA", 2.00], ["ANGRA DO HEROISMO", 0.00], ["ANSIÃO", 2.00], ["ARCOS DE VALDEVEZ", 2.00],
+            ["ARGANIL", 5.00], ["ARMAMAR", 4.00], ["ARRAIOLOS", 0.00], ["ARRONCHES", 5.00],
+            ["ARRUDA DOS VINHOS", 1.20], ["AVEIRO", 0.00], ["AZAMBUJA", 0.00], ["BAIÃO", 0.00], ["BARCELOS", 0.25],
+            ["BARRANCOS", 0.00], ["BARREIRO", 0.00], ["BATALHA", 0.00], ["BEJA", 0.00], ["BELMONTE", 2.50],
+            ["BENAVENTE", 2.50], ["BOMBARRAL", 1.50], ["BORBA", 1.00], ["BOTICAS", 5.00], ["BRAGA", 2.00],
+            ["BRAGANÇA", 0.00], ["CABECEIRAS DE BASTO", 3.00], ["CADAVAL", 2.50], ["CALDAS DA RAINHA", 3.00],
+            ["CALHETA (AÇORES)", 5.00], ["CALHETA (MADEIRA)", 5.00], ["CAMARA DE LOBOS", 1.50], ["CAMINHA", 0.00],
+            ["CAMPO MAIOR", 0.00], ["CANTANHEDE", 0.00], ["CARRAZEDA DE ANSIÃES", 5.00], ["CARREGAL DO SAL", 0.00],
+            ["CARTAXO", 0.00], ["CASCAIS", 0.00], ["CASTANHEIRA DE PERA", 5.00], ["CASTELO BRANCO", 3.50],
+            ["CASTELO DE PAIVA", 0.00], ["CASTELO DE VIDE", 2.50], ["CASTRO DAIRE", 2.00], ["CASTRO MARIM", 1.50],
+            ["CASTRO VERDE", 1.00], ["CELORICO DA BEIRA", 1.00], ["CELORICO DE BASTO", 1.00], ["CHAMUSCA", 3.50],
+            ["CHAVES", 0.00], ["CINFÃES", 2.00], ["COIMBRA", 0.00], ["CONDEIXA-A-NOVA", 0.00], ["CONSTANCIA", 0.00],
+            ["CORUCHE", 2.00], ["CORVO", 0.00], ["COVILHÃ", 0.00], ["CRATO", 0.00], ["CUBA", 0.00], ["ELVAS", 0.00],
+            ["ENTRONCAMENTO", 0.00], ["ESPINHO", 0.50], ["ESPOSENDE", 0.00], ["ESTARREJA", 2.00], ["ESTREMOZ", 1.50],
+            ["EVORA", 1.50], ["FAFE", 2.00], ["FARO", 0.00], ["FELGUEIRAS", 0.66], ["FERREIRA DO ALENTEJO", 0.00],
+            ["FERREIRA DO ZEZERE", 4.00], ["FIGUEIRA DA FOZ", 1.75], ["FIGUEIRA DE CASTELO RODRIGO", 5.00],
+            ["FIGUEIRO DOS VINHOS", 2.00], ["FORNOS DE ALGODRES", 0.00], ["FREIXO DE ESPADA A CINTA", 0.00],
+            ["FRONTEIRA", 5.00], ["FUNCHAL", 5.00], ["FUNDÃO", 0.00], ["GAVIÃO", 5.00], ["GOIS", 2.50],
+            ["GOLEGÃ", 0.00], ["GONDOMAR", 0.00], ["GOUVEIA", 1.00], ["GRANDOLA", 0.00], ["GUARDA", 1.00],
+            ["GUIMARÃES", 0.00], ["HORTA", 0.50], ["IDANHA-A-NOVA", 2.50], ["ILHAVO", 1.00], ["LAGOA (ALGARVE)", 3.00],
+            ["LAGOA (AÇORES)", 0.00], ["LAGOS", 5.00], ["LAJES DAS FLORES", 3.00], ["LAJES DO PICO", 0.00],
+            ["LAMEGO", 1.00], ["LEIRIA", 0.00], ["LISBOA", 4.50], ["LOULE", 5.00], ["LOURES", 0.25],
+            ["LOURINHÃ", 1.25], ["LOUSADA", 1.00], ["LOUSÃ", 1.00], ["MACEDO DE CAVALEIROS", 4.00], ["MACHICO", 1.00],
+            ["MADALENA", 0.00], ["MAFRA", 0.25], ["MAIA", 0.00], ["MANGUALDE", 1.00], ["MANTEIGAS", 5.00],
+            ["MARCO DE CANAVESES", 2.00], ["MARINHA GRANDE", 0.00], ["MARVÃO", 2.50], ["MATOSINHOS", 0.00],
+            ["MAÇÃO", 1.00], ["MEALHADA", 3.00], ["MEDA", 0.00], ["MELGAÇO", 0.00], ["MERTOLA", 2.00],
+            ["MESÃO FRIO", 2.00], ["MIRA", 0.00], ["MIRANDA DO CORVO", 1.00], ["MIRANDA DO DOURO", 2.50],
+            ["MIRANDELA", 3.00], ["MOGADOURO", 5.00], ["MOIMENTA DA BEIRA", 0.50], ["MONCHIQUE", 2.50],
+            ["MONDIM DE BASTO", 1.50], ["MONFORTE", 0.00], ["MONTALEGRE", 0.00], ["MONTEMOR-O-NOVO", 2.00],
+            ["MONTEMOR-O-VELHO", 0.50], ["MONTIJO", 1.00], ["MONÇÃO", 3.00], ["MORA", 0.00], ["MORTAGUA", 5.00],
+            ["MOURÃO", 2.00], ["MURTOSA", 1.00], ["MURÇA", 2.50], ["NAZARE", 0.00], ["NELAS", 1.00],
+            ["NISA", 2.50], ["NORDESTE", 0.00], ["OBIDOS", 4.00], ["ODEMIRA", 1.50], ["ODIVELAS", 0.00],
+            ["OEIRAS", 0.30], ["OLEIROS", 5.00], ["OLHÃO", 1.00], ["OLIVEIRA DE AZEMEIS", 0.00],
+            ["OLIVEIRA DE FRADES", 0.00], ["OLIVEIRA DO BAIRRO", 5.00], ["OLIVEIRA DO HOSPITAL", 0.00],
+            ["OUREM", 0.00], ["OURIQUE", 2.50], ["OVAR", 3.00], ["PALMELA", 0.00], ["PAMPILHOSA DA SERRA", 5.00],
+            ["PAREDES", 0.00], ["PAREDES DE COURA", 2.00], ["PAÇOS DE FERREIRA", 0.00], ["PEDROGÃO GRANDE", 4.00],
+            ["PENACOVA", 1.00], ["PENAFIEL", 0.00], ["PENALVA DO CASTELO", 1.00], ["PENAMACOR", 5.00],
+            ["PENEDONO", 5.00], ["PENELA", 0.00], ["PENICHE", 2.00], ["PESO DA REGUA", 0.00], ["PINHEL", 0.00],
+            ["POMBAL", 2.50], ["PONTA DELGADA", 1.50], ["PONTA DO SOL", 5.00], ["PONTE DA BARCA", 1.00],
+            ["PONTE DE LIMA", 5.00], ["PONTE DE SOR", 1.50], ["PORTALEGRE", 1.50], ["PORTEL", 0.00],
+            ["PORTIMÃO", 0.00], ["PORTO", 1.50], ["PORTO DE MOS", 2.50], ["PORTO MONIZ", 5.00], ["PORTO SANTO", 1.25],
+            ["POVOA DE LANHOSO", 0.50], ["POVOA DE VARZIM", 1.00], ["POVOAÇÃO", 2.50], ["PROENÇA-A-NOVA", 2.50],
+            ["REDONDO", 2.00], ["REGUENGOS DE MONSARAZ", 0.00], ["RESENDE", 5.00], ["RIBEIRA BRAVA", 0.00],
+            ["RIBEIRA DE PENA", 0.00], ["RIBEIRA GRANDE", 3.25], ["RIO MAIOR", 0.40], ["S. BRAS DE ALPORTEL", 0.00],
+            ["S. JOÃO DA MADEIRA", 0.50], ["S. JOÃO DA PESQUEIRA", 0.00], ["S. PEDRO DO SUL", 3.00],
+            ["S. ROQUE DO PICO", 0.00], ["S. VICENTE", 0.00], ["SABROSA", 5.00], ["SABUGAL", 5.00],
+            ["SALVATERRA DE MAGOS", 0.00], ["SANTA COMBA DÃO", 0.60], ["SANTA CRUZ", 1.00], ["SANTA CRUZ DA GRACIOSA", 2.00],
+            ["SANTA CRUZ DAS FLORES", 5.00], ["SANTA MARIA DA FEIRA", 0.00], ["SANTA MARTA DE PENAGUIÃO", 4.50],
+            ["SANTANA", 5.00], ["SANTAREM", 0.50], ["SANTIAGO DO CACEM", 0.00], ["SANTO TIRSO", 1.50],
+            ["SARDOAL", 0.00], ["SATÃO", 0.00], ["SEIA", 2.50], ["SEIXAL", 0.00], ["SERNANCELHE", 0.00],
+            ["SERPA", 0.00], ["SERTÃ", 2.50], ["SESIMBRA", 0.00], ["SETUBAL", 1.50], ["SEVER DO VOUGA", 2.50],
+            ["SINES", 1.25], ["SOBRAL DE MONTE AGRAÇO", 0.00], ["SOURE", 0.00], ["SOUSEL", 0.00], ["TABUA", 0.00],
+            ["TABUAÇO", 0.00], ["TAROUCA", 0.00], ["TAVIRA", 2.50], ["TERRAS DE BOURO", 0.50], ["TOMAR", 1.00],
+            ["TONDELA", 2.50], ["TORRE DE MONCORVO", 0.00], ["TORRES NOVAS", 0.00], ["TORRES VEDRAS", 1.25],
+            ["TRANCOSO", 5.00], ["TROFA", 0.20], ["VAGOS", 2.50], ["VALE DE CAMBRA", 2.50], ["VALENÇA", 3.00],
+            ["VALONGO", 0.00], ["VALPAÇOS", 0.00], ["VELAS", 5.00], ["VENDAS NOVAS", 0.00], ["VIANA DO ALENTEJO", 2.50],
+            ["VIDIGUEIRA", 0.00], ["VIEIRA DO MINHO", 5.00], ["VILA DE REI", 2.50], ["VILA DO BISPO", 5.00],
+            ["VILA DO PORTO", 0.00], ["VILA FLOR", 5.00], ["VILA FRANCA DE XIRA", 0.25], ["VILA FRANCA DO CAMPO", 0.00],
+            ["VILA NOVA DA BARQUINHA", 0.50], ["VILA NOVA DE CERVEIRA", 2.00], ["VILA NOVA DE FAMALICÃO", 0.50],
+            ["VILA NOVA DE FOZ COA", 0.00], ["VILA NOVA DE GAIA", 2.50], ["VILA NOVA DE POIARES", 0.00],
+            ["VILA POUCA DE AGUIAR", 0.00], ["VILA PRAIA DA VITORIA", 0.00], ["VILA REAL", 0.00],
+            ["VILA REAL DE SANTO ANTONIO", 0.00], ["VILA VELHA DE RODÃO", 0.00], ["VILA VIÇOSA", 2.00],
+            ["VIMIOSO", 0.00], ["VINHAIS", 5.00], ["VISEU", 1.00], ["VIZELA", 1.50], ["VOUZELA", 0.00]
+        ];
+
+        function populateTable() {
+            const tabela = document.querySelector("#tabelaConcelhos tbody");
+            tabela.innerHTML = "";
+
+            dados.forEach((concelho) => {
+                const row = document.createElement("tr");
+                const subtracao = (concelho[1]).toFixed(2);
+
+                const municipioCell = document.createElement("td");
+                municipioCell.textContent = concelho[0];
+                const devolucaoCell = document.createElement("td");
+                devolucaoCell.textContent = `${subtracao}%`;
+
+                row.appendChild(municipioCell);
+                row.appendChild(devolucaoCell);
+                tabela.appendChild(row);
+            });
+
+            // Popular o select do município no popup
+            const municipioSelect = document.getElementById("municipioSelect");
+            dados.forEach(concelho => {
+                const option = document.createElement("option");
+                option.value = concelho[0];
+                option.textContent = concelho[0];
+                municipioSelect.appendChild(option);
+            });
+
+            // Popular o select do município na busca
+            const concelhoSelect = document.getElementById("concelhoSelect");
+            dados.forEach(concelho => {
+                const option = document.createElement("option");
+                option.value = concelho[0];
+                option.textContent = concelho[0];
+                concelhoSelect.appendChild(option);
+            });
+        }
+
+        // Função para filtrar a tabela
+        function filterTable() {
+            const input = document.getElementById("search");
+            const filter = input.value.toUpperCase();
+            const rows = document.querySelector("#tabelaConcelhos tbody").rows;
+
+            for (let i = 0; i < rows.length; i++) {
+                const cell = rows[i].cells[0];  // Verifica apenas a primeira coluna (município)
+                if (cell) {
+                    const text = cell.textContent || cell.innerText;
+                    if (text.toUpperCase().indexOf(filter) > -1) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Função para ordenar a tabela
+        function ordenarTabela() {
+            resetFilters(); // Resetar filtros antes de ordenar
+            const select = document.getElementById("ordenarSelect");
+            const value = select.value;
+            const rows = Array.from(document.querySelector("#tabelaConcelhos tbody").rows);
+
+            switch (value) {
+                case "maior":
+                    rows.sort((a, b) => parseFloat(b.cells[1].textContent) - parseFloat(a.cells[1].textContent));
+                    break;
+                case "menor":
+                    rows.sort((a, b) => parseFloat(a.cells[1].textContent) - parseFloat(b.cells[1].textContent));
+                    break;
+                case "alfabeticoA":
+                    rows.sort((a, b) => a.cells[0].textContent.localeCompare(b.cells[0].textContent));
+                    break;
+                case "alfabeticoZ":
+                    rows.sort((a, b) => b.cells[0].textContent.localeCompare(a.cells[0].textContent));
+                    break;
+                default:
+                    break;
+            }
+
+            const tbody = document.querySelector("#tabelaConcelhos tbody");
+            tbody.innerHTML = "";
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        // Função para abrir o popup
+        function openPopup() {
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        // Função para fechar o popup
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        // Função para calcular a devolução
+        function calcularDevolucao() {
+            const municipio = document.getElementById("municipioSelect").value;
+            const coletaLiquida = parseFloat(document.getElementById("coletaLiquida").value.replace(/[^\d.,-]/g, '').replace(',', '.'));
+
+            if (municipio && !isNaN(coletaLiquida)) {
+                const concelho = dados.find(c => c[0] === municipio);
+                const devolucao = concelho ? concelho[1] : 0;
+                const valorDevolvido = (coletaLiquida * devolucao) / 100;
+                document.getElementById("resultado").textContent = `O valor devolvido será de: €${valorDevolvido.toFixed(2)}`;
+            } else {
+                document.getElementById("resultado").textContent = "Por favor, preencha todos os campos.";
+            }
+        }
+
+        // Função para formatar o valor em euros
+        function formatarValor(input) {
+            let valor = input.value.replace(/[^0-9]/g, ''); // Remove caracteres não numéricos
+            if (valor.length > 0) {
+                valor = (parseInt(valor) / 100).toLocaleString('pt-PT', {
+                    style: 'currency',
+                    currency: 'EUR'
+                });
+            }
+            input.value = valor;
+        }
+
+        // Verifica se todos os campos no popup estão preenchidos
+        function verificarCampos() {
+            const municipio = document.getElementById("municipioSelect").value;
+            const coletaLiquidaInput = document.getElementById("coletaLiquida");
+            const calcularBtn = document.querySelector(".calc-btn");
+
+            formatarValor(coletaLiquidaInput); // Formata o valor em tempo real
+
+            const coletaLiquida = coletaLiquidaInput.value.replace(/[^\d.,-]/g, '').replace(',', '.'); // Remove formatação para verificar se é um número válido
+
+            if (municipio && coletaLiquida && !isNaN(parseFloat(coletaLiquida))) {
+                calcularBtn.disabled = false;
+            } else {
+                calcularBtn.disabled = true;
+            }
+        }
+
+        // Dispara o cálculo ao pressionar "Enter"
+        function checkEnter(event) {
+            if (event.key === "Enter") {
+                calcularDevolucao();
+            }
+        }
+
+        // Chama a função de preenchimento de dados ao carregar a página
+        window.onload = () => {
+            populateTable();
+            verificarCampos();
+        };
+
+        function selectConcelho() {
+            const select = document.getElementById("concelhoSelect");
+            const value = select.value;
+            const rows = document.querySelector("#tabelaConcelhos tbody").rows;
+
+            for (let i = 0; i < rows.length; i++) {
+                const cell = rows[i].cells[0];
+                if (cell) {
+                    const text = cell.textContent || cell.innerText;
+                    if (value && text === value) {
+                        rows[i].style.display = "";
+                    } else if (value && text !== value) {
+                        rows[i].style.display = "none";
+                    } else {
+                        rows[i].style.display = ""; // Mostrar todas as linhas se nenhum município for selecionado
+                    }
+                }
+            }
+        }
+
+        // Reseta o select quando o input é alterado
+        function resetSelect() {
+            document.getElementById("concelhoSelect").value = "";
+        }
+
+        // Reseta o input quando o select é alterado
+        function resetInput() {
+            document.getElementById("search").value = "";
+        }
+
+        // Reseta os filtros de pesquisa e exibe todos os resultados
+        function resetFilters() {
+            resetInput();
+            resetSelect();
+            showAllResults(); // Adicionado para exibir todos os resultados
+        }
+
+        // Exibe todos os resultados na tabela
+        function showAllResults() {
+            const rows = document.querySelector("#tabelaConcelhos tbody").rows;
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].style.display = "";
+            }
+        }
+    </script>
+</body>
+</html>
