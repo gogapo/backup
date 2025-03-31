@@ -210,7 +210,7 @@
         </tbody>
     </table>
 
-    <div id="popup">
+      <div id="popup">
         <div id="popup-content">
             <h3>BENEFÍCIO MUNICIPAL DE IRS</h3>
             <h5>Sugestão: insira o "valor da coleta líquida" que consta da sua nota de liquidação de IRS do ano passado. Ou use um valor qualquer para efeitos de teste.</h5>
@@ -221,6 +221,7 @@
             <br/><br/><br/><button class="calc-btn" onclick="calcularDevolucao()">CALCULAR</button>
             <button class="close-btn" onclick="closePopup()">FECHAR ESTA JANELA</button>
             <p style="font-size:1.5em;font-weight:bold" id="resultado"></p>
+            <p id="comparacao" style="font-size: 1em; text-transform:uppercase; color: #003e5b;"></p>
         </div>
     </div>
 
@@ -284,7 +285,7 @@
     ];
 
         // Ordenar os dados alfabeticamente
-    dados.sort((a, b) => a[0].localeCompare(b[0]));
+        dados.sort((a, b) => a[0].localeCompare(b[0]));
 
     function populateTable() {
         const tabela = document.querySelector("#tabelaConcelhos tbody");
@@ -390,9 +391,23 @@
                 const concelho = dados.find(c => c[0] === municipio);
                 const devolucao = concelho ? concelho[1] : 0;
                 const valorDevolvido = (coletaLiquida * devolucao) / 100;
-                document.getElementById("resultado").textContent = `O valor devolvido será de: €${valorDevolvido.toFixed(2)}`;
+                document.getElementById("resultado").textContent = `O valor devolvido será de: ${valorDevolvido.toFixed(2)}€`;
+
+                // Comparação com município de 5%
+                if (devolucao < 5) {
+                    const municipios5Porcento = dados.filter(c => c[1] === 5);
+                    if (municipios5Porcento.length > 0) {
+                        const municipioComparacao = municipios5Porcento[Math.floor(Math.random() * municipios5Porcento.length)];
+                        const valorDevolvido5Porcento = (coletaLiquida * 5) / 100;
+                        const diferenca = valorDevolvido5Porcento - valorDevolvido;
+                        document.getElementById("comparacao").textContent = `Sabia que se vivesse em ${municipioComparacao[0]} receberia ${valorDevolvido5Porcento.toFixed(2)}€, mais ${diferenca.toFixed(2)}€?`;
+                    }
+                } else {
+                    document.getElementById("comparacao").textContent = ""; // Limpa a comparação se o município já devolve 5%
+                }
             } else {
                 document.getElementById("resultado").textContent = "Por favor, preencha todos os campos.";
+                document.getElementById("comparacao").textContent = ""; // Limpa a comparação se houver erro
             }
         }
 
