@@ -226,113 +226,102 @@
 
     <script>
         const dados = [
-            ["ABRANTES", 0.50], ["AGUEDA", 5.00], ["AGUIAR DA BEIRA", 5.00], ["ALANDROAL", 0.00],
-            ["ALBERGARIA-A-VELHA", 2.25], ["ALBUFEIRA", 5.00], ["ALCACER DO SAL", 1.00], ["ALCANENA", 0.20],
-            ["ALCOBAÇA", 2.60], ["ALCOCHETE", 1.00], ["ALCOUTIM", 5.00], ["ALENQUER", 0.20], ["ALFANDEGA DA FE", 0.00],
-            ["ALIJO", 2.00], ["ALJEZUR", 5.00], ["ALJUSTREL", 0.00], ["ALMADA", 1.50], ["ALMEIDA", 5.00],
-            ["ALMEIRIM", 0.00], ["ALMODOVAR", 1.00], ["ALPIARÇA", 0.00], ["ALTER DO CHÃO", 2.50],
-            ["ALVAIAZERE", 2.50], ["ALVITO", 1.00], ["AMADORA", 1.20], ["AMARANTE", 0.00], ["AMARES", 0.00],
-            ["ANADIA", 2.00], ["ANGRA DO HEROISMO", 0.00], ["ANSIÃO", 2.00], ["ARCOS DE VALDEVEZ", 2.00],
-            ["ARGANIL", 5.00], ["ARMAMAR", 4.00], ["ARRAIOLOS", 0.00], ["ARRONCHES", 5.00],
-            ["ARRUDA DOS VINHOS", 1.20], ["AVEIRO", 0.00], ["AZAMBUJA", 0.00], ["BAIÃO", 0.00], ["BARCELOS", 0.25],
-            ["BARRANCOS", 0.00], ["BARREIRO", 0.00], ["BATALHA", 0.00], ["BEJA", 0.00], ["BELMONTE", 2.50],
-            ["BENAVENTE", 2.50], ["BOMBARRAL", 1.50], ["BORBA", 1.00], ["BOTICAS", 5.00], ["BRAGA", 2.00],
-            ["BRAGANÇA", 0.00], ["CABECEIRAS DE BASTO", 3.00], ["CADAVAL", 2.50], ["CALDAS DA RAINHA", 3.00],
-            ["CALHETA (AÇORES)", 5.00], ["CALHETA (MADEIRA)", 5.00], ["CAMARA DE LOBOS", 1.50], ["CAMINHA", 0.00],
-            ["CAMPO MAIOR", 0.00], ["CANTANHEDE", 0.00], ["CARRAZEDA DE ANSIÃES", 5.00], ["CARREGAL DO SAL", 0.00],
-            ["CARTAXO", 0.00], ["CASCAIS", 0.00], ["CASTANHEIRA DE PERA", 5.00], ["CASTELO BRANCO", 3.50],
-            ["CASTELO DE PAIVA", 0.00], ["CASTELO DE VIDE", 2.50], ["CASTRO DAIRE", 2.00], ["CASTRO MARIM", 1.50],
-            ["CASTRO VERDE", 1.00], ["CELORICO DA BEIRA", 1.00], ["CELORICO DE BASTO", 1.00], ["CHAMUSCA", 3.50],
-            ["CHAVES", 0.00], ["CINFÃES", 2.00], ["COIMBRA", 0.00], ["CONDEIXA-A-NOVA", 0.00], ["CONSTANCIA", 0.00],
-            ["CORUCHE", 2.00], ["CORVO", 0.00], ["COVILHÃ", 0.00], ["CRATO", 0.00], ["CUBA", 0.00], ["ELVAS", 0.00],
-            ["ENTRONCAMENTO", 0.00], ["ESPINHO", 0.50], ["ESPOSENDE", 0.00], ["ESTARREJA", 2.00], ["ESTREMOZ", 1.50],
-            ["EVORA", 1.50], ["FAFE", 2.00], ["FARO", 0.00], ["FELGUEIRAS", 0.66], ["FERREIRA DO ALENTEJO", 0.00],
-            ["FERREIRA DO ZEZERE", 4.00], ["FIGUEIRA DA FOZ", 1.75], ["FIGUEIRA DE CASTELO RODRIGO", 5.00],
-            ["FIGUEIRO DOS VINHOS", 2.00], ["FORNOS DE ALGODRES", 0.00], ["FREIXO DE ESPADA A CINTA", 0.00],
-            ["FRONTEIRA", 5.00], ["FUNCHAL", 5.00], ["FUNDÃO", 0.00], ["GAVIÃO", 5.00], ["GOIS", 2.50],
-            ["GOLEGÃ", 0.00], ["GONDOMAR", 0.00], ["GOUVEIA", 1.00], ["GRANDOLA", 0.00], ["GUARDA", 1.00],
-            ["GUIMARÃES", 0.00], ["HORTA", 0.50], ["IDANHA-A-NOVA", 2.50], ["ILHAVO", 1.00], ["LAGOA (ALGARVE)", 3.00],
-            ["LAGOA (AÇORES)", 0.00], ["LAGOS", 5.00], ["LAJES DAS FLORES", 3.00], ["LAJES DO PICO", 0.00],
-            ["LAMEGO", 1.00], ["LEIRIA", 0.00], ["LISBOA", 4.50], ["LOULE", 5.00], ["LOURES", 0.25],
-            ["LOURINHÃ", 1.25], ["LOUSADA", 1.00], ["LOUSÃ", 1.00], ["MACEDO DE CAVALEIROS", 4.00], ["MACHICO", 1.00],
-            ["MADALENA", 0.00], ["MAFRA", 0.25], ["MAIA", 0.00], ["MANGUALDE", 1.00], ["MANTEIGAS", 5.00],
-            ["MARCO DE CANAVESES", 2.00], ["MARINHA GRANDE", 0.00], ["MARVÃO", 2.50], ["MATOSINHOS", 0.00],
-            ["MAÇÃO", 1.00], ["MEALHADA", 3.00], ["MEDA", 0.00], ["MELGAÇO", 0.00], ["MERTOLA", 2.00],
-            ["MESÃO FRIO", 2.00], ["MIRA", 0.00], ["MIRANDA DO CORVO", 1.00], ["MIRANDA DO DOURO", 2.50],
-            ["MIRANDELA", 3.00], ["MOGADOURO", 5.00], ["MOIMENTA DA BEIRA", 0.50], ["MONCHIQUE", 2.50],
-            ["MONDIM DE BASTO", 1.50], ["MONFORTE", 0.00], ["MONTALEGRE", 0.00], ["MONTEMOR-O-NOVO", 2.00],
-            ["MONTEMOR-O-VELHO", 0.50], ["MONTIJO", 1.00], ["MONÇÃO", 3.00], ["MORA", 0.00], ["MORTAGUA", 5.00],
-            ["MOURÃO", 2.00], ["MURTOSA", 1.00], ["MURÇA", 2.50], ["NAZARE", 0.00], ["NELAS", 1.00],
-            ["NISA", 2.50], ["NORDESTE", 0.00], ["OBIDOS", 4.00], ["ODEMIRA", 1.50], ["ODIVELAS", 0.00],
-            ["OEIRAS", 0.30], ["OLEIROS", 5.00], ["OLHÃO", 1.00], ["OLIVEIRA DE AZEMEIS", 0.00],
-            ["OLIVEIRA DE FRADES", 0.00], ["OLIVEIRA DO BAIRRO", 5.00], ["OLIVEIRA DO HOSPITAL", 0.00],
-            ["OUREM", 0.00], ["OURIQUE", 2.50], ["OVAR", 3.00], ["PALMELA", 0.00], ["PAMPILHOSA DA SERRA", 5.00],
-            ["PAREDES", 0.00], ["PAREDES DE COURA", 2.00], ["PAÇOS DE FERREIRA", 0.00], ["PEDROGÃO GRANDE", 4.00],
-            ["PENACOVA", 1.00], ["PENAFIEL", 0.00], ["PENALVA DO CASTELO", 1.00], ["PENAMACOR", 5.00],
-            ["PENEDONO", 5.00], ["PENELA", 0.00], ["PENICHE", 2.00], ["PESO DA REGUA", 0.00], ["PINHEL", 0.00],
-            ["POMBAL", 2.50], ["PONTA DELGADA", 1.50], ["PONTA DO SOL", 5.00], ["PONTE DA BARCA", 1.00],
-            ["PONTE DE LIMA", 5.00], ["PONTE DE SOR", 1.50], ["PORTALEGRE", 1.50], ["PORTEL", 0.00],
-            ["PORTIMÃO", 0.00], ["PORTO", 1.50], ["PORTO DE MOS", 2.50], ["PORTO MONIZ", 5.00], ["PORTO SANTO", 1.25],
-            ["POVOA DE LANHOSO", 0.50], ["POVOA DE VARZIM", 1.00], ["POVOAÇÃO", 2.50], ["PROENÇA-A-NOVA", 2.50],
-            ["REDONDO", 2.00], ["REGUENGOS DE MONSARAZ", 0.00], ["RESENDE", 5.00], ["RIBEIRA BRAVA", 0.00],
-            ["RIBEIRA DE PENA", 0.00], ["RIBEIRA GRANDE", 3.25], ["RIO MAIOR", 0.40], ["S. BRAS DE ALPORTEL", 0.00],
-            ["S. JOÃO DA MADEIRA", 0.50], ["S. JOÃO DA PESQUEIRA", 0.00], ["S. PEDRO DO SUL", 3.00],
-            ["S. ROQUE DO PICO", 0.00], ["S. VICENTE", 0.00], ["SABROSA", 5.00], ["SABUGAL", 5.00],
-            ["SALVATERRA DE MAGOS", 0.00], ["SANTA COMBA DÃO", 0.60], ["SANTA CRUZ", 1.00], ["SANTA CRUZ DA GRACIOSA", 2.00],
-            ["SANTA CRUZ DAS FLORES", 5.00], ["SANTA MARIA DA FEIRA", 0.00], ["SANTA MARTA DE PENAGUIÃO", 4.50],
-            ["SANTANA", 5.00], ["SANTAREM", 0.50], ["SANTIAGO DO CACEM", 0.00], ["SANTO TIRSO", 1.50],
-            ["SARDOAL", 0.00], ["SATÃO", 0.00], ["SEIA", 2.50], ["SEIXAL", 0.00], ["SERNANCELHE", 0.00],
-            ["SERPA", 0.00], ["SERTÃ", 2.50], ["SESIMBRA", 0.00], ["SETUBAL", 1.50], ["SEVER DO VOUGA", 2.50],
-            ["SINES", 1.25], ["SOBRAL DE MONTE AGRAÇO", 0.00], ["SOURE", 0.00], ["SOUSEL", 0.00], ["TABUA", 0.00],
-            ["TABUAÇO", 0.00], ["TAROUCA", 0.00], ["TAVIRA", 2.50], ["TERRAS DE BOURO", 0.50], ["TOMAR", 1.00],
-            ["TONDELA", 2.50], ["TORRE DE MONCORVO", 0.00], ["TORRES NOVAS", 0.00], ["TORRES VEDRAS", 1.25],
-            ["TRANCOSO", 5.00], ["TROFA", 0.20], ["VAGOS", 2.50], ["VALE DE CAMBRA", 2.50], ["VALENÇA", 3.00],
-            ["VALONGO", 0.00], ["VALPAÇOS", 0.00], ["VELAS", 5.00], ["VENDAS NOVAS", 0.00], ["VIANA DO ALENTEJO", 2.50],
-            ["VIDIGUEIRA", 0.00], ["VIEIRA DO MINHO", 5.00], ["VILA DE REI", 2.50], ["VILA DO BISPO", 5.00],
-            ["VILA DO PORTO", 0.00], ["VILA FLOR", 5.00], ["VILA FRANCA DE XIRA", 0.25], ["VILA FRANCA DO CAMPO", 0.00],
-            ["VILA NOVA DA BARQUINHA", 0.50], ["VILA NOVA DE CERVEIRA", 2.00], ["VILA NOVA DE FAMALICÃO", 0.50],
-            ["VILA NOVA DE FOZ COA", 0.00], ["VILA NOVA DE GAIA", 2.50], ["VILA NOVA DE POIARES", 0.00],
-            ["VILA POUCA DE AGUIAR", 0.00], ["VILA PRAIA DA VITORIA", 0.00], ["VILA REAL", 0.00],
-            ["VILA REAL DE SANTO ANTONIO", 0.00], ["VILA VELHA DE RODÃO", 0.00], ["VILA VIÇOSA", 2.00],
-            ["VIMIOSO", 0.00], ["VINHAIS", 5.00], ["VISEU", 1.00], ["VIZELA", 1.50], ["VOUZELA", 0.00]
-        ];
+        ["ÁGUEDA", 5 - 0.00], ["ALBERGARIA-A-VELHA", 5 - 2.80], ["ANADIA", 5 - 3.00], ["AROUCA", 5 - 5.00], ["AVEIRO", 5 - 5.00],
+        ["CASTELO DE PAIVA", 5 - 5.00], ["ESPINHO", 5 - 4.50], ["ESTARREJA", 5 - 3.00], ["ÍLHAVO", 5 - 4.00], ["MEALHADA", 5 - 2.00],
+        ["MURTOSA", 5 - 4.00], ["OLIVEIRA DE AZEMÉIS", 5 - 5.00], ["OLIVEIRA DO BAIRRO", 5 - 0.00], ["OVAR", 5 - 2.00], ["SANTA MARIA DA FEIRA", 5 - 5.00],
+        ["SÃO JOÃO DA MADEIRA", 5 - 4.50], ["SEVER DO VOUGA", 5 - 2.50], ["VAGOS", 5 - 2.50], ["VALE DE CAMBRA", 5 - 2.50], ["ALJUSTREL", 5 - 5.00],
+        ["ALMODÔVAR", 5 - 4.00], ["ALVITO", 5 - 4.00], ["BARRANCOS", 5 - 5.00], ["BEJA", 5 - 5.00], ["CASTRO VERDE", 5 - 4.00],
+        ["CUBA", 5 - 5.00], ["FERREIRA DO ALENTEJO", 5 - 5.00], ["MÉRTOLA", 5 - 3.00], ["MOURA", 5 - 5.00], ["ODEMIRA", 5 - 3.50],
+        ["OURIQUE", 5 - 2.50], ["SERPA", 5 - 5.00], ["VIDIGUEIRA", 5 - 5.00], ["AMARES", 5 - 5.00], ["BARCELOS", 5 - 4.80],
+        ["BRAGA", 5 - 3.00], ["CABECEIRAS DE BASTO", 5 - 2.00], ["CELORICO DE BASTO", 5 - 4.00], ["ESPOSENDE", 5 - 5.00], ["FAFE", 5 - 3.00],
+        ["GUIMARÃES", 5 - 5.00], ["PÓVOA DE LANHOSO", 5 - 4.50], ["TERRAS DE BOURO", 5 - 4.50], ["VIEIRA DO MINHO", 5 - 0.00], ["VILA NOVA DE FAMALICÃO", 5 - 4.50],
+        ["VILA VERDE", 5 - 5.00], ["VIZELA", 5 - 3.50], ["ALFÂNDEGA DA FÉ", 5 - 5.00], ["BRAGANÇA", 5 - 5.00], ["CARRAZEDA DE ANSIÃES", 5 - 0.00],
+        ["FREIXO DE ESPADA À CINTA", 5 - 5.00], ["MACEDO DE CAVALEIROS", 5 - 1.00], ["MIRANDA DO DOURO", 5 - 2.50], ["MIRANDELA", 5 - 2.00], ["MOGADOURO", 5 - 0.00],
+        ["TORRE DE MONCORVO", 5 - 5.00], ["VILA FLOR", 5 - 0.00], ["VIMIOSO", 5 - 5.00], ["VINHAIS", 5 - 0.00], ["BELMONTE", 5 - 2.50],
+        ["CASTELO BRANCO", 5 - 1.50], ["COVILHÃ", 5 - 5.00], ["FUNDÃO", 5 - 5.00], ["IDANHA-A-NOVA", 5 - 2.50], ["OLEIROS", 5 - 0.00],
+        ["PENAMACOR", 5 - 0.00], ["PROENÇA-A-NOVA", 5 - 2.50], ["SERTÃ", 5 - 2.50], ["VILA DE REI", 5 - 2.50], ["VILA VELHA DE RÓDÃO", 5 - 5.00],
+        ["ARGANIL", 5 - 0.00], ["CANTANHEDE", 5 - 5.00], ["COIMBRA", 5 - 5.00], ["CONDEIXA-A-NOVA", 5 - 5.00], ["FIGUEIRA DA FOZ", 5 - 3.30],
+        ["GÓIS", 5 - 2.50], ["LOUSÃ", 5 - 4.00], ["MIRA", 5 - 5.00], ["MIRANDA DO CORVO", 5 - 4.00], ["MONTEMOR-O-VELHO", 5 - 4.50],
+        ["OLIVEIRA DO HOSPITAL", 5 - 5.00], ["PAMPILHOSA DA SERRA", 5 - 0.00], ["PENACOVA", 5 - 4.00], ["PENELA", 5 - 5.00], ["SOURE", 5 - 5.00],
+        ["TÁBUA", 5 - 5.00], ["VILA NOVA DE POIARES", 5 - 5.00], ["ALANDROAL", 5 - 5.00], ["ARRAIOLOS", 5 - 5.00], ["BORBA", 5 - 4.00],
+        ["ESTREMOZ", 5 - 3.50], ["ÉVORA", 5 - 3.50], ["MONTEMOR-O-NOVO", 5 - 3.00], ["MORA", 5 - 5.00], ["MOURÃO", 5 - 3.00], ["PORTEL", 5 - 5.00],
+        ["REDONDO", 5 - 3.00], ["REGUENGOS DE MONSARAZ", 5 - 5.00], ["VENDAS NOVAS", 5 - 5.00], ["VIANA DO ALENTEJO", 5 - 2.50], ["VILA VIÇOSA", 5 - 3.00], ["ALBUFEIRA", 5 - 0.00],
+        ["ALCOUTIM", 5 - 0.00], ["ALJEZUR", 5 - 0.00], ["CASTRO MARIM", 5 - 3.50], ["FARO", 5 - 5.00], ["LAGOA", 5 - 2.00], ["LAGOS", 5 - 0.00],
+        ["LOULÉ", 5 - 0.00], ["MONCHIQUE", 5 - 2.50], ["OLHÃO", 5 - 4.00], ["PORTIMÃO", 5 - 5.00], ["SÃO BRÁS DE ALPORTEL", 5 - 5.00], ["SILVES", 5 - 5.00],
+        ["TAVIRA", 5 - 2.50], ["VILA DO BISPO", 5 - 0.00], ["VILA REAL DE SANTO ANTÓNIO", 5 - 5.00], ["AGUIAR DA BEIRA", 5 - 0.00], ["ALMEIDA", 5 - 0.00],
+        ["CELORICO DA BEIRA", 5 - 4.00], ["FIGUEIRA DE CASTELO RODRIGO", 5 - 0.00], ["FORNOS DE ALGODRES", 5 - 5.00], ["GOUVEIA", 5 - 4.00], ["GUARDA", 5 - 4.00],
+        ["MANTEIGAS", 5 - 0.00], ["MEDA", 5 - 5.00], ["PINHEL", 5 - 5.00], ["SABUGAL", 5 - 0.00], ["SEIA", 5 - 2.50], ["TRANCOSO", 5 - 0.00],
+        ["VILA NOVA DE FOZ CÔA", 5 - 5.00], ["ALCOBAÇA", 5 - 2.40], ["ALVAIÁZERE", 5 - 2.50], ["ANSIÃO", 5 - 3.00], ["BATALHA", 5 - 5.00], ["BOMBARRAL", 5 - 3.50],
+        ["CALDAS DA RAINHA", 5 - 2.00], ["CASTANHEIRA DE PÊRA", 5 - 0.00], ["FIGUEIRÓ DOS VINHOS", 5 - 3.00], ["LEIRIA", 5 - 5.00], ["MARINHA GRANDE", 5 - 5.00], ["NAZARÉ", 5 - 5.00],
+        ["ÓBIDOS", 5 - 1.00], ["PEDRÓGÃO GRANDE", 5 - 1.00], ["PENICHE", 5 - 3.00], ["POMBAL", 5 - 2.50], ["PORTO DE MÓS", 5 - 2.50], ["ALENQUER", 5 - 4.80],
+        ["AMADORA", 5 - 3.80], ["ARRUDA DOS VINHOS", 5 - 3.80], ["AZAMBUJA", 5 - 5.00], ["CADAVAL", 5 - 2.50], ["CASCAIS", 5 - 5.00], ["LISBOA", 5 - 0.50],
+        ["LOURES", 5 - 4.80], ["LOURINHÃ", 5 - 3.80], ["MAFRA", 5 - 4.80], ["ODIVELAS", 5 - 5.00], ["OEIRAS", 5 - 4.70], ["SINTRA", 5 - 5.00],
+        ["SOBRAL DE MONTE AGRAÇO", 5 - 5.00], ["TORRES VEDRAS", 5 - 3.80], ["VILA FRANCA DE XIRA", 5 - 4.80], ["ALTER DO CHÃO", 5 - 2.50], ["ARRONCHES", 5 - 0.00],
+        ["AVIS", 5 - 5.00], ["CAMPO MAIOR", 5 - 5.00], ["CASTELO DE VIDE", 5 - 2.50], ["CRATO", 5 - 5.00], ["ELVAS", 5 - 5.00], ["FRONTEIRA", 5 - 0.00],
+        ["GAVIÃO", 5 - 0.00], ["MARVÃO", 5 - 2.50], ["MONFORTE", 5 - 5.00], ["NISA", 5 - 2.50], ["PONTE DE SOR", 5 - 3.50], ["PORTALEGRE", 5 - 3.50],
+        ["SOUSEL", 5 - 5.00], ["AMARANTE", 5 - 5.00], ["BAIÃO", 5 - 5.00], ["FELGUEIRAS", 5 - 4.30], ["GONDOMAR", 5 - 5.00], ["LOUSADA", 5 - 4.00],
+        ["MAIA", 5 - 5.00], ["MARCO DE CANAVESES", 5 - 3.00], ["MATOSINHOS", 5 - 5.00], ["PAÇOS DE FERREIRA", 5 - 5.00], ["PAREDES", 5 - 5.00], ["PENAFIEL", 5 - 5.00],
+        ["PORTO", 5 - 3.50], ["PÓVOA DE VARZIM", 5 - 4.00], ["SANTO TIRSO", 5 - 3.50], ["TROFA", 5 - 4.80], ["VALONGO", 5 - 5.00], ["VILA DO CONDE", 5 - 5.00],
+        ["VILA NOVA DE GAIA", 5 - 2.50], ["ABRANTES", 5 - 4.50], ["ALCANENA", 5 - 4.80], ["ALMEIRIM", 5 - 5.00], ["ALPIARÇA", 5 - 5.00], ["BENAVENTE", 5 - 2.50],
+        ["CARTAXO", 5 - 5.00], ["CHAMUSCA", 5 - 1.50], ["CONSTÂNCIA", 5 - 5.00], ["CORUCHE", 5 - 3.00], ["ENTRONCAMENTO", 5 - 5.00], ["FERREIRA DO ZÊZERE", 5 - 1.00],
+        ["GOLEGÃ", 5 - 5.00], ["MAÇÃO", 5 - 4.00], ["OURÉM", 5 - 5.00], ["RIO MAIOR", 5 - 4.60], ["SALVATERRA DE MAGOS", 5 - 5.00], ["SANTARÉM", 5 - 4.50],
+        ["SARDOAL", 5 - 5.00], ["TOMAR", 5 - 4.00], ["TORRES NOVAS", 5 - 5.00], ["VILA NOVA DA BARQUINHA", 5 - 4.50], ["ALCÁCER DO SAL", 5 - 4.00], ["ALCOCHETE", 5 - 4.00],
+        ["ALMADA", 5 - 3.50], ["BARREIRO", 5 - 5.00], ["GRÂNDOLA", 5 - 5.00], ["MOITA", 5 - 5.00], ["MONTIJO", 5 - 4.00], ["PALMELA", 5 - 5.00],
+        ["SANTIAGO DO CACÉM", 5 - 5.00], ["SEIXAL", 5 - 5.00], ["SESIMBRA", 5 - 5.00], ["SETÚBAL", 5 - 3.50], ["SINES", 5 - 3.80], ["ARCOS DE VALDEVEZ", 5 - 3.00],
+        ["CAMINHA", 5 - 5.00], ["MELGAÇO", 5 - 5.00], ["MONÇÃO", 5 - 2.00], ["PAREDES DE COURA", 5 - 3.00], ["PONTE DA BARCA", 5 - 4.00], ["PONTE DE LIMA", 5 - 0.00],
+        ["VALENÇA", 5 - 2.00], ["VIANA DO CASTELO", 5 - 5.00], ["VILA NOVA DE CERVEIRA", 5 - 3.00], ["ALIJÓ", 5 - 3.00], ["BOTICAS", 5 - 0.00], ["CHAVES", 5 - 5.00],
+        ["MESÃO FRIO", 5 - 3.00], ["MONDIM DE BASTO", 5 - 3.50], ["MONTALEGRE", 5 - 5.00], ["MURÇA", 5 - 2.50], ["PESO DA RÉGUA", 5 - 5.00], ["RIBEIRA DE PENA", 5 - 5.00],
+        ["SABROSA", 5 - 0.00], ["SANTA MARTA DE PENAGUIÃO", 5 - 0.50], ["VALPAÇOS", 5 - 5.00], ["VILA POUCA DE AGUIAR", 5 - 5.00], ["VILA REAL", 5 - 5.00], ["ARMAMAR", 5 - 1.00],
+        ["CARREGAL DO SAL", 5 - 5.00], ["CASTRO DAIRE", 5 - 3.00], ["CINFÃES", 5 - 3.00], ["LAMEGO", 5 - 4.00], ["MANGUALDE", 5 - 4.00], ["MOIMENTA DA BEIRA", 5 - 4.50],
+        ["MORTÁGUA", 5 - 0.00], ["NELAS", 5 - 4.00], ["OLIVEIRA DE FRADES", 5 - 5.00], ["PENALVA DO CASTELO", 5 - 4.00], ["PENEDONO", 5 - 0.00], ["RESENDE", 5 - 0.00],
+        ["SANTA COMBA DÃO", 5 - 4.40], ["SÃO JOÃO DA PESQUEIRA", 5 - 5.00], ["SÃO PEDRO DO SUL", 5 - 2.00], ["SÁTÃO", 5 - 5.00], ["SERNANCELHE", 5 - 5.00], ["TABUAÇO", 5 - 5.00],
+        ["TAROUCA", 5 - 5.00], ["TONDELA", 5 - 2.50], ["VILA NOVA DE PAIVA", 5 - 5.00], ["VISEU", 5 - 4.00], ["VOUZELA", 5 - 5.00], ["ANGRA DO HEROÍSMO", 5 - 5.00],
+        ["CALHETA (SÃO JORGE)", 5 - 0.00], ["CORVO", 5 - 5.00], ["HORTA", 5 - 4.50], ["LAGOA (SÃO MIGUEL)", 5 - 5.00], ["LAJES DAS FLORES", 5 - 2.00], ["LAJES DO PICO", 5 - 5.00],
+        ["MADALENA", 5 - 5.00], ["NORDESTE", 5 - 5.00], ["PONTA DELGADA", 5 - 3.50], ["POVOAÇÃO", 5 - 2.50], ["RIBEIRA GRANDE", 5 - 1.80], ["SANTA CRUZ DA GRACIOSA", 5 - 3.00],
+        ["SANTA CRUZ DAS FLORES", 5 - 0.00], ["SÃO ROQUE DO PICO", 5 - 5.00], ["VELAS", 5 - 0.00], ["PRAIA DA VITÓRIA", 5 - 5.00], ["VILA DO PORTO", 5 - 5.00], ["VILA FRANCA DO CAMPO", 5 - 5.00],
+        ["CALHETA", 5 - 0.00], ["CÂMARA DE LOBOS", 5 - 3.50], ["FUNCHAL", 5 - 0.00], ["MACHICO", 5 - 4.00], ["PONTA DO SOL", 5 - 0.00], ["PORTO MONIZ", 5 - 0.00],
+        ["PORTO SANTO", 5 - 3.80], ["RIBEIRA BRAVA", 5 - 5.00], ["SANTA CRUZ", 5 - 4.00], ["SANTANA", 5 - 0.00], ["SÃO VICENTE", 5 - 5.00]
+    ];
 
-        function populateTable() {
-            const tabela = document.querySelector("#tabelaConcelhos tbody");
-            tabela.innerHTML = "";
+        // Ordenar os dados alfabeticamente
+    dados.sort((a, b) => a[0].localeCompare(b[0]));
 
-            dados.forEach((concelho) => {
-                const row = document.createElement("tr");
-                const subtracao = (concelho[1]).toFixed(2);
+    function populateTable() {
+        const tabela = document.querySelector("#tabelaConcelhos tbody");
+        tabela.innerHTML = "";
 
-                const municipioCell = document.createElement("td");
-                municipioCell.textContent = concelho[0];
-                const devolucaoCell = document.createElement("td");
-                devolucaoCell.textContent = `${subtracao}%`;
+        dados.forEach((concelho) => {
+            const row = document.createElement("tr");
+            const subtracao = (concelho[1]).toFixed(2);
 
-                row.appendChild(municipioCell);
-                row.appendChild(devolucaoCell);
-                tabela.appendChild(row);
-            });
+            const municipioCell = document.createElement("td");
+            municipioCell.textContent = concelho[0];
+            const devolucaoCell = document.createElement("td");
+            devolucaoCell.textContent = `${subtracao}%`;
 
-            // Popular o select do município no popup
-            const municipioSelect = document.getElementById("municipioSelect");
-            dados.forEach(concelho => {
-                const option = document.createElement("option");
-                option.value = concelho[0];
-                option.textContent = concelho[0];
-                municipioSelect.appendChild(option);
-            });
+            row.appendChild(municipioCell);
+            row.appendChild(devolucaoCell);
+            tabela.appendChild(row);
+        });
 
-            // Popular o select do município na busca
-            const concelhoSelect = document.getElementById("concelhoSelect");
-            dados.forEach(concelho => {
-                const option = document.createElement("option");
-                option.value = concelho[0];
-                option.textContent = concelho[0];
-                concelhoSelect.appendChild(option);
-            });
-        }
+        // Popular o select do município no popup
+        const municipioSelect = document.getElementById("municipioSelect");
+        dados.forEach(concelho => {
+            const option = document.createElement("option");
+            option.value = concelho[0];
+            option.textContent = concelho[0];
+            municipioSelect.appendChild(option);
+        });
+
+        // Popular o select do município na busca
+        const concelhoSelect = document.getElementById("concelhoSelect");
+        dados.forEach(concelho => {
+            const option = document.createElement("option");
+            option.value = concelho[0];
+            option.textContent = concelho[0];
+            concelhoSelect.appendChild(option);
+        });
+    }
 
         // Função para filtrar a tabela
         function filterTable() {
