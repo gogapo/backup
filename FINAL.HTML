@@ -29,8 +29,6 @@
             padding: 0 15px;
             flex-wrap: wrap;
         }
-
-        /* Caixa de input e select */
         .search-container input,
         .search-container select,
         .button-container select,
@@ -41,11 +39,8 @@
             border: 1px solid #ddd;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
-            width: 48%; /* Corrigido para garantir que a largura seja 100% */
+            width: 48%;
         }
-
-        /* Caixa de input e select */
-
         #popup-content input,
         #popup-content select {
             padding: 12px 16px;
@@ -54,10 +49,8 @@
             border: 1px solid #ddd;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
-            width: 100%; /* Corrigido para garantir que a largura seja 100% */
+            width: 100%;
         }
-
-        /* Botões */
         button {
             padding: 12px 30px;
             font-size: 1rem;
@@ -85,8 +78,6 @@
         .filter-btn:hover {
             background-color: #5a6268;
         }
-
-        /* Dropdowns */
         select {
             width: 100%;
             padding: 12px 16px;
@@ -96,8 +87,6 @@
             background-color: white;
             cursor: pointer;
         }
-
-        /* Tabela */
         table {
             width: 80%;
             margin: 30px auto;
@@ -121,8 +110,6 @@
         tr:hover {
             background-color: #f1f1f1;
         }
-
-        /* Pop-up */
         #popup {
             display: none;
             position: fixed;
@@ -155,8 +142,6 @@
         .close-btn:hover {
             background-color: #cc0000;
         }
-
-        /* Responsivo */
         @media (max-width: 768px) {
             .search-container input,
             .search-container select,
@@ -164,14 +149,12 @@
             .button-container button {
                 width: 100%;
             }
-
             .search-container {
                 flex-direction: column;
             }
             .button-container {
                 flex-direction: column;
             }
-
             table {
                 width: 90%;
             }
@@ -179,7 +162,7 @@
     </style>
 </head>
 <body>
-    <h1>Devolução de IRS por Município</h1>
+    <h1>- Devolução de IRS por município -</h1>
 
     <div class="search-container">
         <input type="text" id="search" oninput="resetSelect()" onkeyup="filterTable()" placeholder="Escreva aqui o município - ou filtre na barra a seguir">
@@ -210,14 +193,14 @@
         </tbody>
     </table>
 
-      <div id="popup">
+    <div id="popup">
         <div id="popup-content">
             <h3>BENEFÍCIO MUNICIPAL DE IRS</h3>
             <h5>Sugestão: insira o "valor da coleta líquida" que consta da sua nota de liquidação de IRS do ano passado. Ou use um valor qualquer para efeitos de teste.</h5>
             <select id="municipioSelect" onchange="verificarCampos()">
                 <option value="">Escolha aqui um município</option>
             </select>
-            <input type="text" id="coletaLiquida" placeholder="Insira aqui o valor da coleta líquida" oninput="verificarCampos()" onkeydown="checkEnter(event)">
+            <input type="text" id="coletaLiquida" placeholder="Insira aqui o valor da coleta líquida" oninput="formatarValor(this); verificarCampos()" onkeydown="checkEnter(event)">
             <br/><br/><br/><button class="calc-btn" onclick="calcularDevolucao()">CALCULAR</button>
             <button class="close-btn" onclick="closePopup()">FECHAR ESTA JANELA</button>
             <p style="font-size:1.5em;font-weight:bold" id="resultado"></p>
@@ -227,111 +210,110 @@
 
     <script>
         const dados = [
-        ["ÁGUEDA", 5 - 0.00], ["ALBERGARIA-A-VELHA", 5 - 2.80], ["ANADIA", 5 - 3.00], ["AROUCA", 5 - 5.00], ["AVEIRO", 5 - 5.00],
-        ["CASTELO DE PAIVA", 5 - 5.00], ["ESPINHO", 5 - 4.50], ["ESTARREJA", 5 - 3.00], ["ÍLHAVO", 5 - 4.00], ["MEALHADA", 5 - 2.00],
-        ["MURTOSA", 5 - 4.00], ["OLIVEIRA DE AZEMÉIS", 5 - 5.00], ["OLIVEIRA DO BAIRRO", 5 - 0.00], ["OVAR", 5 - 2.00], ["SANTA MARIA DA FEIRA", 5 - 5.00],
-        ["SÃO JOÃO DA MADEIRA", 5 - 4.50], ["SEVER DO VOUGA", 5 - 2.50], ["VAGOS", 5 - 2.50], ["VALE DE CAMBRA", 5 - 2.50], ["ALJUSTREL", 5 - 5.00],
-        ["ALMODÔVAR", 5 - 4.00], ["ALVITO", 5 - 4.00], ["BARRANCOS", 5 - 5.00], ["BEJA", 5 - 5.00], ["CASTRO VERDE", 5 - 4.00],
-        ["CUBA", 5 - 5.00], ["FERREIRA DO ALENTEJO", 5 - 5.00], ["MÉRTOLA", 5 - 3.00], ["MOURA", 5 - 5.00], ["ODEMIRA", 5 - 3.50],
-        ["OURIQUE", 5 - 2.50], ["SERPA", 5 - 5.00], ["VIDIGUEIRA", 5 - 5.00], ["AMARES", 5 - 5.00], ["BARCELOS", 5 - 4.80],
-        ["BRAGA", 5 - 3.00], ["CABECEIRAS DE BASTO", 5 - 2.00], ["CELORICO DE BASTO", 5 - 4.00], ["ESPOSENDE", 5 - 5.00], ["FAFE", 5 - 3.00],
-        ["GUIMARÃES", 5 - 5.00], ["PÓVOA DE LANHOSO", 5 - 4.50], ["TERRAS DE BOURO", 5 - 4.50], ["VIEIRA DO MINHO", 5 - 0.00], ["VILA NOVA DE FAMALICÃO", 5 - 4.50],
-        ["VILA VERDE", 5 - 5.00], ["VIZELA", 5 - 3.50], ["ALFÂNDEGA DA FÉ", 5 - 5.00], ["BRAGANÇA", 5 - 5.00], ["CARRAZEDA DE ANSIÃES", 5 - 0.00],
-        ["FREIXO DE ESPADA À CINTA", 5 - 5.00], ["MACEDO DE CAVALEIROS", 5 - 1.00], ["MIRANDA DO DOURO", 5 - 2.50], ["MIRANDELA", 5 - 2.00], ["MOGADOURO", 5 - 0.00],
-        ["TORRE DE MONCORVO", 5 - 5.00], ["VILA FLOR", 5 - 0.00], ["VIMIOSO", 5 - 5.00], ["VINHAIS", 5 - 0.00], ["BELMONTE", 5 - 2.50],
-        ["CASTELO BRANCO", 5 - 1.50], ["COVILHÃ", 5 - 5.00], ["FUNDÃO", 5 - 5.00], ["IDANHA-A-NOVA", 5 - 2.50], ["OLEIROS", 5 - 0.00],
-        ["PENAMACOR", 5 - 0.00], ["PROENÇA-A-NOVA", 5 - 2.50], ["SERTÃ", 5 - 2.50], ["VILA DE REI", 5 - 2.50], ["VILA VELHA DE RÓDÃO", 5 - 5.00],
-        ["ARGANIL", 5 - 0.00], ["CANTANHEDE", 5 - 5.00], ["COIMBRA", 5 - 5.00], ["CONDEIXA-A-NOVA", 5 - 5.00], ["FIGUEIRA DA FOZ", 5 - 3.30],
-        ["GÓIS", 5 - 2.50], ["LOUSÃ", 5 - 4.00], ["MIRA", 5 - 5.00], ["MIRANDA DO CORVO", 5 - 4.00], ["MONTEMOR-O-VELHO", 5 - 4.50],
-        ["OLIVEIRA DO HOSPITAL", 5 - 5.00], ["PAMPILHOSA DA SERRA", 5 - 0.00], ["PENACOVA", 5 - 4.00], ["PENELA", 5 - 5.00], ["SOURE", 5 - 5.00],
-        ["TÁBUA", 5 - 5.00], ["VILA NOVA DE POIARES", 5 - 5.00], ["ALANDROAL", 5 - 5.00], ["ARRAIOLOS", 5 - 5.00], ["BORBA", 5 - 4.00],
-        ["ESTREMOZ", 5 - 3.50], ["ÉVORA", 5 - 3.50], ["MONTEMOR-O-NOVO", 5 - 3.00], ["MORA", 5 - 5.00], ["MOURÃO", 5 - 3.00], ["PORTEL", 5 - 5.00],
-        ["REDONDO", 5 - 3.00], ["REGUENGOS DE MONSARAZ", 5 - 5.00], ["VENDAS NOVAS", 5 - 5.00], ["VIANA DO ALENTEJO", 5 - 2.50], ["VILA VIÇOSA", 5 - 3.00], ["ALBUFEIRA", 5 - 0.00],
-        ["ALCOUTIM", 5 - 0.00], ["ALJEZUR", 5 - 0.00], ["CASTRO MARIM", 5 - 3.50], ["FARO", 5 - 5.00], ["LAGOA", 5 - 2.00], ["LAGOS", 5 - 0.00],
-        ["LOULÉ", 5 - 0.00], ["MONCHIQUE", 5 - 2.50], ["OLHÃO", 5 - 4.00], ["PORTIMÃO", 5 - 5.00], ["SÃO BRÁS DE ALPORTEL", 5 - 5.00], ["SILVES", 5 - 5.00],
-        ["TAVIRA", 5 - 2.50], ["VILA DO BISPO", 5 - 0.00], ["VILA REAL DE SANTO ANTÓNIO", 5 - 5.00], ["AGUIAR DA BEIRA", 5 - 0.00], ["ALMEIDA", 5 - 0.00],
-        ["CELORICO DA BEIRA", 5 - 4.00], ["FIGUEIRA DE CASTELO RODRIGO", 5 - 0.00], ["FORNOS DE ALGODRES", 5 - 5.00], ["GOUVEIA", 5 - 4.00], ["GUARDA", 5 - 4.00],
-        ["MANTEIGAS", 5 - 0.00], ["MEDA", 5 - 5.00], ["PINHEL", 5 - 5.00], ["SABUGAL", 5 - 0.00], ["SEIA", 5 - 2.50], ["TRANCOSO", 5 - 0.00],
-        ["VILA NOVA DE FOZ CÔA", 5 - 5.00], ["ALCOBAÇA", 5 - 2.40], ["ALVAIÁZERE", 5 - 2.50], ["ANSIÃO", 5 - 3.00], ["BATALHA", 5 - 5.00], ["BOMBARRAL", 5 - 3.50],
-        ["CALDAS DA RAINHA", 5 - 2.00], ["CASTANHEIRA DE PÊRA", 5 - 0.00], ["FIGUEIRÓ DOS VINHOS", 5 - 3.00], ["LEIRIA", 5 - 5.00], ["MARINHA GRANDE", 5 - 5.00], ["NAZARÉ", 5 - 5.00],
-        ["ÓBIDOS", 5 - 1.00], ["PEDRÓGÃO GRANDE", 5 - 1.00], ["PENICHE", 5 - 3.00], ["POMBAL", 5 - 2.50], ["PORTO DE MÓS", 5 - 2.50], ["ALENQUER", 5 - 4.80],
-        ["AMADORA", 5 - 3.80], ["ARRUDA DOS VINHOS", 5 - 3.80], ["AZAMBUJA", 5 - 5.00], ["CADAVAL", 5 - 2.50], ["CASCAIS", 5 - 5.00], ["LISBOA", 5 - 0.50],
-        ["LOURES", 5 - 4.80], ["LOURINHÃ", 5 - 3.80], ["MAFRA", 5 - 4.80], ["ODIVELAS", 5 - 5.00], ["OEIRAS", 5 - 4.70], ["SINTRA", 5 - 5.00],
-        ["SOBRAL DE MONTE AGRAÇO", 5 - 5.00], ["TORRES VEDRAS", 5 - 3.80], ["VILA FRANCA DE XIRA", 5 - 4.80], ["ALTER DO CHÃO", 5 - 2.50], ["ARRONCHES", 5 - 0.00],
-        ["AVIS", 5 - 5.00], ["CAMPO MAIOR", 5 - 5.00], ["CASTELO DE VIDE", 5 - 2.50], ["CRATO", 5 - 5.00], ["ELVAS", 5 - 5.00], ["FRONTEIRA", 5 - 0.00],
-        ["GAVIÃO", 5 - 0.00], ["MARVÃO", 5 - 2.50], ["MONFORTE", 5 - 5.00], ["NISA", 5 - 2.50], ["PONTE DE SOR", 5 - 3.50], ["PORTALEGRE", 5 - 3.50],
-        ["SOUSEL", 5 - 5.00], ["AMARANTE", 5 - 5.00], ["BAIÃO", 5 - 5.00], ["FELGUEIRAS", 5 - 4.30], ["GONDOMAR", 5 - 5.00], ["LOUSADA", 5 - 4.00],
-        ["MAIA", 5 - 5.00], ["MARCO DE CANAVESES", 5 - 3.00], ["MATOSINHOS", 5 - 5.00], ["PAÇOS DE FERREIRA", 5 - 5.00], ["PAREDES", 5 - 5.00], ["PENAFIEL", 5 - 5.00],
-        ["PORTO", 5 - 3.50], ["PÓVOA DE VARZIM", 5 - 4.00], ["SANTO TIRSO", 5 - 3.50], ["TROFA", 5 - 4.80], ["VALONGO", 5 - 5.00], ["VILA DO CONDE", 5 - 5.00],
-        ["VILA NOVA DE GAIA", 5 - 2.50], ["ABRANTES", 5 - 4.50], ["ALCANENA", 5 - 4.80], ["ALMEIRIM", 5 - 5.00], ["ALPIARÇA", 5 - 5.00], ["BENAVENTE", 5 - 2.50],
-        ["CARTAXO", 5 - 5.00], ["CHAMUSCA", 5 - 1.50], ["CONSTÂNCIA", 5 - 5.00], ["CORUCHE", 5 - 3.00], ["ENTRONCAMENTO", 5 - 5.00], ["FERREIRA DO ZÊZERE", 5 - 1.00],
-        ["GOLEGÃ", 5 - 5.00], ["MAÇÃO", 5 - 4.00], ["OURÉM", 5 - 5.00], ["RIO MAIOR", 5 - 4.60], ["SALVATERRA DE MAGOS", 5 - 5.00], ["SANTARÉM", 5 - 4.50],
-        ["SARDOAL", 5 - 5.00], ["TOMAR", 5 - 4.00], ["TORRES NOVAS", 5 - 5.00], ["VILA NOVA DA BARQUINHA", 5 - 4.50], ["ALCÁCER DO SAL", 5 - 4.00], ["ALCOCHETE", 5 - 4.00],
-        ["ALMADA", 5 - 3.50], ["BARREIRO", 5 - 5.00], ["GRÂNDOLA", 5 - 5.00], ["MOITA", 5 - 5.00], ["MONTIJO", 5 - 4.00], ["PALMELA", 5 - 5.00],
-        ["SANTIAGO DO CACÉM", 5 - 5.00], ["SEIXAL", 5 - 5.00], ["SESIMBRA", 5 - 5.00], ["SETÚBAL", 5 - 3.50], ["SINES", 5 - 3.80], ["ARCOS DE VALDEVEZ", 5 - 3.00],
-        ["CAMINHA", 5 - 5.00], ["MELGAÇO", 5 - 5.00], ["MONÇÃO", 5 - 2.00], ["PAREDES DE COURA", 5 - 3.00], ["PONTE DA BARCA", 5 - 4.00], ["PONTE DE LIMA", 5 - 0.00],
-        ["VALENÇA", 5 - 2.00], ["VIANA DO CASTELO", 5 - 5.00], ["VILA NOVA DE CERVEIRA", 5 - 3.00], ["ALIJÓ", 5 - 3.00], ["BOTICAS", 5 - 0.00], ["CHAVES", 5 - 5.00],
-        ["MESÃO FRIO", 5 - 3.00], ["MONDIM DE BASTO", 5 - 3.50], ["MONTALEGRE", 5 - 5.00], ["MURÇA", 5 - 2.50], ["PESO DA RÉGUA", 5 - 5.00], ["RIBEIRA DE PENA", 5 - 5.00],
-        ["SABROSA", 5 - 0.00], ["SANTA MARTA DE PENAGUIÃO", 5 - 0.50], ["VALPAÇOS", 5 - 5.00], ["VILA POUCA DE AGUIAR", 5 - 5.00], ["VILA REAL", 5 - 5.00], ["ARMAMAR", 5 - 1.00],
-        ["CARREGAL DO SAL", 5 - 5.00], ["CASTRO DAIRE", 5 - 3.00], ["CINFÃES", 5 - 3.00], ["LAMEGO", 5 - 4.00], ["MANGUALDE", 5 - 4.00], ["MOIMENTA DA BEIRA", 5 - 4.50],
-        ["MORTÁGUA", 5 - 0.00], ["NELAS", 5 - 4.00], ["OLIVEIRA DE FRADES", 5 - 5.00], ["PENALVA DO CASTELO", 5 - 4.00], ["PENEDONO", 5 - 0.00], ["RESENDE", 5 - 0.00],
-        ["SANTA COMBA DÃO", 5 - 4.40], ["SÃO JOÃO DA PESQUEIRA", 5 - 5.00], ["SÃO PEDRO DO SUL", 5 - 2.00], ["SÁTÃO", 5 - 5.00], ["SERNANCELHE", 5 - 5.00], ["TABUAÇO", 5 - 5.00],
-        ["TAROUCA", 5 - 5.00], ["TONDELA", 5 - 2.50], ["VILA NOVA DE PAIVA", 5 - 5.00], ["VISEU", 5 - 4.00], ["VOUZELA", 5 - 5.00], ["ANGRA DO HEROÍSMO", 5 - 5.00],
-        ["CALHETA (SÃO JORGE)", 5 - 0.00], ["CORVO", 5 - 5.00], ["HORTA", 5 - 4.50], ["LAGOA (SÃO MIGUEL)", 5 - 5.00], ["LAJES DAS FLORES", 5 - 2.00], ["LAJES DO PICO", 5 - 5.00],
-        ["MADALENA", 5 - 5.00], ["NORDESTE", 5 - 5.00], ["PONTA DELGADA", 5 - 3.50], ["POVOAÇÃO", 5 - 2.50], ["RIBEIRA GRANDE", 5 - 1.80], ["SANTA CRUZ DA GRACIOSA", 5 - 3.00],
-        ["SANTA CRUZ DAS FLORES", 5 - 0.00], ["SÃO ROQUE DO PICO", 5 - 5.00], ["VELAS", 5 - 0.00], ["PRAIA DA VITÓRIA", 5 - 5.00], ["VILA DO PORTO", 5 - 5.00], ["VILA FRANCA DO CAMPO", 5 - 5.00],
-        ["CALHETA", 5 - 0.00], ["CÂMARA DE LOBOS", 5 - 3.50], ["FUNCHAL", 5 - 0.00], ["MACHICO", 5 - 4.00], ["PONTA DO SOL", 5 - 0.00], ["PORTO MONIZ", 5 - 0.00],
-        ["PORTO SANTO", 5 - 3.80], ["RIBEIRA BRAVA", 5 - 5.00], ["SANTA CRUZ", 5 - 4.00], ["SANTANA", 5 - 0.00], ["SÃO VICENTE", 5 - 5.00]
-    ];
+            ["ÁGUEDA", 5 - 0.00], ["ALBERGARIA-A-VELHA", 5 - 2.80], ["ANADIA", 5 - 3.00], ["AROUCA", 5 - 5.00], ["AVEIRO", 5 - 5.00],
+            ["CASTELO DE PAIVA", 5 - 5.00], ["ESPINHO", 5 - 4.50], ["ESTARREJA", 5 - 3.00], ["ÍLHAVO", 5 - 4.00], ["MEALHADA", 5 - 2.00],
+            ["MURTOSA", 5 - 4.00], ["OLIVEIRA DE AZEMÉIS", 5 - 5.00], ["OLIVEIRA DO BAIRRO", 5 - 0.00], ["OVAR", 5 - 2.00], ["SANTA MARIA DA FEIRA", 5 - 5.00],
+            ["SÃO JOÃO DA MADEIRA", 5 - 4.50], ["SEVER DO VOUGA", 5 - 2.50], ["VAGOS", 5 - 2.50], ["VALE DE CAMBRA", 5 - 2.50], ["ALJUSTREL", 5 - 5.00],
+            ["ALMODÔVAR", 5 - 4.00], ["ALVITO", 5 - 4.00], ["BARRANCOS", 5 - 5.00], ["BEJA", 5 - 5.00], ["CASTRO VERDE", 5 - 4.00],
+            ["CUBA", 5 - 5.00], ["FERREIRA DO ALENTEJO", 5 - 5.00], ["MÉRTOLA", 5 - 3.00], ["MOURA", 5 - 5.00], ["ODEMIRA", 5 - 3.50],
+            ["OURIQUE", 5 - 2.50], ["SERPA", 5 - 5.00], ["VIDIGUEIRA", 5 - 5.00], ["AMARES", 5 - 5.00], ["BARCELOS", 5 - 4.80],
+            ["BRAGA", 5 - 3.00], ["CABECEIRAS DE BASTO", 5 - 2.00], ["CELORICO DE BASTO", 5 - 4.00], ["ESPOSENDE", 5 - 5.00], ["FAFE", 5 - 3.00],
+            ["GUIMARÃES", 5 - 5.00], ["PÓVOA DE LANHOSO", 5 - 4.50], ["TERRAS DE BOURO", 5 - 4.50], ["VIEIRA DO MINHO", 5 - 0.00], ["VILA NOVA DE FAMALICÃO", 5 - 4.50],
+            ["VILA VERDE", 5 - 5.00], ["VIZELA", 5 - 3.50], ["ALFÂNDEGA DA FÉ", 5 - 5.00], ["BRAGANÇA", 5 - 5.00], ["CARRAZEDA DE ANSIÃES", 5 - 0.00],
+            ["FREIXO DE ESPADA À CINTA", 5 - 5.00], ["MACEDO DE CAVALEIROS", 5 - 1.00], ["MIRANDA DO DOURO", 5 - 2.50], ["MIRANDELA", 5 - 2.00], ["MOGADOURO", 5 - 0.00],
+            ["TORRE DE MONCORVO", 5 - 5.00], ["VILA FLOR", 5 - 0.00], ["VIMIOSO", 5 - 5.00], ["VINHAIS", 5 - 0.00], ["BELMONTE", 5 - 2.50],
+            ["CASTELO BRANCO", 5 - 1.50], ["COVILHÃ", 5 - 5.00], ["FUNDÃO", 5 - 5.00], ["IDANHA-A-NOVA", 5 - 2.50], ["OLEIROS", 5 - 0.00],
+            ["PENAMACOR", 5 - 0.00], ["PROENÇA-A-NOVA", 5 - 2.50], ["SERTÃ", 5 - 2.50], ["VILA DE REI", 5 - 2.50], ["VILA VELHA DE RÓDÃO", 5 - 5.00],
+            ["ARGANIL", 5 - 0.00], ["CANTANHEDE", 5 - 5.00], ["COIMBRA", 5 - 5.00], ["CONDEIXA-A-NOVA", 5 - 5.00], ["FIGUEIRA DA FOZ", 5 - 3.30],
+            ["GÓIS", 5 - 2.50], ["LOUSÃ", 5 - 4.00], ["MIRA", 5 - 5.00], ["MIRANDA DO CORVO", 5 - 4.00], ["MONTEMOR-O-VELHO", 5 - 4.50],
+            ["OLIVEIRA DO HOSPITAL", 5 - 5.00], ["PAMPILHOSA DA SERRA", 5 - 0.00], ["PENACOVA", 5 - 4.00], ["PENELA", 5 - 5.00], ["SOURE", 5 - 5.00],
+            ["TÁBUA", 5 - 5.00], ["VILA NOVA DE POIARES", 5 - 5.00], ["ALANDROAL", 5 - 5.00], ["ARRAIOLOS", 5 - 5.00], ["BORBA", 5 - 4.00],
+            ["ESTREMOZ", 5 - 3.50], ["ÉVORA", 5 - 3.50], ["MONTEMOR-O-NOVO", 5 - 3.00], ["MORA", 5 - 5.00], ["MOURÃO", 5 - 3.00], ["PORTEL", 5 - 5.00],
+            ["REDONDO", 5 - 3.00], ["REGUENGOS DE MONSARAZ", 5 - 5.00], ["VENDAS NOVAS", 5 - 5.00], ["VIANA DO ALENTEJO", 5 - 2.50], ["VILA VIÇOSA", 5 - 3.00], ["ALBUFEIRA", 5 - 0.00],
+            ["ALCOUTIM", 5 - 0.00], ["ALJEZUR", 5 - 0.00], ["CASTRO MARIM", 5 - 3.50], ["FARO", 5 - 5.00], ["LAGOA", 5 - 2.00], ["LAGOS", 5 - 0.00],
+            ["LOULÉ", 5 - 0.00], ["MONCHIQUE", 5 - 2.50], ["OLHÃO", 5 - 4.00], ["PORTIMÃO", 5 - 5.00], ["SÃO BRÁS DE ALPORTEL", 5 - 5.00], ["SILVES", 5 - 5.00],
+            ["TAVIRA", 5 - 2.50], ["VILA DO BISPO", 5 - 0.00], ["VILA REAL DE SANTO ANTÓNIO", 5 - 5.00], ["AGUIAR DA BEIRA", 5 - 0.00], ["ALMEIDA", 5 - 0.00],
+            ["CELORICO DA BEIRA", 5 - 4.00], ["FIGUEIRA DE CASTELO RODRIGO", 5 - 0.00], ["FORNOS DE ALGODRES", 5 - 5.00], ["GOUVEIA", 5 - 4.00], ["GUARDA", 5 - 4.00],
+            ["MANTEIGAS", 5 - 0.00], ["MEDA", 5 - 5.00], ["PINHEL", 5 - 5.00], ["SABUGAL", 5 - 0.00], ["SEIA", 5 - 2.50], ["TRANCOSO", 5 - 0.00],
+            ["VILA NOVA DE FOZ CÔA", 5 - 5.00], ["ALCOBAÇA", 5 - 2.40], ["ALVAIÁZERE", 5 - 2.50], ["ANSIÃO", 5 - 3.00], ["BATALHA", 5 - 5.00], ["BOMBARRAL", 5 - 3.50],
+            ["CALDAS DA RAINHA", 5 - 2.00], ["CASTANHEIRA DE PÊRA", 5 - 0.00], ["FIGUEIRÓ DOS VINHOS", 5 - 3.00], ["LEIRIA", 5 - 5.00], ["MARINHA GRANDE", 5 - 5.00], ["NAZARÉ", 5 - 5.00],
+            ["ÓBIDOS", 5 - 1.00], ["PEDRÓGÃO GRANDE", 5 - 1.00], ["PENICHE", 5 - 3.00], ["POMBAL", 5 - 2.50], ["PORTO DE MÓS", 5 - 2.50], ["ALENQUER", 5 - 4.80],
+            ["AMADORA", 5 - 3.80], ["ARRUDA DOS VINHOS", 5 - 3.80], ["AZAMBUJA", 5 - 5.00], ["CADAVAL", 5 - 2.50], ["CASCAIS", 5 - 5.00], ["LISBOA", 5 - 0.50],
+            ["LOURES", 5 - 4.80], ["LOURINHÃ", 5 - 3.80], ["MAFRA", 5 - 4.80], ["ODIVELAS", 5 - 5.00], ["OEIRAS", 5 - 4.70], ["SINTRA", 5 - 5.00],
+            ["SOBRAL DE MONTE AGRAÇO", 5 - 5.00], ["TORRES VEDRAS", 5 - 3.80], ["VILA FRANCA DE XIRA", 5 - 4.80], ["ALTER DO CHÃO", 5 - 2.50], ["ARRONCHES", 5 - 0.00],
+            ["AVIS", 5 - 5.00], ["CAMPO MAIOR", 5 - 5.00], ["CASTELO DE VIDE", 5 - 2.50], ["CRATO", 5 - 5.00], ["ELVAS", 5 - 5.00], ["FRONTEIRA", 5 - 0.00],
+            ["GAVIÃO", 5 - 0.00], ["MARVÃO", 5 - 2.50], ["MONFORTE", 5 - 5.00], ["NISA", 5 - 2.50], ["PONTE DE SOR", 5 - 3.50], ["PORTALEGRE", 5 - 3.50],
+            ["SOUSEL", 5 - 5.00], ["AMARANTE", 5 - 5.00], ["BAIÃO", 5 - 5.00], ["FELGUEIRAS", 5 - 4.30], ["GONDOMAR", 5 - 5.00], ["LOUSADA", 5 - 4.00],
+            ["MAIA", 5 - 5.00], ["MARCO DE CANAVESES", 5 - 3.00], ["MATOSINHOS", 5 - 5.00], ["PAÇOS DE FERREIRA", 5 - 5.00], ["PAREDES", 5 - 5.00], ["PENAFIEL", 5 - 5.00],
+            ["PORTO", 5 - 3.50], ["PÓVOA DE VARZIM", 5 - 4.00], ["SANTO TIRSO", 5 - 3.50], ["TROFA", 5 - 4.80], ["VALONGO", 5 - 5.00], ["VILA DO CONDE", 5 - 5.00],
+            ["VILA NOVA DE GAIA", 5 - 2.50], ["ABRANTES", 5 - 4.50], ["ALCANENA", 5 - 4.80], ["ALMEIRIM", 5 - 5.00], ["ALPIARÇA", 5 - 5.00], ["BENAVENTE", 5 - 2.50],
+            ["CARTAXO", 5 - 5.00], ["CHAMUSCA", 5 - 1.50], ["CONSTÂNCIA", 5 - 5.00], ["CORUCHE", 5 - 3.00], ["ENTRONCAMENTO", 5 - 5.00], ["FERREIRA DO ZÊZERE", 5 - 1.00],
+            ["GOLEGÃ", 5 - 5.00], ["MAÇÃO", 5 - 4.00], ["OURÉM", 5 - 5.00], ["RIO MAIOR", 5 - 4.60], ["SALVATERRA DE MAGOS", 5 - 5.00], ["SANTARÉM", 5 - 4.50],
+            ["SARDOAL", 5 - 5.00], ["TOMAR", 5 - 4.00], ["TORRES NOVAS", 5 - 5.00], ["VILA NOVA DA BARQUINHA", 5 - 4.50], ["ALCÁCER DO SAL", 5 - 4.00], ["ALCOCHETE", 5 - 4.00],
+            ["ALMADA", 5 - 3.50], ["BARREIRO", 5 - 5.00], ["GRÂNDOLA", 5 - 5.00], ["MOITA", 5 - 5.00], ["MONTIJO", 5 - 4.00], ["PALMELA", 5 - 5.00],
+            ["SANTIAGO DO CACÉM", 5 - 5.00], ["SEIXAL", 5 - 5.00], ["SESIMBRA", 5 - 5.00], ["SETÚBAL", 5 - 3.50], ["SINES", 5 - 3.80], ["ARCOS DE VALDEVEZ", 5 - 3.00],
+            ["CAMINHA", 5 - 5.00], ["MELGAÇO", 5 - 5.00], ["MONÇÃO", 5 - 2.00], ["PAREDES DE COURA", 5 - 3.00], ["PONTE DA BARCA", 5 - 4.00], ["PONTE DE LIMA", 5 - 0.00],
+            ["VALENÇA", 5 - 2.00], ["VIANA DO CASTELO", 5 - 5.00], ["VILA NOVA DE CERVEIRA", 5 - 3.00], ["ALIJÓ", 5 - 3.00], ["BOTICAS", 5 - 0.00], ["CHAVES", 5 - 5.00],
+            ["MESÃO FRIO", 5 - 3.00], ["MONDIM DE BASTO", 5 - 3.50], ["MONTALEGRE", 5 - 5.00], ["MURÇA", 5 - 2.50], ["PESO DA RÉGUA", 5 - 5.00], ["RIBEIRA DE PENA", 5 - 5.00],
+            ["SABROSA", 5 - 0.00], ["SANTA MARTA DE PENAGUIÃO", 5 - 0.50], ["VALPAÇOS", 5 - 5.00], ["VILA POUCA DE AGUIAR", 5 - 5.00], ["VILA REAL", 5 - 5.00], ["ARMAMAR", 5 - 1.00],
+            ["CARREGAL DO SAL", 5 - 5.00], ["CASTRO DAIRE", 5 - 3.00], ["CINFÃES", 5 - 3.00], ["LAMEGO", 5 - 4.00], ["MANGUALDE", 5 - 4.00], ["MOIMENTA DA BEIRA", 5 - 4.50],
+            ["MORTÁGUA", 5 - 0.00], ["NELAS", 5 - 4.00], ["OLIVEIRA DE FRADES", 5 - 5.00], ["PENALVA DO CASTELO", 5 - 4.00], ["PENEDONO", 5 - 0.00], ["RESENDE", 5 - 0.00],
+            ["SANTA COMBA DÃO", 5 - 4.40], ["SÃO JOÃO DA PESQUEIRA", 5 - 5.00], ["SÃO PEDRO DO SUL", 5 - 2.00], ["SÁTÃO", 5 - 5.00], ["SERNANCELHE", 5 - 5.00], ["TABUAÇO", 5 - 5.00],
+            ["TAROUCA", 5 - 5.00], ["TONDELA", 5 - 2.50], ["VILA NOVA DE PAIVA", 5 - 5.00], ["VISEU", 5 - 4.00], ["VOUZELA", 5 - 5.00], ["ANGRA DO HEROÍSMO", 5 - 5.00],
+            ["CALHETA (SÃO JORGE)", 5 - 0.00], ["CORVO", 5 - 5.00], ["HORTA", 5 - 4.50], ["LAGOA (SÃO MIGUEL)", 5 - 5.00], ["LAJES DAS FLORES", 5 - 2.00], ["LAJES DO PICO", 5 - 5.00],
+            ["MADALENA", 5 - 5.00], ["NORDESTE", 5 - 5.00], ["PONTA DELGADA", 5 - 3.50], ["POVOAÇÃO", 5 - 2.50], ["RIBEIRA GRANDE", 5 - 1.80], ["SANTA CRUZ DA GRACIOSA", 5 - 3.00],
+            ["SANTA CRUZ DAS FLORES", 5 - 0.00], ["SÃO ROQUE DO PICO", 5 - 5.00], ["VELAS", 5 - 0.00], ["PRAIA DA VITÓRIA", 5 - 5.00], ["VILA DO PORTO", 5 - 5.00], ["VILA FRANCA DO CAMPO", 5 - 5.00],
+            ["CALHETA", 5 - 0.00], ["CÂMARA DE LOBOS", 5 - 3.50], ["FUNCHAL", 5 - 0.00], ["MACHICO", 5 - 4.00], ["PONTA DO SOL", 5 - 0.00], ["PORTO MONIZ", 5 - 0.00],
+            ["PORTO SANTO", 5 - 3.80], ["RIBEIRA BRAVA", 5 - 5.00], ["SANTA CRUZ", 5 - 4.00], ["SANTANA", 5 - 0.00], ["SÃO VICENTE", 5 - 5.00]
+        ];
 
         // Ordenar os dados alfabeticamente
         dados.sort((a, b) => a[0].localeCompare(b[0]));
 
-    function populateTable() {
-        const tabela = document.querySelector("#tabelaConcelhos tbody");
-        tabela.innerHTML = "";
+        function populateTable() {
+            const tabela = document.querySelector("#tabelaConcelhos tbody");
+            tabela.innerHTML = "";
 
-        dados.forEach((concelho) => {
-            const row = document.createElement("tr");
-            const subtracao = (concelho[1]).toFixed(2);
+            dados.forEach((concelho) => {
+                const row = document.createElement("tr");
+                const subtracao = (concelho[1]).toFixed(2);
 
-            const municipioCell = document.createElement("td");
-            municipioCell.textContent = concelho[0];
-            const devolucaoCell = document.createElement("td");
-            devolucaoCell.textContent = `${subtracao}%`;
+                const municipioCell = document.createElement("td");
+                municipioCell.textContent = concelho[0];
+                const devolucaoCell = document.createElement("td");
+                devolucaoCell.textContent = `${subtracao}%`;
 
-            row.appendChild(municipioCell);
-            row.appendChild(devolucaoCell);
-            tabela.appendChild(row);
-        });
+                row.appendChild(municipioCell);
+                row.appendChild(devolucaoCell);
+                tabela.appendChild(row);
+            });
 
-        // Popular o select do município no popup
-        const municipioSelect = document.getElementById("municipioSelect");
-        dados.forEach(concelho => {
-            const option = document.createElement("option");
-            option.value = concelho[0];
-            option.textContent = concelho[0];
-            municipioSelect.appendChild(option);
-        });
+            // Popular o select do município no popup
+            const municipioSelect = document.getElementById("municipioSelect");
+            dados.forEach(concelho => {
+                const option = document.createElement("option");
+                option.value = concelho[0];
+                option.textContent = concelho[0];
+                municipioSelect.appendChild(option);
+            });
 
-        // Popular o select do município na busca
-        const concelhoSelect = document.getElementById("concelhoSelect");
-        dados.forEach(concelho => {
-            const option = document.createElement("option");
-            option.value = concelho[0];
-            option.textContent = concelho[0];
-            concelhoSelect.appendChild(option);
-        });
-    }
+            // Popular o select do município na busca
+            const concelhoSelect = document.getElementById("concelhoSelect");
+            dados.forEach(concelho => {
+                const option = document.createElement("option");
+                option.value = concelho[0];
+                option.textContent = concelho[0];
+                concelhoSelect.appendChild(option);
+            });
+        }
 
-        // Função para filtrar a tabela
         function filterTable() {
             const input = document.getElementById("search");
             const filter = input.value.toUpperCase();
             const rows = document.querySelector("#tabelaConcelhos tbody").rows;
 
             for (let i = 0; i < rows.length; i++) {
-                const cell = rows[i].cells[0];  // Verifica apenas a primeira coluna (município)
+                const cell = rows[i].cells[0];
                 if (cell) {
                     const text = cell.textContent || cell.innerText;
                     if (text.toUpperCase().indexOf(filter) > -1) {
@@ -343,9 +325,8 @@
             }
         }
 
-        // Função para ordenar a tabela
         function ordenarTabela() {
-            resetFilters(); // Resetar filtros antes de ordenar
+            resetFilters();
             const select = document.getElementById("ordenarSelect");
             const value = select.value;
             const rows = Array.from(document.querySelector("#tabelaConcelhos tbody").rows);
@@ -372,20 +353,24 @@
             rows.forEach(row => tbody.appendChild(row));
         }
 
-        // Função para abrir o popup
         function openPopup() {
             document.getElementById("popup").style.display = "flex";
         }
 
-        // Função para fechar o popup
         function closePopup() {
             document.getElementById("popup").style.display = "none";
         }
 
-        // Função para calcular a devolução
         function calcularDevolucao() {
             const municipio = document.getElementById("municipioSelect").value;
-            const coletaLiquida = parseFloat(document.getElementById("coletaLiquida").value.replace(/[^\d.,-]/g, '').replace(',', '.'));
+            const coletaLiquidaInput = document.getElementById("coletaLiquida");
+            let coletaLiquida = coletaLiquidaInput.value.replace(/[^\d.,-]/g, '').replace(',', '.');
+
+            if (coletaLiquidaInput.value.includes('€')) {
+                coletaLiquida = coletaLiquida.replace('€', '').replace(/\s/g, '');
+            }
+
+            coletaLiquida = parseFloat(coletaLiquida);
 
             if (municipio && !isNaN(coletaLiquida)) {
                 const concelho = dados.find(c => c[0] === municipio);
@@ -393,7 +378,6 @@
                 const valorDevolvido = (coletaLiquida * devolucao) / 100;
                 document.getElementById("resultado").textContent = `O valor devolvido será de: ${valorDevolvido.toFixed(2)}€`;
 
-                // Comparação com município de 5%
                 if (devolucao < 5) {
                     const municipios5Porcento = dados.filter(c => c[1] === 5);
                     if (municipios5Porcento.length > 0) {
@@ -403,18 +387,19 @@
                         document.getElementById("comparacao").textContent = `Sabia que se vivesse em ${municipioComparacao[0]} receberia ${valorDevolvido5Porcento.toFixed(2)}€, mais ${diferenca.toFixed(2)}€?`;
                     }
                 } else {
-                    document.getElementById("comparacao").textContent = ""; // Limpa a comparação se o município já devolve 5%
+                    document.getElementById("comparacao").textContent = "";
                 }
             } else {
                 document.getElementById("resultado").textContent = "Por favor, preencha todos os campos.";
-                document.getElementById("comparacao").textContent = ""; // Limpa a comparação se houver erro
+                document.getElementById("comparacao").textContent = "";
             }
         }
 
-        // Função para formatar o valor em euros
+        // Função para formatar o valor em euros em tempo real
         function formatarValor(input) {
-            let valor = input.value.replace(/[^0-9]/g, ''); // Remove caracteres não numéricos
+            let valor = input.value.replace(/[^\d]/g, ''); // Remove todos os caracteres não numéricos
             if (valor.length > 0) {
+                // Formata o valor com separador de milhares e símbolo de euro
                 valor = (parseInt(valor) / 100).toLocaleString('pt-PT', {
                     style: 'currency',
                     currency: 'EUR'
@@ -429,9 +414,7 @@
             const coletaLiquidaInput = document.getElementById("coletaLiquida");
             const calcularBtn = document.querySelector(".calc-btn");
 
-            formatarValor(coletaLiquidaInput); // Formata o valor em tempo real
-
-            const coletaLiquida = coletaLiquidaInput.value.replace(/[^\d.,-]/g, '').replace(',', '.'); // Remove formatação para verificar se é um número válido
+            const coletaLiquida = coletaLiquidaInput.value.replace(/[^\d.,-]/g, '').replace(',', '.');
 
             if (municipio && coletaLiquida && !isNaN(parseFloat(coletaLiquida))) {
                 calcularBtn.disabled = false;
@@ -467,7 +450,7 @@
                     } else if (value && text !== value) {
                         rows[i].style.display = "none";
                     } else {
-                        rows[i].style.display = ""; // Mostrar todas as linhas se nenhum município for selecionado
+                        rows[i].style.display = "";
                     }
                 }
             }
@@ -487,7 +470,7 @@
         function resetFilters() {
             resetInput();
             resetSelect();
-            showAllResults(); // Adicionado para exibir todos os resultados
+            showAllResults();
         }
 
         // Exibe todos os resultados na tabela
