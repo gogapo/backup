@@ -293,7 +293,7 @@
 
         dados.forEach((concelho) => {
             const row = document.createElement("tr");
-            const subtracao = (concelho[1]).toFixed(2);
+            const subtracao = (concelho[1]).toFixed(2).replace('.', ','); // Substitui o ponto por vírgula
 
             const municipioCell = document.createElement("td");
             municipioCell.textContent = concelho[0];
