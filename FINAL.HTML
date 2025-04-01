@@ -384,16 +384,16 @@
 
        // Função para calcular a devolução
         function calcularDevolucao() {
-    const municipio = document.getElementById("municipioSelect").value;
+    const municipioSelecionado = document.getElementById("municipioSelect").value;
     const coletaLiquidaInput = document.getElementById("coletaLiquida").value;
 
-    if (!municipio && !coletaLiquidaInput) {
+    if (!municipioSelecionado && !coletaLiquidaInput) {
         document.getElementById("resultado").textContent = "Por favor, escolha um município e insira o valor da coleta líquida.";
         document.getElementById("comparacao").textContent = "";
         return;
     }
 
-    if (!municipio) {
+    if (!municipioSelecionado) {
         document.getElementById("resultado").textContent = "Por favor, escolha um município.";
         document.getElementById("comparacao").textContent = "";
         return;
@@ -413,7 +413,7 @@
         return;
     }
 
-    const concelho = dados.find(c => c[0] === municipio);
+    const concelho = dados.find(c => c[0] === municipioSelecionado);
     const devolucao = concelho ? concelho[1] : 0;
     const valorDevolvido = (coletaLiquida * devolucao) / 100;
     const valorDevolvidoFormatado = valorDevolvido.toLocaleString('pt-PT', {
@@ -444,7 +444,7 @@
                 maximumFractionDigits: 2
             });
 
-            document.getElementById("comparacao").textContent = `Sabia que se vivesse em ${municipioComparacao[0]} receberia ${valorDevolvido5PorcentoFormatado}, mais ${diferencaFormatada}?`;
+            document.getElementById("comparacao").textContent = `Sabia que se vivesse em ${municipioComparacao[0]} receberia ${valorDevolvido5PorcentoFormatado}, mais ${diferencaFormatada} do que em ${municipioSelecionado}?`;
         }
     } else {
         document.getElementById("comparacao").textContent = "";
