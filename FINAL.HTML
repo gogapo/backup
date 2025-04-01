@@ -287,42 +287,42 @@
         // Ordenar os dados alfabeticamente
         dados.sort((a, b) => a[0].localeCompare(b[0]));
 
-    function populateTable() {
-        const tabela = document.querySelector("#tabelaConcelhos tbody");
-        tabela.innerHTML = "";
+        function populateTable() {
+            const tabela = document.querySelector("#tabelaConcelhos tbody");
+            tabela.innerHTML = "";
 
-        dados.forEach((concelho) => {
-            const row = document.createElement("tr");
-            const subtracao = (concelho[1]).toFixed(2).replace('.', ','); // Substitui o ponto por vírgula
+            dados.forEach((concelho) => {
+                const row = document.createElement("tr");
+                const subtracao = (concelho[1]).toFixed(2).replace('.', ','); // Substitui o ponto por vírgula
 
-            const municipioCell = document.createElement("td");
-            municipioCell.textContent = concelho[0];
-            const devolucaoCell = document.createElement("td");
-            devolucaoCell.textContent = `${subtracao}%`;
+                const municipioCell = document.createElement("td");
+                municipioCell.textContent = concelho[0];
+                const devolucaoCell = document.createElement("td");
+                devolucaoCell.textContent = `${subtracao}%`;
 
-            row.appendChild(municipioCell);
-            row.appendChild(devolucaoCell);
-            tabela.appendChild(row);
-        });
+                row.appendChild(municipioCell);
+                row.appendChild(devolucaoCell);
+                tabela.appendChild(row);
+            });
 
-        // Popular o select do município no popup
-        const municipioSelect = document.getElementById("municipioSelect");
-        dados.forEach(concelho => {
-            const option = document.createElement("option");
-            option.value = concelho[0];
-            option.textContent = concelho[0];
-            municipioSelect.appendChild(option);
-        });
+            // Popular o select do município no popup
+            const municipioSelect = document.getElementById("municipioSelect");
+            dados.forEach(concelho => {
+                const option = document.createElement("option");
+                option.value = concelho[0];
+                option.textContent = concelho[0];
+                municipioSelect.appendChild(option);
+            });
 
-        // Popular o select do município na busca
-        const concelhoSelect = document.getElementById("concelhoSelect");
-        dados.forEach(concelho => {
-            const option = document.createElement("option");
-            option.value = concelho[0];
-            option.textContent = concelho[0];
-            concelhoSelect.appendChild(option);
-        });
-    }
+            // Popular o select do município na busca
+            const concelhoSelect = document.getElementById("concelhoSelect");
+            dados.forEach(concelho => {
+                const option = document.createElement("option");
+                option.value = concelho[0];
+                option.textContent = concelho[0];
+                concelhoSelect.appendChild(option);
+            });
+        }
 
         // Função para filtrar a tabela
         function filterTable() {
@@ -382,76 +382,79 @@
             document.getElementById("popup").style.display = "none";
         }
 
-       // Função para calcular a devolução
+        // Função para calcular a devolução
         function calcularDevolucao() {
-    const municipioSelecionado = document.getElementById("municipioSelect").value;
-    const coletaLiquidaInput = document.getElementById("coletaLiquida").value;
+            const municipioSelecionado = document.getElementById("municipioSelect").value;
+            const coletaLiquidaInput = document.getElementById("coletaLiquida").value;
 
-    if (!municipioSelecionado && !coletaLiquidaInput) {
-        document.getElementById("resultado").textContent = "Por favor, escolha um município e insira o valor da coleta líquida.";
-        document.getElementById("comparacao").textContent = "";
-        return;
-    }
+            if (!municipioSelecionado && !coletaLiquidaInput) {
+                document.getElementById("resultado").textContent = "Por favor, escolha um município e insira o valor da coleta líquida.";
+                document.getElementById("comparacao").textContent = "";
+                return;
+            }
 
-    if (!municipioSelecionado) {
-        document.getElementById("resultado").textContent = "Por favor, escolha um município.";
-        document.getElementById("comparacao").textContent = "";
-        return;
-    }
+            if (!municipioSelecionado) {
+                document.getElementById("resultado").textContent = "Por favor, escolha um município.";
+                document.getElementById("comparacao").textContent = "";
+                return;
+            }
 
-    if (!coletaLiquidaInput) {
-        document.getElementById("resultado").textContent = "Por favor, insira o valor da coleta líquida.";
-        document.getElementById("comparacao").textContent = "";
-        return;
-    }
+            if (!coletaLiquidaInput) {
+                document.getElementById("resultado").textContent = "Por favor, insira o valor da coleta líquida.";
+                document.getElementById("comparacao").textContent = "";
+                return;
+            }
 
-    const coletaLiquida = parseFloat(coletaLiquidaInput.replace(/[^\d.,-]/g, '').replace(',', '.'));
+            const coletaLiquida = parseFloat(coletaLiquidaInput.replace(/[^\d.,-]/g, '').replace(',', '.'));
 
-    if (isNaN(coletaLiquida)) {
-        document.getElementById("resultado").textContent = "Por favor, insira um valor numérico válido para a coleta líquida.";
-        document.getElementById("comparacao").textContent = "";
-        return;
-    }
+            if (isNaN(coletaLiquida)) {
+                document.getElementById("resultado").textContent = "Por favor, insira um valor numérico válido para a coleta líquida.";
+                document.getElementById("comparacao").textContent = "";
+                return;
+            }
 
-    const concelho = dados.find(c => c[0] === municipioSelecionado);
-    const devolucao = concelho ? concelho[1] : 0;
-    const valorDevolvido = (coletaLiquida * devolucao) / 100;
-    const valorDevolvidoFormatado = valorDevolvido.toLocaleString('pt-PT', {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
-    document.getElementById("resultado").textContent = `O valor devolvido será de: ${valorDevolvidoFormatado}`;
-
-    // Comparação com município de 5%
-    if (devolucao < 5) {
-        const municipios5Porcento = dados.filter(c => c[1] === 5);
-        if (municipios5Porcento.length > 0) {
-            const municipioComparacao = municipios5Porcento[Math.floor(Math.random() * municipios5Porcento.length)];
-            const valorDevolvido5Porcento = (coletaLiquida * 5) / 100;
-            const valorDevolvido5PorcentoFormatado = valorDevolvido5Porcento.toLocaleString('pt-PT', {
+            const concelho = dados.find(c => c[0] === municipioSelecionado);
+            const devolucao = concelho ? concelho[1] : 0;
+            const valorDevolvido = (coletaLiquida * devolucao) / 100;
+            const valorDevolvidoFormatado = valorDevolvido.toLocaleString('pt-PT', {
                 style: 'currency',
                 currency: 'EUR',
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             });
-            const diferenca = valorDevolvido5Porcento - valorDevolvido;
-            const diferencaFormatada = diferenca.toLocaleString('pt-PT', {
-                style: 'currency',
-                currency: 'EUR',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
+            document.getElementById("resultado").textContent = `O valor devolvido será de: ${valorDevolvidoFormatado}`;
 
-            document.getElementById("comparacao").innerHTML = `Sabia que se vivesse em ${municipioComparacao[0]} receberia <b>${valorDevolvido5PorcentoFormatado}</b> no total, mais <b>${diferencaFormatada}</b> do que em ${municipioSelecionado}?`;
+            // Comparação com município de 5%
+            if (devolucao < 5) {
+                const municipios5Porcento = dados.filter(c => c[1] === 5);
+                if (municipios5Porcento.length > 0) {
+                    const municipioComparacao = municipios5Porcento[Math.floor(Math.random() * municipios5Porcento.length)];
+                    const valorDevolvido5Porcento = (coletaLiquida * 5) / 100;
+                    const valorDevolvido5PorcentoFormatado = valorDevolvido5Porcento.toLocaleString('pt-PT', {
+                        style: 'currency',
+                        currency: 'EUR',
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                    const diferenca = valorDevolvido5Porcento - valorDevolvido;
+                    const diferencaFormatada = diferenca.toLocaleString('pt-PT', {
+                        style: 'currency',
+                        currency: 'EUR',
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+
+                    if (diferenca === valorDevolvido5Porcento) {
+                        document.getElementById("comparacao").innerHTML = `Sabia que se vivesse em ${municipioComparacao[0]} receberia <b>${valorDevolvido5PorcentoFormatado}</b>?`;
+                    } else {
+                        document.getElementById("comparacao").innerHTML = `Sabia que se vivesse em ${municipioComparacao[0]} receberia <b>${valorDevolvido5PorcentoFormatado}</b> no total, mais <b>${diferencaFormatada}</b> do que em ${municipioSelecionado}?`;
+                    }
+                }
+            } else {
+                document.getElementById("comparacao").textContent = "";
+            }
         }
-    } else {
-        document.getElementById("comparacao").textContent = "";
-    }
-}
 
-        // Verifica se todos os campos no popup estão preenchidos
         function verificarCampos() {
             const coletaLiquidaInput = document.getElementById("coletaLiquida");
 
@@ -467,14 +470,12 @@
             coletaLiquidaInput.value = valor;
         }
 
-        // Dispara o cálculo ao pressionar "Enter"
         function checkEnter(event) {
             if (event.key === "Enter") {
                 calcularDevolucao();
             }
         }
 
-        // Chama a função de preenchimento de dados ao carregar a página
         window.onload = () => {
             populateTable();
             verificarCampos();
