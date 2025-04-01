@@ -41,10 +41,8 @@
             border: 1px solid #ddd;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
-            width: 48%; /* Corrigido para garantir que a largura seja 100% */
+            width: 48%;
         }
-
-        /* Caixa de input e select */
 
         #popup-content input,
         #popup-content select {
@@ -54,7 +52,7 @@
             border: 1px solid #ddd;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
-            width: 100%; /* Corrigido para garantir que a largura seja 100% */
+            width: 100%;
         }
 
         /* Botões */
@@ -67,16 +65,24 @@
             transition: background-color 0.3s ease;
             width: 100%;
         }
-        #testarValorBtn,
-        .calc-btn {
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-        }
-        #testarValorBtn:hover,
-        .calc-btn:hover {
-            background-color: #0056b3;
-        }
+        #testarValorBtn {
+        background-color: #bb1414; /* Vermelho bonito */
+        color: white;
+        font-weight: bold;
+text-align:left;
+        animation: blink 2s infinite ease-in-out; /* Adiciona a animação de piscar */
+    }
+    #testarValorBtn:hover {
+        background-color: #990000; /* Vermelho mais escuro no hover */
+    }
+    .calc-btn {
+        background-color: #007bff; /* Mantém a cor original */
+        color: white;
+        font-weight: bold;
+    }
+    .calc-btn:hover {
+        background-color: #0056b3; /* Mantém a cor original no hover */
+    }
         .filter-btn {
             background-color: #6c757d;
             color: white;
@@ -176,6 +182,13 @@
                 width: 90%;
             }
         }
+
+        /* Animação de piscar */
+        @keyframes blink {
+            50% {
+                opacity: 0.6;
+            }
+        }
     </style>
 </head>
 <body>
@@ -189,9 +202,9 @@
     </div>
 
     <div class="button-container">
-        <button id="testarValorBtn" onclick="openPopup()">TESTAR VALOR EM EUROS</button>
+        <button id="testarValorBtn" onclick="openPopup()">CARREGUE AQUI PARA TESTAR EM EUROS</button>
         <select id="ordenarSelect" onchange="resetFilters(); ordenarTabela()">
-            <option value="">ORDENAR</option>
+            <option value="">ORDENAR A TABELA EM BAIXO</option>
             <option value="maior">Ordenar de maior para menor devolução</option>
             <option value="menor">Ordenar de menor para maior devolução</option>
             <option value="alfabeticoA">Ordenar alfabeticamente de A-Z</option>
@@ -455,7 +468,7 @@
                     if (diferenca === valorDevolvido5Porcento) {
                         document.getElementById("comparacao").innerHTML = `Sabia que se vivesse em ${municipioComparacao[0]} receberia <b>${valorDevolvido5PorcentoFormatado}</b>?`;
                     } else {
-                        document.getElementById("comparacao").innerHTML = `Sabia que se vivesse em ${municipioComparacao[0]} receberia <b>${valorDevolvido5PorcentoFormatado}</b> no total, mais <b>${diferencaFormatada}</b> do que no município que selecionou?`;
+                        document.getElementById("comparacao").innerHTML = `Sabia que se vivesse em ${municipioComparacao[0]} receberia <b>${valorDevolvido5PorcentoFormatado}</b> no total, que são mais <b>${diferencaFormatada}</b> que no município que selecionou?`;
                     }
                 }
             } else {
