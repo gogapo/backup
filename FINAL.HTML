@@ -196,7 +196,7 @@
     <h1 style="text-align:left;margin-left:35px;margin-right:35px">CNN PORTUGAL | devolução de IRS por município</h1>
 
     <div class="search-container">
-        <input type="text" id="search" oninput="resetSelect()" onkeyup="filterTable()" placeholder="Escreva aqui o município - ou filtre na barra a seguir">
+        <input type="text" id="search" oninput="resetSelect()" onkeyup="filterTable()" placeholder="Escreva nome do município - ou filtre na barra a seguir">
         <select id="concelhoSelect" onchange="resetInput(); selectConcelho()">
             <option value="">Filtre aqui o município</option>
         </select>
@@ -409,7 +409,7 @@
     const coletaLiquidaInput = document.getElementById("coletaLiquida").value;
 
     if (!municipioSelecionado && !coletaLiquidaInput) {
-        document.getElementById("resultado").textContent = "Por favor, escolha um município e insira o valor da coleta líquida para ver os resultados";
+        document.getElementById("resultado").textContent = "Por favor, escolha um município e insira o valor para ver os resultados";
         document.getElementById("comparacao").textContent = "";
         return;
     }
@@ -421,7 +421,7 @@
     }
 
     if (!coletaLiquidaInput) {
-        document.getElementById("resultado").textContent = "Por favor, insira o valor da coleta líquida para ver os resultados.";
+        document.getElementById("resultado").textContent = "Por favor, insira o valor para ver os resultados.";
         document.getElementById("comparacao").textContent = "";
         return;
     }
@@ -429,7 +429,7 @@
     const coletaLiquida = parseFloat(coletaLiquidaInput.replace(/[^\d.,-]/g, '').replace(',', '.'));
 
     if (isNaN(coletaLiquida)) {
-        document.getElementById("resultado").textContent = "Por favor, insira um valor numérico válido para a coleta líquida e depois carregue no botão calcular.";
+        document.getElementById("resultado").textContent = "Por favor, insira um valor numérico válido para a coleta líquida.";
         document.getElementById("comparacao").textContent = "";
         return;
     }
