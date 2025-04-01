@@ -345,32 +345,40 @@
 
         // Função para ordenar a tabela
         function ordenarTabela() {
-            resetFilters(); // Resetar filtros antes de ordenar
-            const select = document.getElementById("ordenarSelect");
-            const value = select.value;
-            const rows = Array.from(document.querySelector("#tabelaConcelhos tbody").rows);
+    resetFilters();
+    const select = document.getElementById("ordenarSelect");
+    const value = select.value;
+    const rows = Array.from(document.querySelector("#tabelaConcelhos tbody").rows);
 
-            switch (value) {
-                case "maior":
-                    rows.sort((a, b) => parseFloat(b.cells[1].textContent) - parseFloat(a.cells[1].textContent));
-                    break;
-                case "menor":
-                    rows.sort((a, b) => parseFloat(a.cells[1].textContent) - parseFloat(b.cells[1].textContent));
-                    break;
-                case "alfabeticoA":
-                    rows.sort((a, b) => a.cells[0].textContent.localeCompare(b.cells[0].textContent));
-                    break;
-                case "alfabeticoZ":
-                    rows.sort((a, b) => b.cells[0].textContent.localeCompare(a.cells[0].textContent));
-                    break;
-                default:
-                    break;
-            }
+    switch (value) {
+        case "maior":
+            rows.sort((a, b) => {
+                const valorA = parseFloat(b.cells[1].textContent.replace('%', '').replace(',', '.'));
+                const valorB = parseFloat(a.cells[1].textContent.replace('%', '').replace(',', '.'));
+                return valorA - valorB;
+            });
+            break;
+        case "menor":
+            rows.sort((a, b) => {
+                const valorA = parseFloat(a.cells[1].textContent.replace('%', '').replace(',', '.'));
+                const valorB = parseFloat(b.cells[1].textContent.replace('%', '').replace(',', '.'));
+                return valorA - valorB;
+            });
+            break;
+        case "alfabeticoA":
+            rows.sort((a, b) => a.cells[0].textContent.localeCompare(b.cells[0].textContent));
+            break;
+        case "alfabeticoZ":
+            rows.sort((a, b) => b.cells[0].textContent.localeCompare(a.cells[0].textContent));
+            break;
+        default:
+            break;
+    }
 
-            const tbody = document.querySelector("#tabelaConcelhos tbody");
-            tbody.innerHTML = "";
-            rows.forEach(row => tbody.appendChild(row));
-        }
+    const tbody = document.querySelector("#tabelaConcelhos tbody");
+    tbody.innerHTML = "";
+    rows.forEach(row => tbody.appendChild(row));
+}
 
         // Função para abrir o popup
         function openPopup() {
