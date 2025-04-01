@@ -388,19 +388,19 @@
             const coletaLiquidaInput = document.getElementById("coletaLiquida").value;
 
             if (!municipioSelecionado && !coletaLiquidaInput) {
-                document.getElementById("resultado").textContent = "Por favor, escolha um município e insira o valor da coleta líquida.";
+                document.getElementById("resultado").textContent = "Por favor, escolha um município e insira o valor da coleta líquida. Depois carregue no botão calcular";
                 document.getElementById("comparacao").textContent = "";
                 return;
             }
 
             if (!municipioSelecionado) {
-                document.getElementById("resultado").textContent = "Por favor, escolha um município.";
+                document.getElementById("resultado").textContent = "Por favor, escolha um município e depois carregue no botão calcular.";
                 document.getElementById("comparacao").textContent = "";
                 return;
             }
 
             if (!coletaLiquidaInput) {
-                document.getElementById("resultado").textContent = "Por favor, insira o valor da coleta líquida.";
+                document.getElementById("resultado").textContent = "Por favor, insira o valor da coleta líquida e depois carregue no botão calcular.";
                 document.getElementById("comparacao").textContent = "";
                 return;
             }
@@ -408,7 +408,7 @@
             const coletaLiquida = parseFloat(coletaLiquidaInput.replace(/[^\d.,-]/g, '').replace(',', '.'));
 
             if (isNaN(coletaLiquida)) {
-                document.getElementById("resultado").textContent = "Por favor, insira um valor numérico válido para a coleta líquida.";
+                document.getElementById("resultado").textContent = "Por favor, insira um valor numérico válido para a coleta líquida e depois carregue no botão calcular.";
                 document.getElementById("comparacao").textContent = "";
                 return;
             }
@@ -447,7 +447,7 @@
                     if (diferenca === valorDevolvido5Porcento) {
                         document.getElementById("comparacao").innerHTML = `Sabia que se vivesse em ${municipioComparacao[0]} receberia <b>${valorDevolvido5PorcentoFormatado}</b>?`;
                     } else {
-                        document.getElementById("comparacao").innerHTML = `Sabia que se vivesse em ${municipioComparacao[0]} receberia <b>${valorDevolvido5PorcentoFormatado}</b> no total, mais <b>${diferencaFormatada}</b> do que em ${municipioSelecionado}?`;
+                        document.getElementById("comparacao").innerHTML = `Sabia que se vivesse em ${municipioComparacao[0]} receberia <b>${valorDevolvido5PorcentoFormatado}</b> no total, mais <b>${diferencaFormatada}</b> do que no município que selecionou?`;
                     }
                 }
             } else {
