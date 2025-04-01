@@ -444,7 +444,7 @@
                 maximumFractionDigits: 2
             });
 
-            document.getElementById("comparacao").textContent = `Sabia que se vivesse em ${municipioComparacao[0]} receberia ${valorDevolvido5PorcentoFormatado}, mais ${diferencaFormatada} do que em ${municipioSelecionado}?`;
+            document.getElementById("comparacao").innerHTML = `Sabia que se vivesse em ${municipioComparacao[0]} receberia <b>${valorDevolvido5PorcentoFormatado}</b> no total, mais <b>${diferencaFormatada}</b> do que em ${municipioSelecionado}?`;
         }
     } else {
         document.getElementById("comparacao").textContent = "";
