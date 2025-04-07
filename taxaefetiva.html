@@ -2,21 +2,21 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulador de Taxa de Tributação Efetiva</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 40px auto;
+      margin: 0;
       padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
       background-color: #f9f9f9;
+      box-sizing: border-box;
     }
 
     h1 {
       text-align: center;
       font-size: 1.5em;
+      margin-bottom: 20px;
     }
 
     label {
@@ -27,7 +27,7 @@
 
     input {
       width: 100%;
-      padding: 8px;
+      padding: 12px;
       margin-top: 5px;
       border-radius: 6px;
       border: 1px solid #ccc;
@@ -36,7 +36,7 @@
 
     button {
       margin-top: 20px;
-      padding: 10px;
+      padding: 12px;
       background-color: #007bff;
       color: white;
       border: none;
@@ -77,6 +77,34 @@
       font-weight: bold;
       color: red;
       font-size: 1.1em;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 1.2em;
+      }
+
+      .result {
+        padding: 10px;
+      }
+
+      input, button {
+        padding: 10px;
+      }
+
+      .instrucoes {
+        font-size: 0.85em;
+        padding: 10px;
+      }
+
+      .aviso {
+        font-size: 1em;
+      }
     }
   </style>
 </head>
