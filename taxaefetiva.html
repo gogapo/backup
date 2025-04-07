@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Simulador de Taxa de Tributação Efetiva</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.5em;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1em;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      margin-top: 25px;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .mensagem {
+      margin-top: 10px;
+      font-style: italic;
+      color: #333;
+    }
+
+    .instrucoes {
+      margin-top: 15px;
+      background-color: #e9f5ff;
+      padding: 12px;
+      border-left: 4px solid #007bff;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    .aviso {
+      font-weight: bold;
+      color: red;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Simulador de Taxa de Tributação Efetiva</h1>
+
+  <p class="instrucoes"><strong>INSTRUÇÕES DE UTILIZAÇÃO:</strong> Veja a nota de liquidação do IRS que recebeu no ano passado e retire de lá o valor do <strong>rendimento coletável</strong> e o valor da <strong>coleta líquida</strong>. Abra depois a simulação que recebeu este ano na entrega do IRS e retire de lá os mesmos valores: <strong>rendimento coletável</strong> e <strong>coleta líquida</strong>. Depois insira cada um desses valores na respetiva caixa em baixo: <span class="aviso">por exemplo, se o valor da coleta líquida for de 5 000,78€, digite 5000,78 (não precisa de pôr espaço, aparece automaticamente ao escrever, mas tem de usar a vírgula).</span> Depois de inserir os valores todos, veja o resultado. Pode testar também com qualquer valor aleatório que queira.</p>
+
+  <form id="formulario">
+    <label for="coleta2024">Coleta líquida (2024):</label>
+    <input type="text" id="coleta2024" placeholder="€" required>
+
+    <label for="rendimento2024">Rendimento coletável (2024):</label>
+    <input type="text" id="rendimento2024" placeholder="€" required>
+
+    <label for="coleta2025">Coleta líquida (2025):</label>
+    <input type="text" id="coleta2025" placeholder="€" required>
+
+    <label for="rendimento2025">Rendimento coletável (2025):</label>
+    <input type="text" id="rendimento2025" placeholder="€" required>
+
+    <button type="submit">Calcular Taxas</button>
+  </form>
+
+  <div class="result" id="resultado"></div>
+
+  <script>
+    // Função para formatar os valores monetários com espaços entre os milhares e vírgula para casas decimais
+    function formatarValor(valor) {
+      valor = valor.replace('€', '').replace(/[^0-9,\.]/g, '').replace(',', '.');
+      
+      // Verifica se o valor tem ponto decimal
+      let partes = valor.split('.');
+      let inteiro = partes[0];
+      let decimal = partes[1] || '';
+
+      // Adiciona espaços a cada 3 dígitos na parte inteira
+      inteiro = inteiro.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+      // Junta a parte inteira com a parte decimal, se existir
+      if (decimal) {
+        return inteiro + ',' + decimal;
+      } else {
+        return inteiro;
+      }
+    }
+
+    // Adiciona a formatação automática nos campos de entrada
+    function formatarCampos() {
+      const campos = ['coleta2024', 'rendimento2024', 'coleta2025', 'rendimento2025'];
+
+      campos.forEach(campo => {
+        const input = document.getElementById(campo);
+        input.addEventListener('input', function(event) {
+          let valor = this.value;
+
+          // Se o valor contiver uma vírgula ou ponto, mantém como separador decimal
+          if (event.inputType === "insertText" && event.data === ",") {
+            return; // Permite a inserção da vírgula
+          }
+          
+          // Remove espaços extras antes de fazer a formatação
+          this.value = formatarValor(valor);
+        });
+      });
+    }
+
+    // Chama a função para aplicar a formatação nos campos
+    formatarCampos();
+
+    const form = document.getElementById('formulario');
+    const resultadoDiv = document.getElementById('resultado');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Remove os espaços e a vírgula para poder realizar os cálculos corretamente
+      const coleta2024 = parseFloat(document.getElementById('coleta2024').value.replace(/\s/g, '').replace(',', '.'));
+      const rendimento2024 = parseFloat(document.getElementById('rendimento2024').value.replace(/\s/g, '').replace(',', '.'));
+      const coleta2025 = parseFloat(document.getElementById('coleta2025').value.replace(/\s/g, '').replace(',', '.'));
+      const rendimento2025 = parseFloat(document.getElementById('rendimento2025').value.replace(/\s/g, '').replace(',', '.'));
+
+      if (
+        isNaN(coleta2024) || isNaN(rendimento2024) || rendimento2024 <= 0 ||
+        isNaN(coleta2025) || isNaN(rendimento2025) || rendimento2025 <= 0
+      ) {
+        resultadoDiv.innerHTML = "<strong>Por favor, preencha todos os campos corretamente (rendimento > 0).</strong>";
+        return;
+      }
+
+      const taxa2024 = (coleta2024 / rendimento2024) * 100;
+      const taxa2025 = (coleta2025 / rendimento2025) * 100;
+      const diferenca = taxa2025 - taxa2024;
+
+      let mensagem = '';
+      if (diferenca < 0) {
+        mensagem = "A taxa efetiva de tributação desceu - mesmo que o seu reembolso tenha sido menor ou se até tiver de pagar no acerto, no final a sua taxa de imposto desceu entre um ano e outro";
+      } else if (diferenca > 0) {
+        mensagem = "A taxa efetiva de tributação subiu entre um ano e outro";
+      } else {
+        mensagem = "A taxa efetiva de tributação foi a mesma entre um ano e outro";
+      }
+
+      resultadoDiv.innerHTML = `
+        <p><strong>Taxa de Tributação Efetiva (2024):</strong> ${taxa2024.toFixed(2)}%</p>
+        <p><strong>Taxa de Tributação Efetiva (2025):</strong> ${taxa2025.toFixed(2)}%</p>
+        <p><strong>Diferença entre 2025 e 2024:</strong> ${diferenca >= 0 ? '+' : ''}${diferenca.toFixed(2)} pontos percentuais</p>
+        <p class="mensagem">${mensagem}</p>
+      `;
+    });
+  </script>
+</body>
+</html>
