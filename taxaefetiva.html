@@ -2,7 +2,7 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Simulador de Taxa de Tributação Efetiva</title>
   <style>
     body {
@@ -32,6 +32,8 @@
       border-radius: 6px;
       border: 1px solid #ccc;
       box-sizing: border-box;
+      font-size: 1em;
+      touch-action: manipulation; /* Evita o zoom ao tocar */
     }
 
     button {
@@ -112,7 +114,7 @@
 
   <h1>Simulador de Taxa de Tributação Efetiva</h1>
 
-  <p class="instrucoes"><strong>INSTRUÇÕES DE UTILIZAÇÃO:</strong> Veja a nota de liquidação do IRS que recebeu no ano passado e retire de lá o valor do <strong>rendimento coletável</strong> e o valor da <strong>coleta líquida</strong>. Abra depois a simulação que recebeu este ano na entrega do IRS e retire de lá os mesmos valores: <strong>rendimento coletável</strong> e <strong>coleta líquida</strong>. Depois insira cada um desses valores na respetiva caixa em baixo: <span class="aviso">por exemplo, se o valor da coleta líquida for de 5 000,78€, digite 5000,78 (não precisa de pôr espaço, aparece automaticamente ao escrever, mas tem de usar a vírgula).</span> Depois de inserir os valores todos, veja o resultado. Pode testar também com qualquer valor aleatório que queira.</p>
+  <p class="instrucoes"><strong>INSTRUÇÕES DE UTILIZAÇÃO:</strong> Veja a nota de liquidação do IRS que recebeu no ano passado e retire de lá o valor do <strong>rendimento coletável</strong> e o valor da <strong>coleta líquida</strong>. Abra depois a simulação que recebeu este ano na entrega do IRS e retire de lá os mesmos valores: <strong>rendimento coletável</strong> e <strong>coleta líquida</strong>. Depois insira cada um desses valores na respetiva caixa em baixo. <span class="aviso">Por exemplo, se o valor da coleta líquida for de 5 000,78€, digite 5000,78 (não precisa de pôr espaço, aparece automaticamente ao escrever, mas tem de usar a vírgula)</span>. Depois de inserir os valores todos, veja o resultado. Pode testar também com qualquer valor aleatório que queira.</p>
 
   <form id="formulario">
     <label for="coleta2024">Coleta líquida (2024):</label>
@@ -204,9 +206,9 @@
       if (diferenca < 0) {
         mensagem = "A taxa efetiva de tributação desceu - mesmo que o seu reembolso tenha sido menor ou se até tiver de pagar no acerto, no final a sua taxa de imposto desceu entre um ano e outro";
       } else if (diferenca > 0) {
-        mensagem = "A taxa efetiva de tributação subiu entre um ano e outro";
+        mensagem = "A sua perceção estava correta: a taxa efetiva de tributação subiu mesmo entre um ano e outro";
       } else {
-        mensagem = "A taxa efetiva de tributação foi a mesma entre um ano e outro";
+        mensagem = "Como vê, a taxa efetiva de tributação foi a mesma entre um ano e outro - o reembolso até pode ter sido menor ou até pode mesmo ter de pagar no acerto, mas a taxa de imposto manteve-se igual entre um ano e o outro";
       }
 
       resultadoDiv.innerHTML = `
