@@ -5,17 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legislativas 2025 - Candidatos</title>
     <style>
-        /* Estilos Gerais */
-        body {
+        /* Estilos Gerais para o Widget */
+        .widget { /* Aplicado à div principal em vez do body */
             font-family: Arial, sans-serif;
-            margin: 0;
+            /* margin: 0; */ /* Margem pode ser controlada pela página externa */
             background-color: #f0f0f0; /* Fundo ligeiramente cinza para contraste */
             color: #333;
             text-align: left;
+            border: 1px solid #ccc; /* Borda opcional para visualizar o widget */
+            border-radius: 8px; /* Cantos arredondados para o widget */
+            overflow: hidden; /* Garante que o conteúdo fica dentro das bordas */
+            max-width: 100%; /* Largura máxima opcional */
+            margin: 20px auto; /* Centralizar e adicionar margem, opcional */
         }
 
-        /* Cabeçalho */
-        #header {
+        /* Cabeçalho dentro do Widget */
+        .widget #header {
             background-color: white;
             color: #cc0000; /* Vermelho institucional */
             padding: 20px;
@@ -24,24 +29,24 @@
             font-size: 1.3em; /* Ligeiramente maior */
             margin-bottom: 20px; /* Espaço abaixo do cabeçalho */
         }
-        #header p {
+        .widget #header p {
             margin: 0;
         }
-        #header .subtitle { /* Classe para o subtítulo */
+        .widget #header .subtitle { /* Classe para o subtítulo */
             font-size: 0.6em;
             color: #555;
             font-variant: normal; /* Resetar small-caps */
         }
 
-        /* Filtros e Pesquisa */
-        #filters, #searchContainer {
+        /* Filtros e Pesquisa dentro do Widget */
+        .widget #filters, .widget #searchContainer {
             margin: 0 20px 20px 20px; /* Margem consistente */
             display: flex;
             flex-wrap: wrap;
             gap: 10px; /* Espaçamento entre elementos */
         }
 
-        #filters select, #searchInput {
+        .widget #filters select, .widget #searchInput {
             flex-grow: 1;
             flex-basis: calc(50% - 5px); /* Base para 2 colunas em mobile */
             padding: 12px 16px;
@@ -52,11 +57,11 @@
             box-sizing: border-box; /* Incluir padding na largura */
         }
 
-        #searchInput {
+        .widget #searchInput {
              flex-basis: auto; /* Permitir que cresça mais */
         }
 
-        #searchButton {
+        .widget #searchButton {
             padding: 12px 20px; /* Alinhar altura com inputs */
             background-color: #cc0000;
             color: white;
@@ -66,20 +71,20 @@
             font-size: 1em;
             flex-shrink: 0; /* Não encolher */
         }
-        #searchButton:hover {
+        .widget #searchButton:hover {
             background-color: #a30000; /* Escurecer no hover */
         }
 
-        /* Lista de Candidatos */
-        #candidatesList {
+        /* Lista de Candidatos dentro do Widget */
+        .widget #candidatesList {
             margin: 20px;
             border: none; /* Remover borda geral */
             padding: 0; /* Remover padding geral, será nos cards */
             background-color: transparent; /* Fundo transparente */
         }
 
-        /* Card de Partido */
-        .party-card {
+        /* Card de Partido dentro do Widget */
+        .widget .party-card {
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 20px 25px;
@@ -91,24 +96,24 @@
             border-top-style: solid;
         }
 
-        /* Cores da Borda Superior por Partido */
-        .party-card.cdu { border-top-color: red; }
-        .party-card.be { border-top-color: #A52A2A; } /* Castanho avermelhado */
-        .party-card.ps { border-top-color: deeppink; }
-        .party-card.livre { border-top-color: #008080; } /* Teal */
-        .party-card.pan { border-top-color: #006400; } /* Verde escuro */
-        .party-card.ad { border-top-color: orange; }
-        .party-card.il { border-top-color: #0077c8; } /* Azul IL */
-        .party-card.chega { border-top-color: #003399; } /* Azul escuro (em vez de gradiente) */
+        /* Cores da Borda Superior por Partido dentro do Widget */
+        .widget .party-card.cdu { border-top-color: red; }
+        .widget .party-card.be { border-top-color: #A52A2A; } /* Castanho avermelhado */
+        .widget .party-card.ps { border-top-color: deeppink; }
+        .widget .party-card.livre { border-top-color: #008080; } /* Teal */
+        .widget .party-card.pan { border-top-color: #006400; } /* Verde escuro */
+        .widget .party-card.ad { border-top-color: orange; }
+        .widget .party-card.il { border-top-color: #0077c8; } /* Azul IL */
+        .widget .party-card.chega { border-top-color: #003399; } /* Azul escuro (em vez de gradiente) */
 
-        /* Elementos Dentro do Card */
-        .party-name {
+        /* Elementos Dentro do Card dentro do Widget */
+        .widget .party-name {
             font-size: 1.9em; /* Maior */
             font-weight: bold;
             margin-bottom: 5px; /* Menos espaço antes da nota */
             /* A cor é definida inline no JS para manter a lógica original */
         }
-        .party-note { /* Para notas como a do Livre */
+        .widget .party-note { /* Para notas como a do Livre */
              color: #666;
              font-size: 0.7em;
              display: block;
@@ -117,7 +122,7 @@
              font-style: italic;
         }
 
-        .candidate-district {
+        .widget .candidate-district {
             font-size: 1.4em; /* Maior */
             font-weight: bold;
             color: #444; /* Cinza escuro */
@@ -127,8 +132,8 @@
             padding-bottom: 8px; /* Mais espaço abaixo da linha */
         }
 
-        /* Estilo para "Efetivos" e "Suplentes" */
-        .candidate-type {
+        /* Estilo para "Efetivos" e "Suplentes" dentro do Widget */
+        .widget .candidate-type {
             font-weight: normal;
             color: #666;
             margin-top: 15px;
@@ -137,21 +142,21 @@
             font-style: italic;
         }
 
-        .candidate-list {
+        .widget .candidate-list {
             margin-left: 0; /* Remover indentação padrão */
             padding-left: 10px; /* Adicionar um pouco de padding */
             list-style: none; /* Remover marcadores padrão */
         }
 
-        .candidate-list li {
+        .widget .candidate-list li {
             margin-bottom: 6px; /* Espaço entre candidatos */
             line-height: 1.5; /* Melhorar legibilidade */
             padding-left: 15px; /* Espaço para pseudo-elemento */
             position: relative; /* Para posicionar o marcador */
         }
 
-        /* Marcador personalizado para itens da lista */
-        .candidate-list li::before {
+        /* Marcador personalizado para itens da lista dentro do Widget */
+        .widget .candidate-list li::before {
             content: '›'; /* Ou outro símbolo como • */
             position: absolute;
             left: 0;
@@ -160,8 +165,8 @@
             font-weight: bold;
         }
 
-        /* Mensagens */
-        #noResults {
+        /* Mensagens dentro do Widget */
+        .widget #noResults {
             margin: 20px;
             font-style: italic;
             color: #cc0000;
@@ -173,7 +178,7 @@
             border-radius: 8px;
         }
 
-        .no-candidates-yet { /* Estilo para partido sem candidatos */
+        .widget .no-candidates-yet { /* Estilo para partido sem candidatos */
             font-style: italic;
             color: #555;
             background-color: #f5f5f5; /* Fundo cinza claro */
@@ -184,7 +189,7 @@
             border: 1px dashed #aaa; /* Borda tracejada */
         }
         /* Estilo específico para placeholder dentro da lista */
-        .no-candidates-yet.inline {
+        .widget .no-candidates-yet.inline {
              text-align:left;
              padding: 5px 10px;
              margin-top:0;
@@ -196,13 +201,13 @@
              padding-left: 0;
         }
          /* Remover marcador do li quando for placeholder inline */
-        .candidate-list li.no-candidates-yet.inline::before {
+        .widget .candidate-list li.no-candidates-yet.inline::before {
             content: none;
         }
 
 
-        /* Nota de Elegibilidade */
-        #eligibilityNote {
+        /* Nota de Elegibilidade dentro do Widget */
+        .widget #eligibilityNote {
             font-size: 0.9em; /* Ligeiramente maior */
             margin: 0 20px 15px 20px; /* Posicionada antes da lista */
             color: #4682B4; /* Azul aço */
@@ -213,45 +218,57 @@
             display: none; /* Escondido por padrão, mostrado via JS */
         }
 
-        /* Estilo para informação de deputados eleitos */
-        .deputy-info {
+        /* Estilo para informação de deputados eleitos dentro do Widget */
+        .widget .deputy-info {
             font-size: 0.85em; /* Tamanho ligeiramente menor */
             color: #555;      /* Cor cinza escuro */
             margin-top: 2px;   /* Pequeno espaço acima */
-            margin-bottom: 45px; /* Espaço abaixo antes do próximo elemento (distrito ou nota) */
+            margin-bottom: 15px; /* Espaço abaixo antes do próximo elemento (distrito ou nota) */ /* Reduzido de 45px para 15px */
         }
 
-        /* Ajuste de margem inferior quando a nota do Livre está presente */
-        .party-name + .deputy-info + .party-note {
+        /* Ajuste de margem inferior quando a nota do Livre está presente dentro do Widget */
+        .widget .party-name + .deputy-info + .party-note {
              margin-top: -10px; /* Reduz o espaço extra criado pela nota */
         }
 
-         /* Ajuste de margem quando info do distrito se segue a info do partido */
-         .party-name + .deputy-info + .candidate-district,
-         .party-note + .candidate-district {
+         /* Ajuste de margem quando info do distrito se segue a info do partido dentro do Widget */
+         .widget .party-name + .deputy-info + .candidate-district,
+         .widget .party-note + .candidate-district {
              margin-top: 10px; /* Reduz espaço se não houver nota do Livre */
-         }
+        }
 
-        .candidate-district + .deputy-info {
-            margin-bottom: 20px; /* Espaço abaixo da info do distrito antes dos Efetivos/Suplentes */
+        .widget .candidate-district + .deputy-info {
+            margin-bottom: 10px; /* Espaço abaixo da info do distrito antes dos Efetivos/Suplentes */ /* Reduzido de 20px para 10px */
         }
 
 
-        /* Media Query para Telas Maiores */
+        /* Media Query para Telas Maiores dentro do Widget */
         @media (min-width: 768px) {
-            #filters {
+            .widget #filters {
                 flex-wrap: nowrap;
             }
-            #filters select {
+            .widget #filters select {
                 flex-basis: 0; /* Ocupar espaço igualmente */
             }
-            #searchContainer {
+            .widget #searchContainer {
                  flex-wrap: nowrap;
             }
         }
+
+
+        #rodape {
+            background-color: #f0f0f0;
+            color: #555;
+            padding: 10px 20px 20px 20px;            
+            font-variant: small-caps;
+            font-size: 0.6em; /* Ligeiramente maior */
+            margin-top: 25px; /* Espaço abaixo do cabeçalho */
+        }        
+
     </style>
 </head>
 <body>
+<div class="widget">
     <div id="header">
         <p>Candidatos às Legislativas 2025</p>
         <p class="subtitle">partidos com assento parlamentar</p>
@@ -300,7 +317,7 @@
     </div>
 
     <div id="searchContainer">
-        <input type="text" id="searchInput" placeholder="pode pesquisar aqui nomes de candidatos">
+        <input type="text" id="searchInput" placeholder="pesquise aqui nomes de candidatos">
         <button id="searchButton">Pesquisar</button>
     </div>
 
@@ -840,5 +857,7 @@
          };
 
     </script>
+<div id="rodape">desenvolvido pela CNN Portugal</div>
+</div>
 </body>
 </html>
