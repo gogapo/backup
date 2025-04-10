@@ -224,7 +224,7 @@
             font-size: 0.85em; /* Tamanho ligeiramente menor */
             color: #555;      /* Cor cinza escuro */
             margin-top: 2px;   /* Pequeno espaço acima */
-            margin-bottom: 15px; /* Espaço abaixo antes do próximo elemento (distrito ou nota) */ /* Reduzido de 45px para 15px */
+            margin-bottom: 35px; /* Espaço abaixo antes do próximo elemento (distrito ou nota) */ /* Reduzido de 45px para 15px */
         }
 
         /* Ajuste de margem inferior quando a nota do Livre está presente dentro do Widget */
@@ -283,7 +283,7 @@
             <option value="PS">PS</option>
             <option value="Livre">Livre</option>
             <option value="PAN">PAN</option>
-            <option value="AD">AD - Coligação PSD-CDS</option>
+            <option value="AD">AD - Coligação PSD/CDS</option>
             <option value="IL">IL</option>
             <option value="Chega">Chega</option>
             <option value="todos">Todos os Partidos</option>
@@ -338,28 +338,28 @@
         const candidates = {
             "CDU": {
                 // Removido "1.º" dos casos com "é o único nome..."
-                "Aveiro": {"Efetivos": ["1.º Isabel Cristina Tavares (restantes nomes por divulgar)"],"Suplentes": []},
+                "Aveiro": {"Efetivos": ["1.º Isabel Cristina Tavares", "restantes nomes por divulgar"],"Suplentes": []},
                 "Beja": {"Efetivos": ["1.º Bernardino Soares", "2.º Tomé Alexandre Martins Pires", "3.º Elsa Isabel Pires Januário das Dores"],"Suplentes": ["1.º João Palma Quaresma", "2.º Rosa Margarida Delgado Oliveira", "3.º Vânia Susete dos Santos Marujo"]}, // Mantém numeração
-                "Braga": {"Efetivos": ["1.º Sandra Cardoso (restantes nomes por divulgar)"],"Suplentes": []},
-                "Bragança": {"Efetivos": ["1.º Fátima Bento (restantes nomes por divulgar)"],"Suplentes": []},
-                "Castelo Branco": {"Efetivos": ["1.º Vítor Reis Silva (restantes nomes por divulgar)"],"Suplentes": []},
-                "Coimbra": {"Efetivos": ["1.º Fernando Teixeira (restantes nomes por divulgar)"],"Suplentes": []},
-                "Évora": {"Efetivos": ["1.º Maria da Graça Nascimento (restantes nomes por divulgar)"],"Suplentes": []},
-                "Faro": {"Efetivos": ["1.º Catarina Marques (restantes nomes por divulgar)"],"Suplentes": []},
-                "Guarda": {"Efetivos": ["1.º Catarina Costa (restantes nomes por divulgar)"],"Suplentes": []},
-                "Leiria": {"Efetivos": ["1.º João Paulo Delgado (restantes nomes por divulgar)"],"Suplentes": []},
-                "Lisboa": {"Efetivos": ["1.º Paulo Raimundo (restantes nomes por divulgar)"],"Suplentes": []},
+                "Braga": {"Efetivos": ["1.º Sandra Cardoso", "restantes nomes por divulgar"],"Suplentes": []},
+                "Bragança": {"Efetivos": ["1.º Fátima Bento", "restantes nomes por divulgar"],"Suplentes": []},
+                "Castelo Branco": {"Efetivos": ["1.º Vítor Reis Silva", "restantes nomes por divulgar"],"Suplentes": []},
+                "Coimbra": {"Efetivos": ["1.º Fernando Teixeira", "restantes nomes por divulgar"],"Suplentes": []},
+                "Évora": {"Efetivos": ["1.º Maria da Graça Nascimento", "restantes nomes por divulgar"],"Suplentes": []},
+                "Faro": {"Efetivos": ["1.º Catarina Marques", "restantes nomes por divulgar"],"Suplentes": []},
+                "Guarda": {"Efetivos": ["1.º Catarina Costa", "restantes nomes por divulgar"],"Suplentes": []},
+                "Leiria": {"Efetivos": ["1.º João Paulo Delgado", "restantes nomes por divulgar"],"Suplentes": []},
+                "Lisboa": {"Efetivos": ["1.º Paulo Raimundo", "restantes nomes por divulgar"],"Suplentes": []},
                 "Portalegre": {"Efetivos": ["1.º Helena Neves","2.º Luís Soeiro"],"Suplentes": ["1.º Susana Teixeira", "2.º Pedro Reis"]}, // Mantém numeração
-                "Porto": {"Efetivos": ["1.º Alfredo Maia (restantes nomes por divulgar)"],"Suplentes": []},
-                "Santarém": {"Efetivos": ["1.º Inês Santos (restantes nomes por divulgar)"],"Suplentes": []},
-                "Setúbal": {"Efetivos": ["1.º Paula Santos (restantes nomes por divulgar)"],"Suplentes": []},
-                "Viana do Castelo": {"Efetivos": ["1.º Joaquim Celestino Ribeiro (restantes nomes por divulgar)"],"Suplentes": []},
-                "Vila Real": {"Efetivos": ["1.º José Luís Ferreira (restantes nomes por divulgar)"],"Suplentes": []},
-                "Viseu": {"Efetivos": ["1.º Alexandre Hoffman Castela (restantes nomes por divulgar)"],"Suplentes": []},
-                "Região Autónoma dos Açores": {"Efetivos": ["1.º António Salgado Almeida (restantes nomes por divulgar)"],"Suplentes": []}, // Removido 1.º
-                "Região Autónoma da Madeira": {"Efetivos": ["1.º Herlanda Amado (restantes nomes por divulgar)"],"Suplentes": []},
-                "Europa": {"Efetivos": ["1.º Joana Carvalho (restantes nomes por divulgar)"],"Suplentes": []},
-                "Fora da Europa": {"Efetivos": ["1.º Ana Oliveira (restantes nomes por divulgar)"],"Suplentes": []}
+                "Porto": {"Efetivos": ["1.º Alfredo Maia", "restantes nomes por divulgar"],"Suplentes": []},
+                "Santarém": {"Efetivos": ["1.º Inês Santos", "restantes nomes por divulgar"],"Suplentes": []},
+                "Setúbal": {"Efetivos": ["1.º Paula Santos", "restantes nomes por divulgar"],"Suplentes": []},
+                "Viana do Castelo": {"Efetivos": ["1.º Joaquim Celestino Ribeiro", "restantes nomes por divulgar"],"Suplentes": []},
+                "Vila Real": {"Efetivos": ["1.º José Luís Ferreira", "restantes nomes por divulgar"],"Suplentes": []},
+                "Viseu": {"Efetivos": ["1.º Alexandre Hoffman Castela", "restantes nomes por divulgar"],"Suplentes": []},
+                "Região Autónoma dos Açores": {"Efetivos": ["1.º António Salgado Almeida", "restantes nomes por divulgar"],"Suplentes": []}, // Removido 1.º
+                "Região Autónoma da Madeira": {"Efetivos": ["1.º Herlanda Amado", "restantes nomes por divulgar"],"Suplentes": []},
+                "Europa": {"Efetivos": ["1.º Joana Carvalho", "restantes nomes por divulgar"],"Suplentes": []},
+                "Fora da Europa": {"Efetivos": ["1.º Ana Oliveira", "restantes nomes por divulgar"],"Suplentes": []}
             },
             "BE": { // Sem alterações
                 "Aveiro": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
@@ -385,29 +385,95 @@
                 "Europa": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
                 "Fora da Europa": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []}
             },
-            "PS": { // Sem alterações
-                "Aveiro": {"Efetivos": ["1.º Pedro Nuno Santos", "2.º Susana Correia", "3.º Hugo Oliveira", "4.º Filipe Neto Brandão", "5.º Lia Ferreira", "6.º Paulo Tomaz", "7.º Nuno Almeida", "8.º Ana Marta Matos", "9.º Catarina Gamelas", "10.º José António Rocha", "11.º Ricardo Conceição", "12.º Daniela Gonçalinho", "13.º Pedro Sousa", "14.º João Figueiredo", "15.º Cláudia Campos", "16.º Ana Patrícia Ferreira"],"Suplentes": ["1.º Justino Monteiro", "2.º La Salete Oliveira", "3.º Eduardo Conde", "4.º Ana Maria Silva", "5.º Irene Guimarães"]},
-                "Beja": {"Efetivos": ["1.º Pedro do Carmo", "2.º Telma Guerreiro", "3.º Juvenália Salgado"],"Suplentes": ["1.º João Catarino", "2.º Júlia Baltazar", "3.º Paulo Costa e Silva"]},
-                "Braga": {"Efetivos": ["1.º José Luis Carneiro", "2.º Sandra Lopes", "3.º Pedro Sousa", "4.º Paulo Silva", "5.º Irene Costa", "6.º Hernâni Loureiro", "7.º Gilberto Anjos", "8.º Isabel Costa", "9.º Pompeu Martins", "10.º Vânia Cruz", "11.º Nuno Barreto", "12.º Teresa Elsa Costa", "13.º Joana Madail", "14.º José Arnaldo Vareiro", "15.º Anabela Alves", "16.º Inês Rodrigues", "17.º Óscar Miranda", "18.º Diana Silva", "19.º Francisco Macedo"],"Suplentes": ["1.º Cristina Leite", "2.º Sérgio Manuel Matos", "3.º Rita Jorge Faria"]},
-                "Bragança": {"Efetivos": ["1.º Júlia Rodrigues", "2.º Rui Vilarinho", "3.º Caroline Pereira"],"Suplentes": ["1.º Francisco Marcos", "2.º Orlando Borges", "3.º Andréia Bento"]},
-                "Castelo Branco": {"Efetivos": ["1.º Nuno Fazenda", "2.º Carla Massano", "3.º Tiago Monteiro", "4.º José Pedro Ferreira"],"Suplentes": ["1.º Ana Carminho Fonseca", "2.º Joana Sardinha", "3.º Luís Seguro", "4.º Isaura Ferreira"]},
-                "Coimbra": {"Efetivos": ["1.º Pedro Delgado Alves", "2.º Rosa Isabel Cruz", "3.º Pedro Coimbra", "4.º Daniel Azenha", "5.º Olga Nunes", "6.º Áurea Andrade", "7.º Paulo Carreiró", "8.º Lara Henriques", "9.º Fátima Nunes"],"Suplentes": ["1.º Hugo Silva", "2.º Catarina Sá", "3.º Ruben Fernandes", "4.º Ângela Pinto Correia", "5.º Américo Figueiredo"]},
-                "Évora": {"Efetivos": ["1.º Luís Dias", "2.º Cláudia Sousa Pereira", "3.º Tiago Pardal"],"Suplentes": ["1.º Élia Quintas", "2.º Carla Godinho Pereira", "3.º Rui Rosado"]},
-                "Faro": {"Efetivos": ["1.º Jamila Madeira", "2.º Jorge Botelho", "3.º Luís Graça", "4.º Andreia Sousa", "5.º Vítor Guerreiro", "6.º Custódio Moreno", "7.º Ana Cruz", "8.º David Heijselaar", "9.º Ana Almeida"],"Suplentes": ["1.º Victor Santos", "2.º Ernesto Ramos", "3.º Rosa Nunes", "4.º Ana Cristina Santos", "5.º Água da Cruz"]},
-                "Guarda": {"Efetivos": ["1.º Aida Carvalho", "2.º Ana Margarida Cardoso", "3.º Fábio Pinto"],"Suplentes": ["1.º Miguel Will", "2.º Tânia Martinho", "3.º António Miguel Carvalho"]},
-                "Leiria": {"Efetivos": ["1.º Eurico Brilhante Dias", "2.º Ana Catarina Louro", "3.º Salvador Formiga", "4.º Ricardo Lopes", "5.º Diana Pais", "6.º Lilibeth Ferreira", "7.º Luís Duarte", "8.º Natália Marim", "9.º Henrique Estrelinha", "10.º Maria Adelaide Luís"],"Suplentes": ["1.º Diogo Ramalho", "2.º Cristina Moreira", "3.º Rodrigo Escapa", "4.º Célia Afra", "5.º Carlos Matos"]},
-                "Lisboa": {"Efetivos": ["1.º Mariana Vieira da Silva", "2.º Miguel Cabrita", "3.º Edite Estrela", "4.º Sérgio Sousa Pinto", "5.º Pedro Vaz", "6.º Isabel Moreira", "7.º Ricardo Lima", "8.º Eva Cruzeiro", "9.º Miguel Costa Matos", "10.º Ana Paulo Bernardo", "11.º André Rijo", "12.º Davide Amado", "13.º Maria Begonha", "14.º Pedro Pinto de Jesus", "15.º Hugo Mendes", "16.º Ana Umbelino", "17.º João Serrano", "18.º Catarina Oliveira", "19.º Pedro Brás", "20.º Filipe Santos Costa", "21.º Vera Bráz", "22.º Manuel Neves", "23.º Diogo Leão", "24.º Cátia Rosas", "25.º Vítor Moreira", "26.º Carla Madeira", "27.º Bruno Magro", "28.º Miguel Samora", "29.º Cláudia Ninhos", "30.º Cláudia Leitão"],"Suplentes": ["1.º Rodrigo Silva", "2.º Vanessa Porto", "3.º Ângela Ferreira", "4.º Pedro Costa", "5.º Susana Lopes", "6.º Eunice Proença", "7.º João Pedro Baião", "8.º Jorge Cristino", "9.º Ana Ivo da Silva", "10.º Duarte Marçal", "11.º Ana Carla Costa", "12.º Fábio Amorim", "13.º Nuno Carolo", "14.º Maisa Bastos", "15.º Sérgio Alexandre", "16.º Vasco Prada", "17.º Maria Santos", "18.º Fernando Machado Gomes"]},
-                "Portalegre": {"Efetivos": ["1.º Luís Moreira Testa", "2.º Ricardo Pinheiro"],"Suplentes": ["1.º Ana Sofia Rosa", "2.º Carolina Filipe"]},
-                "Porto": {"Efetivos": ["1.º Fernando Araújo", "2.º Sofia Pereira", "3.º João Torres", "4.º Tiago Barbosa Ribeiro", "5.º Patrícia Faro", "6.º Frederico Francisco", "7.º Joana Lima", "8.º Eduardo Pinheiro", "9.º Dália Miranda", "10.º Humberto Brito", "11.º José Carlos Barbosa", "12.º Sofia Andrade", "13.º Carlos Brás", "14.º Joana Campos", "15.º Micael Cardoso", "16.º Catarina Lobo", "17.º António Faria", "18.º Lurdes Castro", "19.º Ana Marta Silva", "20.º Rui Teixeira", "21.º Gabriel Carvalho", "22.º Carolina Macedo dos Santos", "23.º Cândido Zoio", "24.º Gonçalo Angeiras", "25.º Isa Pereira", "26.º Miguel Rodrigues", "27.º Catarina Isabel Assis Sousa", "28.º Diogo Silva", "29.º Diogo Almeida e Silva", "30.º Luísa Felizardo", "31.º Beatriz Carvalho", "32.º Hugo Padilha", "33.º Patrícia Almeida", "34.º Armando Leal", "35.º Cláudia Salazar", "36.º Inês Monteiro", "37.º Bernardo Moreira de Campos", "38.º Carlota Teixeira", "39.º Pedro Ribeiro", "40.º Rui Terroso"],"Suplentes": ["1.º Ana Madureira", "2.º Miguel Tato Diogo", "3.º Diogo Augusto", "4.º Jacinta Sampaio", "5.º Pedro Ribeiro"]},
-                "Santarém": {"Efetivos": ["1.º Marcos Perestrello", "2.º Hugo Costa", "3.º Mara Lagriminha", "4.º Francisco Dinis", "5.º Tatiana Silvestre", "6.º Gustavo Costa", "7.º Pedro Gomes", "8.º Mafalda Fonseca", "9.º Catarina Martins"],"Suplentes": ["1.º Rodolfo Colhe", "2.º Isabel Costa", "3.º Daniela Casaca", "4.º João Rabita", "5.º Joel Marques"]},
-                "Setúbal": {"Efetivos": ["1.º António Mendonça Mendes", "2.º Eurídice Pereira", "3.º André Pinotes Batista", "4.º Margarida Afonso", "5.º Carlos Pereira", "6.º Ivan Gonçalves", "7.º Patrícia Caixinha", "8.º Nuno Mascarenhas", "9.º Joana Vaz", "10.º Emanuel Costa", "11.º Maria João Reis", "12.º Vítor Ferreira", "13.º Emanuel Fazbulha Marques", "14.º Iolanda Nunes", "15.º Luís Carvalho", "16.º Mariana Almeida", "17.º Rodrigo Charrua", "18.º Bruno Ferreira", "19.º Lara Andrade"],"Suplentes": ["1.º Hélder Moutinho", "2.º Sónia Alho", "3.º José Manuel Santos", "4.º Rute Filipe Moura", "5.º Diogo Pereira"]},
-                "Viana do Castelo": {"Efetivos": ["1.º Marina Gonçalves", "2.º José Maria Costa", "3.º Carlos Barbosa", "4.º Soraia Domingues", "5.º Flávia Afonso"],"Suplentes": ["1.º Acácio Fernandes", "2.º Margarida Vasconcelos", "3.º Cláudia Gomes", "4.º José Machado", "5.º Rui Sousa"]},
-                "Vila Real": {"Efetivos": ["1.º Rui Santos", "2.º Fátima Correia Pinto", "3.º Agostinho Santa", "4.º Susana Barroso", "5.º Carlos Martins"],"Suplentes": ["1.º Manuel Pinto", "2.º Diana Filipa Mourão", "3.º Pedro Espírito Santo", "4.º Ana Patrícia Alves", "5.º Ema Gonçalo"]},
-                "Viseu": {"Efetivos": ["1.º Elza Pais", "2.º Armando Mourisco", "3.º João Paulo Rebelo", "4.º Milene Matos", "5.º Ana Catarina Rocha", "6.º Gonçalo Ginestal", "7.º Mariana Borges", "8.º Fátima Lopes"],"Suplentes": ["1.º Sidónio Clemêncio", "2.º Eurico Moita", "3.º Ana Carla Costa", "4.º Diogo Lucena", "5.º Cilene Lindinho"]},
-                "Região Autónoma dos Açores": {"Efetivos": ["1.º Francisco César", "2.º Sérgio Ávila", "3.º Renata Botelho", "4.º Hugo Pacheco", "5.º Márcia Pereira"],"Suplentes": ["1.º Pedro Teixeira", "2.º Bernardete Pacheco", "3.º Lisandra Freitas", "4.º Rui Pimentel", "5.º Lisete Albuquerque"]},
-                "Região Autónoma da Madeira": {"Efetivos": ["1.º João Emanuel Silva Câmara", "2.º Sofia Canha", "3.º Gonçalo Moniz Jardim", "4.º Patrícia Agrela", "5.º Nilson Freitas Jardim", "6.º Catarina Mendes"],"Suplentes": ["1.º Duarte Gil Fernandes", "2.º Ana Sofia Freitas", "3.º Duarte Silvino", "4.º Cláudia Costa", "5.º Solana Gomes"]},
-                "Europa": {"Efetivos": ["1.º Emília Ribeiro", "2.º Ana Maria Pica"],"Suplentes": ["1.º Tiago Corais", "2.º Carlos Pereira"]},
-                "Fora da Europa": {"Efetivos": ["1.º Vítor Silva", "2.º Ana Cristina Contreiras"],"Suplentes": ["1.º Maria José Grosso", "2.º Fernando Campos Topa"]}
+            "PS": {
+        "Aveiro": {
+            "Efetivos": ["1.º Pedro Nuno Santos", "2.º Susana Correia", "3.º Hugo Oliveira", "4.º Filipe Neto Brandão", "5.º Lia Ferreira", "6.º Paulo Tomaz", "7.º Nuno Almeida", "8.º Ana Marta Matos", "9.º Catarina Gamelas", "10.º José António Rocha", "11.º Ricardo Conceição", "12.º Daniela Gonçalinho", "13.º Pedro Sousa", "14.º João Figueiredo", "15.º Cláudia Campos", "16.º Ana Patrícia Ferreira"],
+            "Suplentes": ["1.º Justino Monteiro", "2.º La Salete Oliveira", "3.º Eduardo Conde", "4.º Ana Maria Silva", "5.º Irene Guimarães"]
+        },
+        "Beja": {
+            "Efetivos": ["1.º Pedro do Carmo", "2.º Telma Guerreiro", "3.º Juvenália Salgado"],
+            "Suplentes": ["1.º João Catarino", "2.º Júlia Baltazar", "3.º Paulo Costa e Silva"]
+        },
+        "Braga": {
+            "Efetivos": ["1.º José Luis Carneiro", "2.º Sandra Lopes", "3.º Pedro Sousa", "4.º Paulo Silva", "5.º Irene Costa", "6.º Hernâni Loureiro", "7.º Gilberto Anjos", "8.º Isabel Costa", "9.º Pompeu Martins", "10.º Vânia Cruz", "11.º Nuno Barreto", "12.º Teresa Elsa Costa", "13.º Joana Madail", "14.º José Arnaldo Vareiro", "15.º Anabela Alves", "16.º Inês Rodrigues", "17.º Óscar Miranda", "18.º Diana Silva", "19.º Francisco Macedo"],
+            "Suplentes": ["1.º Cristina Leite", "2.º Sérgio Manuel Matos", "3.º Rita Jorge Faria"]
+        },
+        "Bragança": {
+            "Efetivos": ["1.º Júlia Rodrigues", "2.º Rui Vilarinho", "3.º Caroline Pereira"],
+            "Suplentes": ["1.º Francisco Marcos", "2.º Orlando Borges", "3.º Andréia Bento"]
+        },
+        "Castelo Branco": {
+            "Efetivos": ["1.º Nuno Fazenda", "2.º Carla Massano", "3.º Tiago Monteiro", "4.º José Pedro Ferreira"],
+            "Suplentes": ["1.º Ana Carminho Fonseca", "2.º Joana Sardinha", "3.º Luís Seguro", "4.º Isaura Ferreira"]
+        },
+        "Coimbra": {
+            "Efetivos": ["1.º Pedro Delgado Alves", "2.º Rosa Isabel Cruz", "3.º Pedro Coimbra", "4.º Daniel Azenha", "5.º Olga Nunes", "6.º Áurea Andrade", "7.º Paulo Carreiró", "8.º Lara Henriques", "9.º Fátima Nunes"],
+            "Suplentes": ["1.º Hugo Silva", "2.º Catarina Sá", "3.º Ruben Fernandes", "4.º Ângela Pinto Correia", "5.º Américo Figueiredo"]
+        },
+        "Évora": {
+            "Efetivos": ["1.º Luís Dias", "2.º Cláudia Sousa Pereira", "3.º Tiago Pardal"],
+            "Suplentes": ["1.º Élia Quintas", "2.º Carla Godinho Pereira", "3.º Rui Rosado"]
+        },
+        "Faro": {
+            "Efetivos": ["1.º Jamila Madeira", "2.º Jorge Botelho", "3.º Luís Graça", "4.º Andreia Sousa", "5.º Vítor Guerreiro", "6.º Custódio Moreno", "7.º Ana Cruz", "8.º David Heijselaar", "9.º Ana Almeida"],
+            "Suplentes": ["1.º Victor Santos", "2.º Ernesto Ramos", "3.º Rosa Nunes", "4.º Ana Cristina Santos", "5.º Água da Cruz"]
+        },
+        "Guarda": {
+            "Efetivos": ["1.º Aida Carvalho", "2.º Ana Margarida Cardoso", "3.º Fábio Pinto"],
+            "Suplentes": ["1.º Miguel Will", "2.º Tânia Martinho", "3.º António Miguel Carvalho"]
+        },
+        "Leiria": {
+            "Efetivos": ["1.º Eurico Brilhante Dias", "2.º Ana Catarina Louro", "3.º Salvador Formiga", "4.º Ricardo Lopes", "5.º Diana Pais", "6.º Lilibeth Ferreira", "7.º Luís Duarte", "8.º Natália Marim", "9.º Henrique Estrelinha", "10.º Maria Adelaide Luís"],
+            "Suplentes": ["1.º Diogo Ramalho", "2.º Cristina Moreira", "3.º Rodrigo Escapa", "4.º Célia Afra", "5.º Carlos Matos"]
+        },
+        "Lisboa": {
+            "Efetivos": ["1.º Mariana Vieira da Silva", "2.º Miguel Cabrita", "3.º Edite Estrela", "4.º Frederico Francisco", "5.º Pedro Vaz", "6.º Isabel Moreira", "7.º Ricardo Lima", "8.º Eva Cruzeiro", "9.º Miguel Costa Matos", "10.º Ana Paulo Bernardo", "11.º André Rijo", "12.º Davide Amado", "13.º Maria Begonha", "14.º Pedro Pinto de Jesus", "15.º Hugo Mendes", "16.º Ana Umbelino", "17.º João Serrano", "18.º Catarina Oliveira", "19.º Pedro Brás", "20.º Filipe Santos Costa", "21.º Vera Bráz", "22.º Manuel Neves", "23.º Diogo Leão", "24.º Cátia Rosas", "25.º Vítor Moreira", "26.º Carla Madeira", "27.º Bruno Magro", "28.º Miguel Samora", "29.º Cláudia Ninhos", "30.º Cláudia Leitão", "31.º Rodrigo Silva", "32.º Vanessa Porto", "33.º Ângela Ferreira", "34.º Pedro Costa", "35.º Susana Lopes", "36.º Eunice Proença", "37.º João Pedro Baião", "38.º Jorge Cristino", "39.º Ana Ivo da Silva", "40.º Duarte Marçal", "41.º Ana Carla Costa", "42.º Fábio Amorim", "43.º Nuno Carolo", "44.º Maisa Bastos", "45.º Sérgio Alexandre", "46.º Vasco Prada", "47.º Maria Santos", "48.º Fernando Machado Gomes"],
+            "Suplentes": ["1.º Guilherme Teixeirinha", "2.º Diana Mota", "3.º Tiago Santos", "4.º Ana Janeiro"]
+        },
+        "Portalegre": {
+            "Efetivos": ["1.º Luís Moreira Testa", "2.º Ricardo Pinheiro"],
+            "Suplentes": ["1.º Ana Sofia Rosa", "2.º Carolina Filipe"]
+        },
+        "Porto": {
+            "Efetivos": ["1.º Fernando Araújo", "2.º Sofia Pereira", "3.º João Torres", "4.º Tiago Barbosa Ribeiro", "5.º Patrícia Faro", "6.º Porfírio Silva", "7.º Joana Lima", "8.º Eduardo Pinheiro", "9.º Dália Miranda", "10.º Humberto Brito", "11.º José Carlos Barbosa", "12.º Sofia Andrade", "13.º Carlos Brás", "14.º Joana Campos", "15.º Micael Cardoso", "16.º Catarina Lobo", "17.º António Faria", "18.º Lurdes Castro", "19.º Ana Marta Silva", "20.º Rui Teixeira", "21.º Gabriel Carvalho", "22.º Carolina Macedo dos Santos", "23.º Cândido Zoio", "24.º Gonçalo Angeiras", "25.º Isa Pereira", "26.º Miguel Rodrigues", "27.º Catarina Isabel Assis Sousa", "28.º Diogo Silva", "29.º Diogo Almeida e Silva", "30.º Luísa Felizardo", "31.º Beatriz Carvalho", "32.º Hugo Padilha", "33.º Patrícia Almeida", "34.º Armando Leal", "35.º Cláudia Salazar", "36.º Inês Monteiro", "37.º Bernardo Moreira de Campos", "38.º Carlota Teixeira", "39.º Pedro Ribeiro", "40.º Rui Terroso"],
+            "Suplentes": ["1.º Ana Madureira", "2.º Miguel Tato Diogo", "3.º Diogo Augusto", "4.º Jacinta Sampaio", "5.º Pedro Ribeiro"]
+        },
+        "Santarém": {
+            "Efetivos": ["1.º Marcos Perestrello", "2.º Hugo Costa", "3.º Mara Lagriminha", "4.º Francisco Dinis", "5.º Tatiana Silvestre", "6.º Gustavo Costa", "7.º Pedro Gomes", "8.º Mafalda Fonseca", "9.º Catarina Martins"],
+            "Suplentes": ["1.º Rodolfo Colhe", "2.º Isabel Costa", "3.º Daniela Casaca", "4.º João Rabita", "5.º Joel Marques"]
+        },
+        "Setúbal": {
+            "Efetivos": ["1.º António Mendonça Mendes", "2.º Eurídice Pereira", "3.º André Pinotes Batista", "4.º Margarida Afonso", "5.º Carlos Pereira", "6.º Ivan Gonçalves", "7.º Patrícia Caixinha", "8.º Nuno Mascarenhas", "9.º Joana Vaz", "10.º Emanuel Costa", "11.º Maria João Reis", "12.º Vítor Ferreira", "13.º Emanuel Fazbulha Marques", "14.º Iolanda Nunes", "15.º Luís Carvalho", "16.º Mariana Almeida", "17.º Rodrigo Charrua", "18.º Bruno Ferreira", "19.º Lara Andrade"],
+            "Suplentes": ["1.º Hélder Moutinho", "2.º Sónia Alho", "3.º José Manuel Santos", "4.º Rute Filipa Moura", "5.º Diogo Pereira"]
+        },
+        "Viana do Castelo": {
+            "Efetivos": ["1.º Marina Gonçalves", "2.º José Maria Costa", "3.º Carlos Barbosa", "4.º Soraia Domingues", "5.º Flávia Afonso"],
+            "Suplentes": ["1.º Acácio Fernandes", "2.º Margarida Vasconcelos", "3.º Cláudia Gomes", "4.º José Machado", "5.º Rui Sousa"]
+        },
+        "Vila Real": {
+            "Efetivos": ["1.º Rui Santos", "2.º Fátima Correia Pinto", "3.º Agostinho Santa", "4.º Susana Barroso", "5.º Carlos Martins"],
+            "Suplentes": ["1.º Manuel Pinto", "2.º Diana Filipa Mourão", "3.º Pedro Espírito Santo", "4.º Ana Patrícia Alves", "5.º Ema Gonçalo"]
+        },
+        "Viseu": {
+            "Efetivos": ["1.º Elza Pais", "2.º Armando Mourisco", "3.º João Paulo Rebelo", "4.º Milene Matos", "5.º Ana Catarina Rocha", "6.º Gonçalo Ginestal", "7.º Mariana Borges", "8.º Fátima Lopes"],
+            "Suplentes": ["1.º Sidónio Clemêncio", "2.º Eurico Moita", "3.º Ana Carla Costa", "4.º Diogo Lucena", "5.º Cilene Lindinho"]
+        },
+        "Região Autónoma dos Açores": {
+            "Efetivos": ["1.º Francisco César", "2.º Sérgio Ávila", "3.º Renata Botelho", "4.º Hugo Pacheco", "5.º Márcia Pereira"],
+            "Suplentes": ["1.º Pedro Teixeira", "2.º Bernardete Pacheco", "3.º Lisandra Freitas", "4.º Rui Pimentel", "5.º Lisete Albuquerque"]
+        },
+        "Região Autónoma da Madeira": {
+            "Efetivos": ["1.º João Emanuel Silva Câmara", "2.º Sofia Canha", "3.º Gonçalo Moniz Jardim", "4.º Patrícia Agrela", "5.º Nilson Freitas Jardim", "6.º Catarina Mendes"],
+            "Suplentes": ["1.º Duarte Gil Fernandes", "2.º Ana Sofia Freitas", "3.º Duarte Silvino", "4.º Cláudia Costa", "5.º Solana Gomes"]
+        },
+        "Europa": {
+            "Efetivos": ["1.º Emília Ribeiro", "2.º Ana Maria Pica"],
+            "Suplentes": ["1.º Tiago Corais", "2.º Carlos Pereira"]
+        },
+        "Fora da Europa": {
+            "Efetivos": ["1.º Vítor Silva", "2.º Ana Cristina Contreiras"],
+            "Suplentes": ["1.º Maria José Grosso", "2.º Fernando Campos Topa"]
+            }
             },
             "Livre": { // Sem alterações na numeração destes, já estava correto
                 "Aveiro": {"Efetivos": ["1.º Filipe Honório", "2.º Joana Filipe", "3.º Salomé Gomes", "4.º Rúben Vieira", "5.º Bruno Santos Fonseca", "6.º Maria Bastos", "7.º João Paixão", "8.º João Quintela", "9.º Rúben Elias", "10.º Diogo Silva", "11.º Diogo Fernandes de Sousa"],"Suplentes": []},
@@ -444,7 +510,7 @@
                 "Faro": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
                 "Guarda": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
                 "Leiria": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
-                "Lisboa": {"Efetivos": ["Inês de Sousa Real (restantes nomes por divulgar)"],"Suplentes": []},
+                "Lisboa": {"Efetivos": ["1.º Inês de Sousa Real", "2.º António Morgado Valente", "restantes nomes por divulgar"],"Suplentes": []},
                 "Portalegre": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
                 "Porto": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
                 "Santarém": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
@@ -477,7 +543,7 @@
                 "Vila Real": {"Efetivos": ["1.º Ana Paula Martins", "2.º Amílcar Almeida", "3.º Fernando Queiroga", "4.º Ana Silveira", "5.º candidato do CDS por revelar"],"Suplentes": ["1.º André Marques", "2.º Paula Costa", "3.º Jaime Abreu", "4.º José Braz", "5.º candidato do PSD por revelar"]},
                 "Viseu": {"Efetivos": ["1.º António Leitão Amaro", "2.º Pedro Alves", "3.º Inês Domingos", "4.º Carlos Silva Santiago", "5.º Rui Ladeira", "6.º Isabel Fernandes", "7.º candidato do CDS por revelar", "8.º Bruno Faria"],"Suplentes": ["1.º Maria Francisca Damião", "2.º Ângela Silva", "3.º João Paulo Fonseca", "4.º Célia Grilo", "5.º Florbela Soutinho"]},
                 "Região Autónoma dos Açores": {"Efetivos": ["1.º Paulo Alexandre Luís Botelho Moniz", "2.º Francisco José Duarte Pimentel", "3.º Maria Nuna Monteiro Vila Lobos Menezes", "4.º Maria Inês Gouveia", "5.º candidato do CDS por revelar"],"Suplentes": ["1.º Judite da Conceição Azevedo Simas", "2.º Florbela Maria Pinto Varandas Cunha", "3.º Daniel Lima Silva", "4.º Ricardo Alexandre Gomes Paiva", "5.º Esmeralda Maria Rodrigues Câmara Lourenço"]},
-                "Região Autónoma da Madeira": {"Efetivos": ["Esta coligação não concorre neste círculo eleitoral"],"Suplentes": []},
+                "Região Autónoma da Madeira": {"Efetivos": ["os candidatos a deputados não concorrem sob a designação AD-Coligação PSD/CDS. Os candidatos concorrem pelo PSD-Madeira/CDS-Madeira. Na eleição anterior, em 2024, aconteceu o mesmo, tendo sido eleitos três deputados do PSD-Madeira. Segue-se a lista deste ano:","1.º Pedro Coelho (PSD-Madeira)", "2.º Vânia Jesus (PSD-Madeira)", "3.º Paulo Neves (PSD-Madeira)", "4.º Bruno Sousa (PSD-Madeira)", "5.º Cristina Monteiro (CDS-Madeira)", "6.º Bruna Perry (PSD-Madeira)" ],"Suplentes": []},
                 "Europa": {"Efetivos": ["1.º José Manuel Fernandes", "2.º Carlos Gonçalves"],"Suplentes": ["1.º candidato do PSD por revelar", "2.º candidato do PSD por revelar"]},
                 "Fora da Europa": {"Efetivos": ["1.º José Cesário", "2.º Flávio Martins"],"Suplentes": ["1.º candidato do PSD por revelar", "2.º candidato do CDS por revelar"]}
             },
@@ -506,28 +572,28 @@
                 "Fora da Europa": {"Efetivos": ["1.º Christian Hohn"],"Suplentes": []}
             },
             "Chega": { // Sem alterações
-                "Aveiro": {"Efetivos": ["1.º Pedro Frazão (restantes nomes por divulgar)"],"Suplentes": []},
-                "Beja": {"Efetivos": ["1.º Rui Cristina (restantes nomes por divulgar)"],"Suplentes": []},
-                "Braga": {"Efetivos": ["1.º Filipe Melo (restantes nomes por divulgar)"],"Suplentes": []},
+                "Aveiro": {"Efetivos": ["1.º Pedro Frazão", "restantes nomes por divulgar"],"Suplentes": []},
+                "Beja": {"Efetivos": ["1.º Rui Cristina", "restantes nomes por divulgar"],"Suplentes": []},
+                "Braga": {"Efetivos": ["1.º Filipe Melo", "restantes nomes por divulgar"],"Suplentes": []},
                 "Bragança": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
                 "Castelo Branco": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
-                "Coimbra": {"Efetivos": ["1.º Paulo Seco (restantes nomes por divulgar)"],"Suplentes": []},
-                "Évora": {"Efetivos": ["1.º Jorge Galveias (restantes nomes por divulgar)"],"Suplentes": []},
-                "Faro": {"Efetivos": ["1.º Pedro Pinto (restantes nomes por divulgar)"],"Suplentes": []},
-                "Guarda": {"Efetivos": ["1.º Simões de Melo (restantes nomes por divulgar)"],"Suplentes": []},
+                "Coimbra": {"Efetivos": ["1.º Paulo Seco", "restantes nomes por divulgar"],"Suplentes": []},
+                "Évora": {"Efetivos": ["1.º Jorge Galveias", "restantes nomes por divulgar"],"Suplentes": []},
+                "Faro": {"Efetivos": ["1.º Pedro Pinto", "restantes nomes por divulgar"],"Suplentes": []},
+                "Guarda": {"Efetivos": ["1.º Simões de Melo", "restantes nomes por divulgar"],"Suplentes": []},
                 "Leiria": {"Efetivos": ["Ainda não apresentou candidatos por este círculo eleitoral"],"Suplentes": []},
-                "Lisboa": {"Efetivos": ["1.º André Ventura (restantes nomes por divulgar)"],"Suplentes": []},
-                "Portalegre": {"Efetivos": ["1.º João Aleixo (restantes nomes por divulgar)"],"Suplentes": []},
-                "Porto": {"Efetivos": ["1.º Rui Afonso (restantes nomes por divulgar)"],"Suplentes": []},
-                "Santarém": {"Efetivos": ["1.º Pedro Correia (restantes nomes por divulgar)"],"Suplentes": []},
-                "Setúbal": {"Efetivos": ["1.º Rita Matias (restantes nomes por divulgar)"],"Suplentes": []},
-                "Viana do Castelo": {"Efetivos": ["1.º Eduardo Teixeira (restantes nomes por divulgar)"],"Suplentes": []},
-                "Vila Real": {"Efetivos": ["1.º Manuela Tender (restantes nomes por divulgar)"],"Suplentes": []},
-                "Viseu": {"Efetivos": ["1.º João Tilly (restantes nomes por divulgar)"],"Suplentes": []},
-                "Região Autónoma dos Açores": {"Efetivos": ["1.º Francisco Lima (restantes nomes por divulgar)"],"Suplentes": []},
-                "Região Autónoma da Madeira": {"Efetivos": ["1.º Francisco Gomes (restantes nomes por divulgar)"],"Suplentes": []},
-                "Europa": {"Efetivos": ["1.º José Fernandes (restantes nomes por divulgar)"],"Suplentes": []},
-                "Fora da Europa": {"Efetivos": ["1.º Manuel Magno (restantes nomes por divulgar)"],"Suplentes": []}
+                "Lisboa": {"Efetivos": ["1.º André Ventura", "restantes nomes por divulgar"],"Suplentes": []},
+                "Portalegre": {"Efetivos": ["1.º João Aleixo", "restantes nomes por divulgar"],"Suplentes": []},
+                "Porto": {"Efetivos": ["1.º Rui Afonso", "restantes nomes por divulgar"],"Suplentes": []},
+                "Santarém": {"Efetivos": ["1.º Pedro Correia", "restantes nomes por divulgar"],"Suplentes": []},
+                "Setúbal": {"Efetivos": ["1.º Rita Matias", "restantes nomes por divulgar"],"Suplentes": []},
+                "Viana do Castelo": {"Efetivos": ["1.º Eduardo Teixeira", "restantes nomes por divulgar"],"Suplentes": []},
+                "Vila Real": {"Efetivos": ["1.º Manuela Tender", "restantes nomes por divulgar"],"Suplentes": []},
+                "Viseu": {"Efetivos": ["1.º João Tilly", "restantes nomes por divulgar"],"Suplentes": []},
+                "Região Autónoma dos Açores": {"Efetivos": ["1.º Francisco Lima", "restantes nomes por divulgar"],"Suplentes": []},
+                "Região Autónoma da Madeira": {"Efetivos": ["1.º Francisco Gomes", "restantes nomes por divulgar"],"Suplentes": []},
+                "Europa": {"Efetivos": ["1.º José Fernandes", "restantes nomes por divulgar"],"Suplentes": []},
+                "Fora da Europa": {"Efetivos": ["1.º Manuel Magno", "restantes nomes por divulgar"],"Suplentes": []}
             }
         };
         // --- FIM DOS DADOS CORRIGIDOS ---
@@ -541,24 +607,24 @@
             // Deputados por Círculo Eleitoral
             "Aveiro": {"AD": 7, "PS": 5, "Chega": 3, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
             "Beja": {"AD": 1, "PS": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Braga": {"AD": 8, "PS": 6, "Chega": 3, "IL": 1, "BE": 1, "CDU": 0, "Livre": 0, "PAN": 0},
+            "Braga": {"AD": 8, "PS": 6, "Chega": 4, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
             "Bragança": {"AD": 2, "PS": 1, "Chega": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Castelo Branco": {"AD": 2, "PS": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Coimbra": {"AD": 3, "PS": 3, "Chega": 2, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+            "Castelo Branco": {"AD": 1, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+            "Coimbra": {"AD": 3, "PS": 4, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
             "Évora": {"PS": 1, "AD": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Faro": {"PS": 3, "AD": 3, "Chega": 2, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Guarda": {"AD": 2, "PS": 1, "Chega": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Leiria": {"AD": 4, "PS": 3, "Chega": 2, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Lisboa": {"PS": 15, "AD": 14, "Chega": 9, "IL": 4, "BE": 2, "Livre": 2, "CDU": 1, "PAN": 1},
-            "Portalegre": {"PS": 1, "AD": 1, "Chega": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Porto": {"AD": 14, "PS": 13, "Chega": 7, "IL": 2, "BE": 1, "Livre": 1, "CDU": 1, "PAN": 1}, // Corrigido para incluir PAN
+            "Faro": {"PS": 3, "AD": 3, "Chega": 3, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+            "Guarda": {"AD": 1, "PS": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+            "Leiria": {"AD": 5, "PS": 3, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+            "Lisboa": {"PS": 15, "AD": 14, "Chega": 9, "IL": 3, "BE": 2, "Livre": 2, "CDU": 2, "PAN": 1},
+            "Portalegre": {"PS": 1, "AD": 0, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+            "Porto": {"AD": 14, "PS": 13, "Chega": 7, "IL": 2, "BE": 2, "Livre": 1, "CDU": 1, "PAN": 0}, // Corrigido para incluir PAN
             "Santarém": {"PS": 3, "AD": 3, "Chega": 3, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Setúbal": {"PS": 7, "AD": 5, "Chega": 4, "CDU": 1, "BE": 1, "Livre": 1, "IL": 0, "PAN": 0},
+            "Setúbal": {"PS": 7, "AD": 4, "Chega": 4, "CDU": 1, "BE": 1, "Livre": 1, "IL": 1, "PAN": 0},
             "Viana do Castelo": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
             "Vila Real": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Viseu": {"AD": 4, "PS": 3, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+            "Viseu": {"AD": 3, "PS": 3, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
             "Região Autónoma dos Açores": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-            "Região Autónoma da Madeira": {"AD": 3, "PS": 3, "Chega": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0}, // AD aqui é PPD/PSD.CDS-PP
+            "Região Autónoma da Madeira": {"AD": 3, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0}, // AD aqui é PPD/PSD.CDS-PP
             "Europa": {"Chega": 1, "PS": 1, "AD": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
             "Fora da Europa": {"AD": 1, "Chega": 1, "PS": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0}
         };
@@ -633,9 +699,9 @@
             const formatDeputyText = (count, type) => {
                 if (typeof count !== 'number') return ''; // Se não houver dados, não mostra nada
                 if (type === 'total') {
-                     return `elegeu ${count} deputado${count !== 1 ? 's' : ''} em 2024`;
+                     return `elegeu <b>${count}</b> deputado${count !== 1 ? 's' : ''} a nível nacional em 2024`;
                 } else if (type === 'district') {
-                     return `elegeu ${count} deputado${count !== 1 ? 's' : ''} neste círculo em 2024`;
+                     return `elegeu <b>${count}</b> deputado${count !== 1 ? 's' : ''} neste círculo em 2024.</br> eis os candidatos em 2025:`;
                 }
                 return '';
             };
@@ -650,7 +716,7 @@
                     // Se o filtro for para um partido específico e ele não tiver candidatos, mostra a mensagem especial
                     if (party !== 'todos' && !hasCandidates) {
                         let partyDisplayName = p;
-                        if (p === 'AD') partyDisplayName = 'AD - Coligação PSD-CDS';
+                        if (p === 'AD') partyDisplayName = 'AD - Coligação PSD/CDS';
 
                         // <<< ALTERAÇÃO >>> Busca o total de deputados mesmo para partidos sem candidatos (se aplicável)
                         const totalDeputies = deputados2024Data.TOTAL[p];
@@ -753,7 +819,7 @@
                     // Se foram encontrados resultados para este partido, monta o card completo
                      if (partyResultsFound) {
                         let partyDisplayName = p;
-                        if (p === 'AD') partyDisplayName = 'AD - Coligação PSD-CDS';
+                        if (p === 'AD') partyDisplayName = 'AD - Coligação PSD/CDS';
 
                         // <<< ALTERAÇÃO >>> Busca o total de deputados para o cabeçalho do partido
                         const totalDeputies = deputados2024Data.TOTAL[p];
@@ -769,7 +835,7 @@
                         }
                         // Adiciona nota específica para o Livre
                         if (p === 'Livre') {
-                             html += `<span class="party-note">Nota: não é a lista final - trata-se da lista resultante da votação nas primárias.</span>`;
+                             html += `<span class="party-note">nota: a lista em baixo não é a final - trata-se da lista resultante da votação nas primárias.</span>`;
                         }
                         // Adiciona o HTML dos distritos/candidatos encontrado
                         html += partyHtml;
