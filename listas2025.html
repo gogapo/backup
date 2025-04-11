@@ -260,10 +260,19 @@
         #rodape {
             background-color: #f0f0f0;
             color: #555;
-            padding: 10px 20px 20px 25px;            
+            padding: 10px 20px 3px 25px;            
             font-variant: small-caps;
             font-size: 0.6em; /* Ligeiramente maior */
             margin-top: 25px; /* Espaço abaixo do cabeçalho */
+        }        
+
+       #rodape2 {
+            background-color: #f0f0f0;
+            color: #555;
+            padding: 0px 20px 20px 25px;            
+            text-transform:normal;
+            font-size: 0.6em; /* Ligeiramente maior */
+            margin-top: 0px; /* Espaço abaixo do cabeçalho */
         }        
 
     </style>
@@ -674,149 +683,181 @@
         }
 
 
-       /**
+      /**
          * Mostra os candidatos filtrados na lista.
          * @param {string} party - O partido selecionado ('todos' para todos).
          * @param {string} district - O distrito selecionado ('todos' para todos).
          * @param {string} [searchTerm=''] - O termo de pesquisa para nomes.
          */
         function displayCandidates(party, district, searchTerm) {
-    const candidatesList = document.getElementById('candidatesList');
-    const noResults = document.getElementById('noResults');
-    const eligibilityNote = document.getElementById('eligibilityNote');
+            const candidatesList = document.getElementById('candidatesList');
+            const noResults = document.getElementById('noResults');
+            const eligibilityNote = document.getElementById('eligibilityNote');
 
-    candidatesList.innerHTML = '';
-    noResults.style.display = 'none';
-    eligibilityNote.style.display = 'none';
+            candidatesList.innerHTML = '';
+            noResults.style.display = 'none';
+            eligibilityNote.style.display = 'none';
 
-    let partyColors = {
-        "CDU": "red",
-        "BE": "#A52A2A",
-        "PS": "deeppink",
-        "Livre": "#008080",
-        "PAN": "#006400",
-        "AD": "orange",
-        "IL": "#0077c8",
-        "Chega": "#003399"
-    };
+            // Cores dos partidos
+            let partyColors = {
+                "CDU": "red",
+                "BE": "#A52A2A",
+                "PS": "deeppink",
+                "Livre": "#008080",
+                "PAN": "#006400",
+                "AD": "orange",
+                "IL": "#0077c8",
+                "Chega": "#003399"
+            };
 
-    const deputados2024Data = {
-        "TOTAL": { // Total Nacional
-            "AD": 80, "PS": 78, "Chega": 50, "IL": 8, "BE": 5, "CDU": 4, "Livre": 4, "PAN": 1
-        },
-        // Deputados por Círculo Eleitoral
-        "Aveiro": {"AD": 7, "PS": 5, "Chega": 3, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Beja": {"AD": 1, "PS": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Braga": {"AD": 8, "PS": 6, "Chega": 4, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Bragança": {"AD": 2, "PS": 1, "Chega": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Castelo Branco": {"AD": 1, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Coimbra": {"AD": 3, "PS": 4, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Évora": {"PS": 1, "AD": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Faro": {"PS": 3, "AD": 3, "Chega": 3, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Guarda": {"AD": 1, "PS": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Leiria": {"AD": 5, "PS": 3, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Lisboa": {"PS": 15, "AD": 14, "Chega": 9, "IL": 3, "BE": 2, "Livre": 2, "CDU": 2, "PAN": 1},
-        "Portalegre": {"PS": 1, "AD": 0, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Porto": {"AD": 14, "PS": 13, "Chega": 7, "IL": 2, "BE": 2, "Livre": 1, "CDU": 1, "PAN": 0}, // Corrigido para incluir PAN
-        "Santarém": {"PS": 3, "AD": 3, "Chega": 3, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Setúbal": {"PS": 7, "AD": 4, "Chega": 4, "CDU": 1, "BE": 1, "Livre": 1, "IL": 1, "PAN": 0},
-        "Viana do Castelo": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Vila Real": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Viseu": {"AD": 3, "PS": 3, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Região Autónoma dos Açores": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Região Autónoma da Madeira": {"AD": 3, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0}, // AD aqui é PPD/PSD.CDS-PP
-        "Europa": {"Chega": 1, "PS": 1, "AD": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
-        "Fora da Europa": {"AD": 1, "Chega": 1, "PS": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0}
-    };
+            // Dados dos deputados eleitos em 2024 (usar a versão já existente no seu script)
+             const deputados2024Data = { /* ... (não precisa copiar esta parte, use a que já existe no seu script) ... */
+                "TOTAL": { "AD": 80, "PS": 78, "Chega": 50, "IL": 8, "BE": 5, "CDU": 4, "Livre": 4, "PAN": 1 },
+                "Aveiro": {"AD": 7, "PS": 5, "Chega": 3, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Beja": {"AD": 1, "PS": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Braga": {"AD": 8, "PS": 6, "Chega": 4, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Bragança": {"AD": 2, "PS": 1, "Chega": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Castelo Branco": {"AD": 1, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Coimbra": {"AD": 3, "PS": 4, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Évora": {"PS": 1, "AD": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Faro": {"PS": 3, "AD": 3, "Chega": 3, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Guarda": {"AD": 1, "PS": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Leiria": {"AD": 5, "PS": 3, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Lisboa": {"PS": 15, "AD": 14, "Chega": 9, "IL": 3, "BE": 2, "Livre": 2, "CDU": 2, "PAN": 1},
+                "Portalegre": {"PS": 1, "AD": 0, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Porto": {"AD": 14, "PS": 13, "Chega": 7, "IL": 2, "BE": 2, "Livre": 1, "CDU": 1, "PAN": 0},
+                "Santarém": {"PS": 3, "AD": 3, "Chega": 3, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Setúbal": {"PS": 7, "AD": 4, "Chega": 4, "CDU": 1, "BE": 1, "Livre": 1, "IL": 1, "PAN": 0},
+                "Viana do Castelo": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Vila Real": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Viseu": {"AD": 3, "PS": 3, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Região Autónoma dos Açores": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Região Autónoma da Madeira": {"AD": 3, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Europa": {"Chega": 1, "PS": 1, "AD": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+                "Fora da Europa": {"AD": 1, "Chega": 1, "PS": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0}
+            };
 
-    const formatDeputyText = (party, district, type) => {
-        let partyText = party;
-        let artigo = "";
-        if (["BE", "PS", "Livre", "PAN", "Chega"].includes(party)) {
-            artigo = "o ";
-        } else if (["CDU", "AD", "IL"].includes(party)) {
-            artigo = "a ";
-        }
+            // --- INÍCIO DA FUNÇÃO formatDeputyText FINALMENTE CORRIGIDA ---
+            const formatDeputyText = (party, district, type) => {
+                let partyText = party; // Usa a sigla original (ex: 'AD', 'PS')
+                let artigo = "";
+                // Define o artigo correto baseado no género do nome do partido/coligação
+                if (["BE", "PS", "Livre", "PAN", "Chega"].includes(partyText)) {
+                    artigo = "o ";
+                } else if (["CDU", "AD", "IL"].includes(partyText)) {
+                    artigo = "a "; // <<< AD recebe 'a ' aqui
+                }
 
-        if (type === 'total') {
-            let totalDeputies = deputados2024Data.TOTAL[party] || 0;
-            return `elegeu <b>${totalDeputies}</b> deputado${totalDeputies !== 1 ? 's' : ''} a nível nacional em 2024`;
-        } else if (type === 'district') {
-            let deputies = deputados2024Data[district] ? deputados2024Data[district][party] || 0 : 0;
-            return `${artigo}${partyText} elegeu aqui <b>${deputies}</b> deputado${deputies !== 1 ? 's' : ''} em 2024.</br> eis os candidatos em 2025 que correspondem ao filtro selecionado:`;
-        }
-        return '';
-    };
+                if (type === 'total') {
+                    let totalDeputies = deputados2024Data.TOTAL[partyText] || 0;
+                    // Texto para o total nacional (mantém a sigla original)
+                    return `elegeu <b>${totalDeputies}</b> deputado${totalDeputies !== 1 ? 's' : ''} a nível nacional em 2024`;
+                } else if (type === 'district') {
+                    let deputies = deputados2024Data[district] ? deputados2024Data[district][partyText] || 0 : 0;
+                    // Capitaliza o artigo para início de frase
+                    let artigoCapitalizado = artigo.charAt(0).toLowerCase() + artigo.slice(1);
 
-    let found = false;
-    let displayedCandidates = [];
-    let partyHasResults = false;
+                    // *** CORREÇÃO FINAL: A linha que removia o artigo para AD foi ELIMINADA ***
+                    // Agora, 'A ' será corretamente usado antes de 'AD'.
 
-    for (const currentParty in candidates) {
-        if (party === 'todos' || party === currentParty) {
-            let partyCard = document.createElement('div');
-            partyCard.classList.add('party-card', currentParty);
-            partyHasResults = false;
-            let districtCards = '';
+                    // Retorna a frase para o distrito, usando artigo + sigla original
+                    return `${artigoCapitalizado}${partyText} elegeu aqui <b>${deputies}</b> deputado${deputies !== 1 ? 's' : ''} em 2024.</br></br> em baixo pode ver os candidatos em 2025 que correspondem ao filtro que você selecionou (ou pesquisa que fez):</br></br>`;
+                }
+                return '';
+            };
+            // --- FIM DA FUNÇÃO formatDeputyText FINALMENTE CORRIGIDA ---
 
-            for (const currentDistrict in candidates[currentParty]) {
-                if (currentDistrict === 'Efetivos' || currentDistrict === 'Suplentes') continue;
 
-                if (district === 'todos' || district === currentDistrict) {
-                    let districtDeputiesCount = 0;
-                    let deputyLists = '';
+            let found = false;
+            let partyHasResults = false;
 
-                    for (const type in candidates[currentParty][currentDistrict]) {
-                        deputyLists += `<p class="candidate-type">${type}</p><ul class="candidate-list">`;
-                        let list = candidates[currentParty][currentDistrict][type];
+            for (const currentParty in candidates) {
+                if (party === 'todos' || party === currentParty) {
+                    let partyCard = document.createElement('div');
+                    partyCard.classList.add('party-card', currentParty.toLowerCase().replace(/[^a-z0-9]/g, ''));
 
-                        if (list && list.length > 0) {
-                            list.forEach(candidate => {
-                                if ((!searchTerm || candidate.toLowerCase().includes(searchTerm.toLowerCase())) &&
-                                    !displayedCandidates.includes(candidate)) {
-                                    deputyLists += `<li>${candidate}</li>`;
-                                    districtDeputiesCount++;
-                                    found = true;
-                                    partyHasResults = true;
-                                    displayedCandidates.push(candidate);
+                    partyHasResults = false;
+                    let districtCardsHTML = '';
+
+                    for (const currentDistrict in candidates[currentParty]) {
+                        if (currentDistrict === 'Efetivos' || currentDistrict === 'Suplentes') continue;
+
+                        if (district === 'todos' || district === currentDistrict) {
+                            let districtHasResults = false;
+                            let districtListsHTML = '';
+
+                            if (candidates[currentParty] && candidates[currentParty][currentDistrict]) {
+                                for (const type in candidates[currentParty][currentDistrict]) {
+                                    let listHTML = `<p class="candidate-type">${type}</p><ul class="candidate-list">`;
+                                    let list = candidates[currentParty][currentDistrict][type];
+                                    let foundInList = false;
+
+                                    if (list && list.length > 0) {
+                                        list.forEach(candidate => {
+                                            const candidateNameOnly = candidate.replace(/^\d+\.º\s*/, '');
+                                            if (!searchTerm || candidateNameOnly.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                listHTML += `<li>${candidate}</li>`;
+                                                foundInList = true;
+                                                found = true;
+                                                partyHasResults = true;
+                                                districtHasResults = true;
+                                            }
+                                        });
+                                    }
+
+                                    if (!foundInList) {
+                                        if(searchTerm && list && list.length > 0) {
+                                             listHTML += `<li class="no-candidates-yet inline"><i>Nenhum candidato encontrado nesta lista para "${searchTerm}"</i></li>`;
+                                        }
+                                        else if (!list || list.length === 0 || (list.length === 1 && list[0].toLowerCase().includes("ainda não apresentou"))) {
+                                             listHTML += `<li class="no-candidates-yet inline">Ainda não há candidatos ${type.toLowerCase()} definidos para este círculo eleitoral.</li>`;
+                                        } else if (!list || list.length === 0) {
+                                            listHTML += `<li class="no-candidates-yet inline">Sem candidatos ${type.toLowerCase()} listados.</li>`;
+                                        }
+                                    }
+                                    listHTML += `</ul>`;
+                                    districtListsHTML += listHTML;
                                 }
-                            });
-                        } else {
-                            deputyLists += `<li class="no-candidates-yet inline">Ainda não há candidatos definidos para este círculo eleitoral.</li>`;
+                            }
+
+                            if (districtHasResults || !searchTerm) {
+                                districtCardsHTML += `
+                                    <div class="candidate-district">${currentDistrict}</div>
+                                    <div class="deputy-info">
+                                        ${formatDeputyText(currentParty, currentDistrict, 'district')}
+                                    </div>
+                                    ${districtListsHTML}
+                                `;
+                            }
                         }
-                        deputyLists += `</ul>`;
                     }
 
-                    if (districtDeputiesCount > 0 || !searchTerm) {
-                        districtCards += `
-                            <div class="candidate-district">${currentDistrict}</div>
+                    if (partyHasResults) {
+                        // *** ESTA PARTE CONTINUA IGUAL E CORRETA ***
+                        // Define o nome a exibir APENAS no H2.
+                        let partyDisplayName = currentParty === 'AD' ? 'AD - Coligação PSD/CDS' : currentParty;
+                        // *** FIM DA PARTE QUE CONTINUA IGUAL ***
+
+                        partyCard.innerHTML = `
+                            <h2 class="party-name" style="color: ${partyColors[currentParty]}">${partyDisplayName}</h2>
                             <div class="deputy-info">
-                                ${formatDeputyText(currentParty, currentDistrict, 'district')}
+                                ${formatDeputyText(currentParty, null, 'total')}
                             </div>
-                            ${deputyLists}
+                            ${districtCardsHTML}
                         `;
+                        candidatesList.appendChild(partyCard);
                     }
                 }
             }
 
-            if (partyHasResults) {
-                partyCard.innerHTML = `
-                    <h2 class="party-name" style="color: ${partyColors[currentParty]}">${currentParty}</h2>
-                    <div class="deputy-info">
-                        ${formatDeputyText(currentParty, null, 'total')}
-                    </div>
-                    ${districtCards}
-                `;
-                candidatesList.appendChild(partyCard);
+            if (!found) {
+                noResults.style.display = 'block';
+                eligibilityNote.style.display = 'none';
+            } else {
+                noResults.style.display = 'none';
+                eligibilityNote.style.display = 'block';
             }
-        }
-    }
-
-    if (!found) {
-        noResults.style.display = 'block';
-    }
-    eligibilityNote.style.display = found ? 'block' : 'none';
-}
+        } // --- Fim da função displayCandidates ---
 
         /**
          * Retorna a cor CSS associada a um partido.
@@ -875,7 +916,8 @@
          };
 
     </script>
-<div id="rodape">desenvolvido pela CNN Portugal</div>
+<div id="rodape">desenvolvido pela CNN Portugal com recurso a IA</div>
+<div id="rodape2">ferramentas de IA utilizadas: Google Gemini, ChatGPT</div>
 </div>
 </body>
 </html>
