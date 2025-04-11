@@ -356,7 +356,7 @@
                 "Viana do Castelo": {"Efetivos": ["1.º Joaquim Celestino Ribeiro", "restantes nomes por divulgar"],"Suplentes": []},
                 "Vila Real": {"Efetivos": ["1.º José Luís Ferreira", "restantes nomes por divulgar"],"Suplentes": []},
                 "Viseu": {"Efetivos": ["1.º Alexandre Hoffman Castela", "restantes nomes por divulgar"],"Suplentes": []},
-                "Região Autónoma dos Açores": {"Efetivos": ["1.º António Salgado Almeida", "restantes nomes por divulgar"],"Suplentes": []}, // Removido 1.º
+                "Região Autónoma dos Açores": {"Efetivos": ["1.º António Salgado Almeida", "2.º Fábio Borges", "3.º Raquel Coimbra", "4.º Joana Mota", "5.º Nuno Costa"],"Suplentes": ["1.º Noélia Teixeira", "2.º Laurénio Silva", "3.º Maria Gouveia", "4.º Horácio Cravinho", "5.º Fernanda Sousa"]}, // Removido 1.º
                 "Região Autónoma da Madeira": {"Efetivos": ["1.º Herlanda Amado", "restantes nomes por divulgar"],"Suplentes": []},
                 "Europa": {"Efetivos": ["1.º Joana Carvalho", "restantes nomes por divulgar"],"Suplentes": []},
                 "Fora da Europa": {"Efetivos": ["1.º Ana Oliveira", "restantes nomes por divulgar"],"Suplentes": []}
@@ -680,192 +680,143 @@
          * @param {string} district - O distrito selecionado ('todos' para todos).
          * @param {string} [searchTerm=''] - O termo de pesquisa para nomes.
          */
-        function displayCandidates(party, district, searchTerm = '') {
-            let html = ''; // String para construir o HTML dos resultados
-            let resultsFound = false; // Flag para indicar se algum resultado foi encontrado
-            let eligibilityNoteShown = false; // Flag para mostrar a nota de elegibilidade apenas uma vez
-            const placeholderMessages = [
-                 "ainda não apresentou candidatos por este círculo eleitoral",
-                 "o livre não apresentou nomes candidatos por este círculo eleitoral",
-                 "esta coligação não concorre neste círculo eleitoral",
-                 "candidato do cds por revelar",
-                 "candidato do psd por revelar",
-                 // Adicionada a frase específica da CDU para tratar como placeholder na exibição
-                 "(mais nomes por divulgar)" // Alterado para usar o fragmento comum
-             ];
+        function displayCandidates(party, district, searchTerm) {
+    const candidatesList = document.getElementById('candidatesList');
+    const noResults = document.getElementById('noResults');
+    const eligibilityNote = document.getElementById('eligibilityNote');
 
-            // Função auxiliar para gerar texto "X deputado(s)"
-            // <<< ALTERAÇÃO >>> Adicionada função auxiliar
-            const formatDeputyText = (count, type) => {
-                if (typeof count !== 'number') return ''; // Se não houver dados, não mostra nada
-                if (type === 'total') {
-                     return `elegeu <b>${count}</b> deputado${count !== 1 ? 's' : ''} a nível nacional em 2024`;
-                } else if (type === 'district') {
-                     return `elegeu <b>${count}</b> deputado${count !== 1 ? 's' : ''} neste círculo em 2024.</br> eis os candidatos em 2025:`;
-                }
-                return '';
-            };
+    candidatesList.innerHTML = '';
+    noResults.style.display = 'none';
+    eligibilityNote.style.display = 'none';
 
-            // Itera sobre cada partido nos dados
-            for (const p in candidates) {
-                // Verifica se o partido atual corresponde ao filtro ou se o filtro é 'todos'
-                if (party === 'todos' || party === p) {
+    let partyColors = {
+        "CDU": "red",
+        "BE": "#A52A2A",
+        "PS": "deeppink",
+        "Livre": "#008080",
+        "PAN": "#006400",
+        "AD": "orange",
+        "IL": "#0077c8",
+        "Chega": "#003399"
+    };
 
-                    // Verifica se este partido realmente tem candidatos ou só placeholders
-                    const hasCandidates = partyHasActualCandidates(candidates[p]);
-                    // Se o filtro for para um partido específico e ele não tiver candidatos, mostra a mensagem especial
-                    if (party !== 'todos' && !hasCandidates) {
-                        let partyDisplayName = p;
-                        if (p === 'AD') partyDisplayName = 'AD - Coligação PSD/CDS';
+    const deputados2024Data = {
+        "TOTAL": { // Total Nacional
+            "AD": 80, "PS": 78, "Chega": 50, "IL": 8, "BE": 5, "CDU": 4, "Livre": 4, "PAN": 1
+        },
+        // Deputados por Círculo Eleitoral
+        "Aveiro": {"AD": 7, "PS": 5, "Chega": 3, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Beja": {"AD": 1, "PS": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Braga": {"AD": 8, "PS": 6, "Chega": 4, "IL": 1, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Bragança": {"AD": 2, "PS": 1, "Chega": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Castelo Branco": {"AD": 1, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Coimbra": {"AD": 3, "PS": 4, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Évora": {"PS": 1, "AD": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Faro": {"PS": 3, "AD": 3, "Chega": 3, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Guarda": {"AD": 1, "PS": 1, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Leiria": {"AD": 5, "PS": 3, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Lisboa": {"PS": 15, "AD": 14, "Chega": 9, "IL": 3, "BE": 2, "Livre": 2, "CDU": 2, "PAN": 1},
+        "Portalegre": {"PS": 1, "AD": 0, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Porto": {"AD": 14, "PS": 13, "Chega": 7, "IL": 2, "BE": 2, "Livre": 1, "CDU": 1, "PAN": 0}, // Corrigido para incluir PAN
+        "Santarém": {"PS": 3, "AD": 3, "Chega": 3, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Setúbal": {"PS": 7, "AD": 4, "Chega": 4, "CDU": 1, "BE": 1, "Livre": 1, "IL": 1, "PAN": 0},
+        "Viana do Castelo": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Vila Real": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Viseu": {"AD": 3, "PS": 3, "Chega": 2, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Região Autónoma dos Açores": {"AD": 2, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Região Autónoma da Madeira": {"AD": 3, "PS": 2, "Chega": 1, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0}, // AD aqui é PPD/PSD.CDS-PP
+        "Europa": {"Chega": 1, "PS": 1, "AD": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0},
+        "Fora da Europa": {"AD": 1, "Chega": 1, "PS": 0, "IL": 0, "BE": 0, "CDU": 0, "Livre": 0, "PAN": 0}
+    };
 
-                        // <<< ALTERAÇÃO >>> Busca o total de deputados mesmo para partidos sem candidatos (se aplicável)
-                        const totalDeputies = deputados2024Data.TOTAL[p];
-                        const totalDeputiesText = formatDeputyText(totalDeputies, 'total');
+    const formatDeputyText = (party, district, type) => {
+        let partyText = party;
+        let artigo = "";
+        if (["BE", "PS", "Livre", "PAN", "Chega"].includes(party)) {
+            artigo = "o ";
+        } else if (["CDU", "AD", "IL"].includes(party)) {
+            artigo = "a ";
+        }
 
-                        // Gera o HTML para a mensagem "sem candidatos ainda"
-                         html += `<div class="party-card ${p.toLowerCase()}">
-                                     <div class="party-name" style="color: ${getPartyColor(p)};">${partyDisplayName}</div>
-                                     ${totalDeputiesText ? `<div class="deputy-info">${totalDeputiesText}</div>` : ''} {/* <<< ALTERAÇÃO >>> Adiciona info total */}
-                                     <div class="no-candidates-yet">Este partido ainda não apresentou publicamente os candidatos à Assembleia da República para as eleições de 2025.</div>
-                                 </div>`;
-                        resultsFound = true; // Consideramos isto um "resultado" para não mostrar a mensagem "Nenhum candidato encontrado"
-                        continue; // Passa para o próximo partido
-                    }
+        if (type === 'total') {
+            let totalDeputies = deputados2024Data.TOTAL[party] || 0;
+            return `elegeu <b>${totalDeputies}</b> deputado${totalDeputies !== 1 ? 's' : ''} a nível nacional em 2024`;
+        } else if (type === 'district') {
+            let deputies = deputados2024Data[district] ? deputados2024Data[district][party] || 0 : 0;
+            return `${artigo}${partyText} elegeu aqui <b>${deputies}</b> deputado${deputies !== 1 ? 's' : ''} em 2024.</br> eis os candidatos em 2025 que correspondem ao filtro selecionado:`;
+        }
+        return '';
+    };
 
-                    // Se o partido tem candidatos (ou estamos a mostrar todos), continua a filtrar por distrito e nome
-                    let partyHtml = ''; // HTML para este partido específico
-                    let partyResultsFound = false; // Flag se encontrou resultados para este partido
+    let found = false;
+    let displayedCandidates = [];
+    let partyHasResults = false;
 
-                    // Itera sobre cada distrito dentro do partido atual
-                    for (const d in candidates[p]) {
-                        // Verifica se o distrito atual corresponde ao filtro ou se o filtro é 'todos'
-                         if (district === 'todos' || district === d) {
-                            // Filtra a lista de efetivos e suplentes pelo termo de pesquisa
-                            // Remove a numeração antes de filtrar pelo nome para a pesquisa funcionar corretamente
-                            const filterByName = (candidate) => {
-                                // Remove "1.º ", "2.º ", etc. E placeholders antes de pesquisar
-                                let cleanCandidate = candidate.replace(/^\d+\.º\s*/, '');
-                                placeholderMessages.forEach(msg => {
-                                     // Remove a mensagem placeholder específica se existir no final (case-insensitive)
-                                     const regex = new RegExp(`\\s*\\(${msg.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\)$`, 'i');
-                                     cleanCandidate = cleanCandidate.replace(regex, '');
-                                });
-                                return cleanCandidate.toLowerCase().includes(searchTerm.toLowerCase());
-                            };
+    for (const currentParty in candidates) {
+        if (party === 'todos' || party === currentParty) {
+            let partyCard = document.createElement('div');
+            partyCard.classList.add('party-card', currentParty);
+            partyHasResults = false;
+            let districtCards = '';
 
-                            const efetivos = (candidates[p][d].Efetivos || []).filter(filterByName);
-                            const suplentes = (candidates[p][d].Suplentes || []).filter(filterByName);
+            for (const currentDistrict in candidates[currentParty]) {
+                if (currentDistrict === 'Efetivos' || currentDistrict === 'Suplentes') continue;
 
-                            // Se encontrou efetivos ou suplentes para este distrito após filtrar por nome
-                            if (efetivos.length > 0 || suplentes.length > 0) {
-                                partyResultsFound = true; // Marcar que encontrou resultados para este partido
-                                resultsFound = true; // Marcar que encontrou resultados no geral
-                                eligibilityNoteShown = true; // Marcar para mostrar a nota de elegibilidade
+                if (district === 'todos' || district === currentDistrict) {
+                    let districtDeputiesCount = 0;
+                    let deputyLists = '';
 
-                                // <<< ALTERAÇÃO >>> Busca deputados por distrito/partido
-                                const districtDeputies = deputados2024Data[d] ? (deputados2024Data[d][p] ?? 0) : 0; // Pega o valor ou 0 se distrito/partido não existir
-                                const districtDeputiesText = formatDeputyText(districtDeputies, 'district');
+                    for (const type in candidates[currentParty][currentDistrict]) {
+                        deputyLists += `<p class="candidate-type">${type}</p><ul class="candidate-list">`;
+                        let list = candidates[currentParty][currentDistrict][type];
 
-                                // Adiciona o cabeçalho do distrito
-                                partyHtml += `<div class="candidate-district">${d}</div>`;
-                                // <<< ALTERAÇÃO >>> Adiciona info de deputados do distrito
-                                if (districtDeputiesText) {
-                                     partyHtml += `<div class="deputy-info">${districtDeputiesText}</div>`;
+                        if (list && list.length > 0) {
+                            list.forEach(candidate => {
+                                if ((!searchTerm || candidate.toLowerCase().includes(searchTerm.toLowerCase())) &&
+                                    !displayedCandidates.includes(candidate)) {
+                                    deputyLists += `<li>${candidate}</li>`;
+                                    districtDeputiesCount++;
+                                    found = true;
+                                    partyHasResults = true;
+                                    displayedCandidates.push(candidate);
                                 }
-
-
-                                // Função auxiliar para renderizar a lista (evita repetição)
-                                const renderList = (list, type) => {
-                                    let listHtml = '';
-                                    if (list.length > 0) {
-                                        // Verifica se a lista contém apenas placeholders conhecidos (agora incluindo a parte da CDU)
-                                        const isPlaceholderOnly = list.every(item =>
-                                            placeholderMessages.some(msg => item.toLowerCase().includes(msg.toLowerCase()))
-                                        );
-
-                                        if (isPlaceholderOnly && list.length === 1) {
-                                             // Se for só um placeholder conhecido, mostra-o com estilo diferente
-                                             listHtml += `<div class="candidate-type">${type}:</div>`;
-                                             listHtml += `<div class="no-candidates-yet inline">${list[0]}</div>`;
-                                        } else {
-                                            listHtml += `<div class="candidate-type">${type}:</div>`;
-                                            listHtml += '<ul class="candidate-list">';
-                                            list.forEach(candidate => {
-                                                 // Verifica individualmente se é um placeholder para aplicar estilo inline
-                                                 const isPlaceholder = placeholderMessages.some(msg => candidate.toLowerCase().includes(msg.toLowerCase()));
-                                                 if (isPlaceholder && !candidate.toLowerCase().includes("candidato do")) { // Trata placeholders genéricos e CDU
-                                                      listHtml += `<li class="no-candidates-yet inline">${candidate}</li>`;
-                                                 } else if (isPlaceholder && candidate.toLowerCase().includes("candidato do")) { // Placeholders AD/IL
-                                                     listHtml += `<li>${candidate}</li>`; // Mostra como item normal, mas é placeholder
-                                                 } else {
-                                                     listHtml += `<li>${candidate}</li>`; // Candidato normal
-                                                 }
-                                            });
-                                            listHtml += '</ul>';
-                                        }
-                                    }
-                                    return listHtml;
-                                };
-
-
-                                // Adiciona a lista de efetivos, se houver
-                                partyHtml += renderList(efetivos, 'Efetivos');
-                                // Adiciona a lista de suplentes, se houver
-                                partyHtml += renderList(suplentes, 'Suplentes');
-                            }
+                            });
+                        } else {
+                            deputyLists += `<li class="no-candidates-yet inline">Ainda não há candidatos definidos para este círculo eleitoral.</li>`;
                         }
-                    } // Fim do loop de distritos
-
-                    // Se foram encontrados resultados para este partido, monta o card completo
-                     if (partyResultsFound) {
-                        let partyDisplayName = p;
-                        if (p === 'AD') partyDisplayName = 'AD - Coligação PSD/CDS';
-
-                        // <<< ALTERAÇÃO >>> Busca o total de deputados para o cabeçalho do partido
-                        const totalDeputies = deputados2024Data.TOTAL[p];
-                        const totalDeputiesText = formatDeputyText(totalDeputies, 'total');
-
-                        // Constrói o início do card com a classe do partido (em minúsculas)
-                        html += `<div class="party-card ${p.toLowerCase()}">`;
-                        // Adiciona o nome do partido com a cor respetiva
-                        html += `<div class="party-name" style="color: ${getPartyColor(p)};">${partyDisplayName}</div>`;
-                        // <<< ALTERAÇÃO >>> Adiciona info total de deputados
-                        if (totalDeputiesText) {
-                           html += `<div class="deputy-info">${totalDeputiesText}</div>`;
-                        }
-                        // Adiciona nota específica para o Livre
-                        if (p === 'Livre') {
-                             html += `<span class="party-note">nota: a lista em baixo não é a final - trata-se da lista resultante da votação nas primárias.</span>`;
-                        }
-                        // Adiciona o HTML dos distritos/candidatos encontrado
-                        html += partyHtml;
-                        // Fecha o card do partido
-                        html += `</div>`;
+                        deputyLists += `</ul>`;
                     }
-                } // Fim da verificação do filtro de partido
-            } // Fim do loop de partidos
 
-            // Atualiza o DOM com os resultados
-            candidatesList.innerHTML = html;
-            // Mostra ou esconde a mensagem "Nenhum resultado"
-            if (resultsFound) {
-                noResults.style.display = 'none';
-            } else {
-                // Só mostra "Nenhum resultado" se houver filtros ativos ou termo de pesquisa
-                 if (!partyFilter.value && !districtFilter.value && !searchInput.value) {
-                     noResults.style.display = 'none'; // Não mostra se não houver filtro
-                 } else {
-                     noResults.style.display = 'block'; // Mostra se houver filtro mas sem resultados
-                 }
+                    if (districtDeputiesCount > 0 || !searchTerm) {
+                        districtCards += `
+                            <div class="candidate-district">${currentDistrict}</div>
+                            <div class="deputy-info">
+                                ${formatDeputyText(currentParty, currentDistrict, 'district')}
+                            </div>
+                            ${deputyLists}
+                        `;
+                    }
+                }
             }
 
-             // Mostra ou esconde a nota de elegibilidade
-            if (eligibilityNoteShown) {
-                 eligibilityNote.style.display = 'block';
-            } else {
-                 eligibilityNote.style.display = 'none';
+            if (partyHasResults) {
+                partyCard.innerHTML = `
+                    <h2 class="party-name" style="color: ${partyColors[currentParty]}">${currentParty}</h2>
+                    <div class="deputy-info">
+                        ${formatDeputyText(currentParty, null, 'total')}
+                    </div>
+                    ${districtCards}
+                `;
+                candidatesList.appendChild(partyCard);
             }
-        } // <<< FIM DA FUNÇÃO displayCandidates SUBSTITUÍDA >>>
+        }
+    }
+
+    if (!found) {
+        noResults.style.display = 'block';
+    }
+    eligibilityNote.style.display = found ? 'block' : 'none';
+}
 
         /**
          * Retorna a cor CSS associada a um partido.
