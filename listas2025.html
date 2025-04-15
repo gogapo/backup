@@ -810,7 +810,7 @@
                                              listHTML += `<li class="no-candidates-yet inline"><i>Nenhum candidato encontrado nesta lista para "${searchTerm}"</i></li>`;
                                         }
                                         else if (!list || list.length === 0 || (list.length === 1 && list[0].toLowerCase().includes("ainda não apresentou"))) {
-                                             listHTML += `<li class="no-candidates-yet inline">Ainda não há candidatos ${type.toLowerCase()} definidos para este círculo eleitoral.</li>`;
+                                             listHTML += `<li class="no-candidates-yet inline">Ainda não há candidatos ${type.toLowerCase()} definidos para este círculo eleitoral</li>`;
                                         } else if (!list || list.length === 0) {
                                             listHTML += `<li class="no-candidates-yet inline">Sem candidatos ${type.toLowerCase()} listados.</li>`;
                                         }
