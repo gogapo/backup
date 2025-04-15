@@ -816,7 +816,9 @@
                                         }
                                     }
                                     listHTML += `</ul>`;
+                                    if (!searchTerm || foundInList) {
                                     districtListsHTML += listHTML;
+                                    }
                                 }
                             }
 
