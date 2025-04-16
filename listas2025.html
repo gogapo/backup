@@ -644,6 +644,8 @@
         // --- FIM DOS DADOS DEPUTADOS 2024 ---
 
 
+        // --- FIM DOS DADOS DEPUTADOS 2024 ---
+
         // Referências aos elementos do DOM
         const searchInput = document.getElementById('searchInput');
         const searchButton = document.getElementById('searchButton');
@@ -673,14 +675,14 @@
                 const hasRealEfetivo = efetivos.length > 0 && !placeholderMessages.some(msg => efetivos[0].toLowerCase().includes(msg));
                 const hasRealSuplente = suplentes.length > 0 && !placeholderMessages.some(msg => suplentes[0].toLowerCase().includes(msg));
 
-                 // Verifica também se há mais de um candidato (implica que não é placeholder) ou se o único candidato não é placeholder
-                 if (efetivos.length > 1 || hasRealEfetivo) return true;
-                 if (suplentes.length > 1 || hasRealSuplente) return true;
+                // Verifica também se há mais de um candidato (implica que não é placeholder) ou se o único candidato não é placeholder
+                if (efetivos.length > 1 || hasRealEfetivo) return true;
+                if (suplentes.length > 1 || hasRealSuplente) return true;
 
-                 // Verificação adicional para casos onde o placeholder pode não ser a primeira entrada (embora improvável com a estrutura atual)
-                 // E também para placeholders da AD/IL/Livre que não são a mensagem genérica
-                 if (efetivos.some(c => !placeholderMessages.some(msg => c.toLowerCase().includes(msg)) && !c.toLowerCase().includes("candidato do"))) return true;
-                 if (suplentes.some(c => !placeholderMessages.some(msg => c.toLowerCase().includes(msg)) && !c.toLowerCase().includes("candidato do"))) return true;
+                // Verificação adicional para casos onde o placeholder pode não ser a primeira entrada (embora improvável com a estrutura atual)
+                // E também para placeholders da AD/IL/Livre que não são a mensagem genérica
+                if (efetivos.some(c => !placeholderMessages.some(msg => c.toLowerCase().includes(msg)) && !c.toLowerCase().includes("candidato do"))) return true;
+                if (suplentes.some(c => !placeholderMessages.some(msg => c.toLowerCase().includes(msg)) && !c.toLowerCase().includes("candidato do"))) return true;
 
             }
             return false;
@@ -714,7 +716,7 @@
                 "Chega": "#003399"
             };
 
-            
+           
 
             // --- INÍCIO DA FUNÇÃO formatDeputyText FINALMENTE CORRIGIDA ---
             const formatDeputyText = (party, district, type) => {
@@ -740,7 +742,7 @@
                     // Agora, 'A ' será corretamente usado antes de 'AD'.
 
                     // Retorna a frase para o distrito, usando artigo + sigla original
-                    return `» ${artigoCapitalizado}${partyText} elegeu aqui <b>${deputies}</b> deputado${deputies !== 1 ? 's' : ''} em 2024</br></br>» em baixo pode ver os candidatos em 2025 que correspondem ao filtro que você selecionou (ou pesquisa que fez):</br></br>`;
+                    return `» ${artigoCapitalizado}${partyText} elegeu aqui <b>${deputies}</b> deputado${deputies !== 1 ? 's' : ''} em 2024</br></br>» em baixo pode ver os candidatos em 2025 que correspondem ao filtro que você selecionou (ou à pesquisa que fez):</br></br>`;
                 }
                 return '';
             };
@@ -789,19 +791,22 @@
                                         });
                                     }
 
-                                    if (!foundInList) {
-                                        if(searchTerm && list && list.length > 0) {
-                                            listHTML += `<li class="no-candidates-yet inline"><i>Nenhum candidato encontrado nesta lista para "${searchTerm}"</i></li>`;
-                                        }
-                                        else if (!list || list.length === 0 || (list.length === 1 && list[0].toLowerCase().includes("ainda não apresentou"))) {
-                                            listHTML += `<li class="no-candidates-yet inline">Ainda não há candidatos ${type.toLowerCase()} definidos para este círculo eleitoral</li>`;
-                                        } else if (!list || list.length === 0) {
-                                            listHTML += `<li class="no-candidates-yet inline">Sem candidatos ${type.toLowerCase()} listados.</li>`;
-                                        }
+                                    // **** MODIFICAÇÃO IMPORTANTE AQUI ****
+                                    // Verifica se a lista está vazia OU se contém APENAS a mensagem de placeholder
+                                    if (!foundInList && (!list || list.length === 0 || (list.length === 1 && list[0].toLowerCase().includes("ainda não apresentou")))) {
+                                        // Se a lista estiver vazia ou for placeholder, NÃO adiciona nada ao HTML
+                                        continue; // Pula para a próxima iteração do loop (não renderiza a lista)
                                     }
+                                     else if (!foundInList && searchTerm && list && list.length > 0) {
+                                        listHTML += `<li class="no-candidates-yet inline"><i>Nenhum candidato encontrado nesta lista para "${searchTerm}"</i></li>`;
+                                     }
+                                    else if (!foundInList && (!list || list.length === 0)) {
+                                        listHTML += `<li class="no-candidates-yet inline">Sem candidatos ${type.toLowerCase()} listados.</li>`;
+                                    }
+
                                     listHTML += `</ul>`;
                                     if (!searchTerm || foundInList) {
-                                    districtListsHTML += listHTML;
+                                        districtListsHTML += listHTML;
                                     }
                                 }
                             }
@@ -896,7 +901,7 @@
             if (event.key === 'Enter') {
                 filterCandidates();
             }
-        });
+        });v
 
         // Opcional: Limpar a lista ao carregar a página inicialmente
          window.onload = () => {
