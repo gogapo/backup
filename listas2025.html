@@ -865,6 +865,7 @@
                 clearSearchButton.style.display = 'none';
             }
 
+            
 
             if (!found) {
                 noResults.style.display = 'block';
@@ -925,6 +926,7 @@
         searchInput.addEventListener('keyup', function(event) {
             if (event.key === 'Enter') {
                 filterCandidates();
+                searchInput.blur(); // Esta linha faz o teclado desaparecer
             }
         });
 
