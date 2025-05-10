@@ -105,7 +105,7 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: 1;
-      opacity: 0.4;
+      opacity: 0.3;
       background-size: cover;
       background-position: center;
       pointer-events: none;
@@ -153,14 +153,16 @@
 
       <div class="resposta">
         <h3>1. Mulheres à frente de bancas no mercado</h3>
-        <div id="dados1" class="dados">A calcular...</div>
+        <div id="resposta1" class="dados"></div> <!-- Exibe a resposta do participante -->
         <div class="correta">✔ As mulheres são mais de 65% do total de comerciantes.</div>
+        <div id="dados1" class="dados">A calcular a média das respostas de todas as pessoas que responderam a este inquérito... aguarde um pouco</div>
       </div>
 
       <div class="resposta">
         <h3>2. Mulheres à frente de pelouros no executivo municipal</h3>
-        <div id="dados2" class="dados">A calcular...</div>
+        <div id="resposta2" class="dados"></div> <!-- Exibe a resposta do participante -->
         <div class="correta">✔ As mulheres são menos de 30% do total.</div>
+        <div id="dados2" class="dados">A calcular a média das respostas de todas as pessoas que responderam a este inquérito... aguarde um pouco</div>
       </div>
     </div>
   </section>
@@ -173,6 +175,9 @@
     }
 
     function submeter(perguntaId, valor) {
+      // Armazena a resposta do usuário para exibir no final
+      localStorage.setItem(perguntaId, valor);
+
       // Vai para a próxima secção logo após clicar
       if (perguntaId === 'mercado') {
         scrollToSection(1); // Vai para a 2ª pergunta
@@ -196,8 +201,14 @@
             const media = data.media?.toFixed(1) ?? '-';
             const total = data.total ?? '-';
             const campo = perguntaId === 'mercado' ? 'dados1' : 'dados2';
+            const respostaCampo = perguntaId === 'mercado' ? 'resposta1' : 'resposta2';
+            const respostaDada = localStorage.getItem(perguntaId); // Recupera a resposta do participante
+
             document.getElementById(campo).innerText =
               `Média das respostas: ${media}%. Total de respostas: ${total}`;
+
+            document.getElementById(respostaCampo).innerText =
+              `Sua resposta: ${respostaDada}%`;
           })
           .catch(err => {
             console.error('Erro ao carregar resultados:', err);
