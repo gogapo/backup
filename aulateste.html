@@ -2,57 +2,227 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <title>Participa no Quiz</title>
+  <title>Quiz sobre Igualdade</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: sans-serif; margin: 20px; }
-    h2 { margin-top: 40px; }
-    .resultados { margin-top: 10px; font-style: italic; color: #555; }
-    .resposta-correta { margin-top: 10px; font-weight: bold; color: green; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff;
+    }
+
+    section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+      position: relative;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+      position: relative;
+      z-index: 2;
+    }
+
+    .slider-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+      z-index: 2;
+    }
+
+    input[type=range] {
+      width: 100%;
+      accent-color: #4CAF50;
+      transition: all 0.3s ease;
+    }
+
+    input[type=range]:hover {
+      transform: scale(1.03);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #3e8e41;
+      transform: scale(1.05);
+    }
+
+    .resposta, .final-box {
+      text-align: center;
+      max-width: 600px;
+      z-index: 2;
+    }
+
+    .dados {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .correta {
+      font-weight: bold;
+      color: #2a7;
+      margin-top: 10px;
+    }
+
+    /* Background effects */
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      opacity: 0.4;
+      background-size: cover;
+      background-position: center;
+      pointer-events: none;
+    }
+
+    section:nth-of-type(1)::before {
+      background-image: url('https://criacao-digital.shorthandstories.com/mulheres-no-poder-local-se-n-o-lhes-tiram-o-lugar-roubam-lhes-o-tempo/assets/Drs7efGw8p/img_2163-3315x1865.webp'); /* Substituir com a URL do fundo da 1ª pergunta */
+    }
+
+    section:nth-of-type(2)::before {
+      background-image: url('https://criacao-digital.shorthandstories.com/mulheres-no-poder-local-se-n-o-lhes-tiram-o-lugar-roubam-lhes-o-tempo/assets/r90bBR9Z9p/camara-vs.-mercado-3159x1777.webp'); /* Substituir com a URL do fundo da 2ª pergunta */
+    }
+
+    section:nth-of-type(3)::before {
+      background-image: url('https://images.unsplash.com/photo-1581092160611-65c6f8e477a2?auto=format&fit=crop&w=1200&q=60');
+    }
   </style>
 </head>
 <body>
 
-  <h2>1. Qual é a percentagem de mulheres à frente de bancas no mercado?</h2>
-  <input type="range" min="0" max="100" value="50" id="slider1" oninput="updateLabel('label1', this.value)">
-  <span id="label1">50%</span>
-  <button onclick="enviarResposta('mercado', document.getElementById('slider1').value)">Submeter</button>
-  <div id="resultado1" class="resultados"></div>
-  <div id="correto1" class="resposta-correta" style="display:none;">As mulheres são mais de 65% do total de comerciantes</div>
+  <!-- PERGUNTA 1 -->
+  <section>
+    <h2>1. Qual é a percentagem de mulheres à frente de bancas no mercado?</h2>
+    <div class="slider-container">
+      <input type="range" min="0" max="100" value="50" id="slider1" oninput="updateLabel('label1', this.value)">
+      <span id="label1">50%</span>
+      <button onclick="submeter('mercado', document.getElementById('slider1').value)">Submeter</button>
+    </div>
+  </section>
 
-  <h2>2. Qual é a percentagem de mulheres à frente de pelouros no executivo municipal?</h2>
-  <input type="range" min="0" max="100" value="50" id="slider2" oninput="updateLabel('label2', this.value)">
-  <span id="label2">50%</span>
-  <button onclick="enviarResposta('executivo', document.getElementById('slider2').value)">Submeter</button>
-  <div id="resultado2" class="resultados"></div>
-  <div id="correto2" class="resposta-correta" style="display:none;">As mulheres são menos de 30% do total</div>
+  <!-- PERGUNTA 2 -->
+  <section>
+    <h2>2. Qual é a percentagem de mulheres à frente de pelouros no executivo municipal?</h2>
+    <div class="slider-container">
+      <input type="range" min="0" max="100" value="50" id="slider2" oninput="updateLabel('label2', this.value)">
+      <span id="label2">50%</span>
+      <button onclick="submeter('executivo', document.getElementById('slider2').value)">Submeter</button>
+    </div>
+  </section>
+
+  <!-- RESULTADOS -->
+  <section>
+    <div class="final-box">
+      <h2>Resultados</h2>
+
+      <div class="resposta">
+        <h3>1. Mulheres à frente de bancas no mercado</h3>
+        <div id="dados1" class="dados">A calcular...</div>
+        <div class="correta">✔ As mulheres são mais de 65% do total de comerciantes.</div>
+      </div>
+
+      <div class="resposta">
+        <h3>2. Mulheres à frente de pelouros no executivo municipal</h3>
+        <div id="dados2" class="dados">A calcular...</div>
+        <div class="correta">✔ As mulheres são menos de 30% do total.</div>
+      </div>
+    </div>
+  </section>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwZ15K2Tz6i2lqdIN8VdcWoJodtUCxcHTYA7AFzZErP0IjQRQxlreYtNJ21GGO8dIPAnw/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwfwOf44B2tozDzLV-purmbPwTFJAqt6Si3NrJ7zez_orPjL_vNYHGIb65hhZSM9tUBog/exec';
 
     function updateLabel(id, val) {
       document.getElementById(id).innerText = val + '%';
     }
 
-    function enviarResposta(perguntaId, valor) {
+    function submeter(perguntaId, valor) {
+      // Vai para a próxima secção logo após clicar
+      if (perguntaId === 'mercado') {
+        scrollToSection(1); // Vai para a 2ª pergunta
+      } else if (perguntaId === 'executivo') {
+        scrollToSection(2); // Vai para a secção de resultados
+        setTimeout(carregarResultados, 1000); // Dá um tempinho para os dados chegarem
+      }
+
+      // Envia os dados para o Apps Script
       fetch(scriptURL, {
         method: 'POST',
         body: JSON.stringify({ perguntaId: perguntaId, resposta: valor })
-      })
-      .then(res => res.json())
-      .then(data => {
-        const media = data.media.toFixed(1);
-        const total = data.total;
-
-        const resultadoId = perguntaId === 'mercado' ? 'resultado1' : 'resultado2';
-        const corretoId = perguntaId === 'mercado' ? 'correto1' : 'correto2';
-
-        document.getElementById(resultadoId).innerText =
-          `Média das respostas: ${media}%. Total de respostas: ${total}`;
-        
-        document.getElementById(corretoId).style.display = 'block';
-      })
-      .catch(err => alert('Erro ao enviar: ' + err));
+      }).catch(err => console.error('Erro ao enviar:', err));
     }
+
+    function carregarResultados() {
+      ['mercado', 'executivo'].forEach(perguntaId => {
+        fetch(scriptURL + '?perguntaId=' + perguntaId)
+          .then(res => res.json())
+          .then(data => {
+            const media = data.media?.toFixed(1) ?? '-';
+            const total = data.total ?? '-';
+            const campo = perguntaId === 'mercado' ? 'dados1' : 'dados2';
+            document.getElementById(campo).innerText =
+              `Média das respostas: ${media}%. Total de respostas: ${total}`;
+          })
+          .catch(err => {
+            console.error('Erro ao carregar resultados:', err);
+          });
+      });
+    }
+
+    function scrollToSection(index) {
+      const sections = document.querySelectorAll("section");
+      if (sections[index]) {
+        sections[index].scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Fade-in com scroll
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(section => observer.observe(section));
   </script>
 
 </body>
