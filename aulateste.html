@@ -98,7 +98,6 @@
       margin-top: 10px;
     }
 
-    /* Background effects */
     section::before {
       content: '';
       position: absolute;
@@ -112,11 +111,11 @@
     }
 
     section:nth-of-type(1)::before {
-      background-image: url('https://criacao-digital.shorthandstories.com/mulheres-no-poder-local-se-n-o-lhes-tiram-o-lugar-roubam-lhes-o-tempo/assets/Drs7efGw8p/img_2163-3315x1865.webp'); /* Substituir com a URL do fundo da 1ª pergunta */
+      background-image: url('https://criacao-digital.shorthandstories.com/mulheres-no-poder-local-se-n-o-lhes-tiram-o-lugar-roubam-lhes-o-tempo/assets/Drs7efGw8p/img_2163-3315x1865.webp');
     }
 
     section:nth-of-type(2)::before {
-      background-image: url('https://criacao-digital.shorthandstories.com/mulheres-no-poder-local-se-n-o-lhes-tiram-o-lugar-roubam-lhes-o-tempo/assets/r90bBR9Z9p/camara-vs.-mercado-3159x1777.webp'); /* Substituir com a URL do fundo da 2ª pergunta */
+      background-image: url('https://criacao-digital.shorthandstories.com/mulheres-no-poder-local-se-n-o-lhes-tiram-o-lugar-roubam-lhes-o-tempo/assets/r90bBR9Z9p/camara-vs.-mercado-3159x1777.webp');
     }
 
     section:nth-of-type(3)::before {
@@ -130,8 +129,8 @@
   <section>
     <h2>1. Qual é a percentagem de mulheres à frente de bancas no mercado?</h2>
     <div class="slider-container">
-      <input type="range" min="0" max="100" value="50" id="slider1" oninput="updateLabel('label1', this.value)">
-      <span id="label1">50%</span>
+      <input type="range" min="0" max="100" value="0" id="slider1" oninput="updateLabel('label1', this.value)">
+      <span id="label1">0%</span>
       <button onclick="submeter('mercado', document.getElementById('slider1').value)">Submeter</button>
     </div>
   </section>
@@ -140,8 +139,8 @@
   <section>
     <h2>2. Qual é a percentagem de mulheres à frente de pelouros no executivo municipal?</h2>
     <div class="slider-container">
-      <input type="range" min="0" max="100" value="50" id="slider2" oninput="updateLabel('label2', this.value)">
-      <span id="label2">50%</span>
+      <input type="range" min="0" max="100" value="0" id="slider2" oninput="updateLabel('label2', this.value)">
+      <span id="label2">0%</span>
       <button onclick="submeter('executivo', document.getElementById('slider2').value)">Submeter</button>
     </div>
   </section>
@@ -153,14 +152,16 @@
 
       <div class="resposta">
         <h3>1. Mulheres à frente de bancas no mercado</h3>
-        <div id="resposta1" class="dados"></div> <!-- Exibe a resposta do participante -->
+        <div id="resposta1" class="dados">A sua resposta: ainda não respondeu :(</div>
+        <div id="naoRespondido1" class="dados"></div>
         <div class="correta">✔ As mulheres são mais de 65% do total de comerciantes.</div>
         <div id="dados1" class="dados">A calcular a média das respostas de todas as pessoas que responderam a este inquérito... aguarde um pouco</div>
       </div>
 
       <div class="resposta">
         <h3>2. Mulheres à frente de pelouros no executivo municipal</h3>
-        <div id="resposta2" class="dados"></div> <!-- Exibe a resposta do participante -->
+        <div id="resposta2" class="dados">A sua resposta: ainda não respondeu :(</div>
+        <div id="naoRespondido2" class="dados"></div>
         <div class="correta">✔ As mulheres são menos de 30% do total.</div>
         <div id="dados2" class="dados">A calcular a média das respostas de todas as pessoas que responderam a este inquérito... aguarde um pouco</div>
       </div>
@@ -175,18 +176,37 @@
     }
 
     function submeter(perguntaId, valor) {
-      // Armazena a resposta do usuário para exibir no final
-      localStorage.setItem(perguntaId, valor);
+      const respostaCampo = perguntaId === 'mercado' ? 'resposta1' : 'resposta2';
+      const naoRespondidoCampo = perguntaId === 'mercado' ? 'naoRespondido1' : 'naoRespondido2';
 
-      // Vai para a próxima secção logo após clicar
-      if (perguntaId === 'mercado') {
-        scrollToSection(1); // Vai para a 2ª pergunta
-      } else if (perguntaId === 'executivo') {
-        scrollToSection(2); // Vai para a secção de resultados
-        setTimeout(carregarResultados, 1000); // Dá um tempinho para os dados chegarem
+      if (valor === "0") {
+        document.getElementById(respostaCampo).innerText = 'A sua resposta: ainda não respondeu :(';
+        document.getElementById(naoRespondidoCampo).innerText = "Você ainda não respondeu";
+        localStorage.setItem(perguntaId, "Não respondeu");
+      } else {
+        document.getElementById(respostaCampo).innerText = `A sua resposta: ${valor}%`;
+        document.getElementById(naoRespondidoCampo).innerText = "";
+        localStorage.setItem(perguntaId, valor);
+
+        // Atualiza resultados da base de dados imediatamente após submissão
+        fetch(scriptURL + '?perguntaId=' + perguntaId)
+          .then(res => res.json())
+          .then(data => {
+            const media = data.media?.toFixed(1) ?? '-';
+            const total = data.total ?? '-';
+            const campo = perguntaId === 'mercado' ? 'dados1' : 'dados2';
+            document.getElementById(campo).innerText =
+              `Média das respostas: ${media}%. Total de respostas: ${total}`;
+          })
+          .catch(err => console.error('Erro ao atualizar dados:', err));
       }
 
-      // Envia os dados para o Apps Script
+      if (perguntaId === 'mercado') {
+        scrollToSection(1);
+      } else if (perguntaId === 'executivo') {
+        scrollToSection(2);
+      }
+
       fetch(scriptURL, {
         method: 'POST',
         body: JSON.stringify({ perguntaId: perguntaId, resposta: valor })
@@ -201,14 +221,8 @@
             const media = data.media?.toFixed(1) ?? '-';
             const total = data.total ?? '-';
             const campo = perguntaId === 'mercado' ? 'dados1' : 'dados2';
-            const respostaCampo = perguntaId === 'mercado' ? 'resposta1' : 'resposta2';
-            const respostaDada = localStorage.getItem(perguntaId); // Recupera a resposta do participante
-
             document.getElementById(campo).innerText =
               `Média das respostas: ${media}%. Total de respostas: ${total}`;
-
-            document.getElementById(respostaCampo).innerText =
-              `Sua resposta: ${respostaDada}%`;
           })
           .catch(err => {
             console.error('Erro ao carregar resultados:', err);
@@ -223,7 +237,6 @@
       }
     }
 
-    // Fade-in com scroll
     const sections = document.querySelectorAll("section");
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -234,6 +247,8 @@
     }, { threshold: 0.4 });
 
     sections.forEach(section => observer.observe(section));
+
+    window.onload = carregarResultados;
   </script>
 
 </body>
