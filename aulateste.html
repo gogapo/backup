@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Questionário sobre Participação Feminina</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        .resultados {
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .resposta-certa {
+            margin-top: 30px;
+            padding: 15px;
+            background: #e0ffe0;
+            border: 1px solid #b2d8b2;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Questionário</h1>
+
+    <div id="pergunta1">
+        <h2>1. Qual é a percentagem de mulheres à frente de bancas no mercado?</h2>
+        <input type="number" id="resposta1" min="0" max="100" step="1"> %
+        <button onclick="submeterResposta(1)">Submeter</button>
+        <div class="resultados" id="resultados1" style="display:none;"></div>
+    </div>
+
+    <div id="pergunta2">
+        <h2>2. Qual é a percentagem de mulheres à frente de pelouros no executivo municipal?</h2>
+        <input type="number" id="resposta2" min="0" max="100" step="1"> %
+        <button onclick="submeterResposta(2)">Submeter</button>
+        <div class="resultados" id="resultados2" style="display:none;"></div>
+    </div>
+
+    <div class="resposta-certa" id="respostasCertas" style="display:none;">
+        <h2>Respostas Certas:</h2>
+        <p><strong>1:</strong> As mulheres são mais de 65% do total de comerciantes.</p>
+        <p><strong>2:</strong> As mulheres são menos de 30% do total.</p>
+    </div>
+
+    <script>
+        function submeterResposta(pergunta) {
+            const respostaInput = document.getElementById(`resposta${pergunta}`);
+            const resposta = parseFloat(respostaInput.value);
+
+            if (isNaN(resposta) || resposta < 0 || resposta > 100) {
+                alert('Por favor insira uma percentagem válida entre 0 e 100.');
+                return;
+            }
+
+            // Recuperar os dados armazenados
+            let dados = JSON.parse(localStorage.getItem(`dadosPergunta${pergunta}`)) || { total: 0, soma: 0 };
+            
+            // Atualizar os dados
+            dados.total += 1;
+            dados.soma += resposta;
+
+            // Guardar novamente
+            localStorage.setItem(`dadosPergunta${pergunta}`, JSON.stringify(dados));
+
+            // Calcular a média
+            const media = (dados.soma / dados.total).toFixed(1);
+
+            // Mostrar resultados
+            const resultadosDiv = document.getElementById(`resultados${pergunta}`);
+            resultadosDiv.style.display = 'block';
+            resultadosDiv.innerHTML = `Média das respostas: <strong>${media}%</strong> (total de respostas: ${dados.total})`;
+
+            // Se ambas as perguntas foram respondidas, mostrar as respostas certas
+            const dados1 = JSON.parse(localStorage.getItem(`dadosPergunta1`));
+            const dados2 = JSON.parse(localStorage.getItem(`dadosPergunta2`));
+
+            if (dados1 && dados1.total > 0 && dados2 && dados2.total > 0) {
+                document.getElementById('respostasCertas').style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>
