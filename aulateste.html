@@ -98,6 +98,15 @@
       margin-top: 10px;
     }
 
+    .piscar {
+      animation: blink 1s linear infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
     section::before {
       content: '';
       position: absolute;
@@ -155,7 +164,7 @@
         <div id="resposta1" class="dados">A sua resposta: ainda não respondeu :(</div>
         <div id="naoRespondido1" class="dados"></div>
         <div class="correta">✔ As mulheres são mais de 65% do total de comerciantes.</div>
-        <div id="dados1" class="dados">A calcular a média das respostas de todas as pessoas que responderam a este inquérito... aguarde um pouco</div>
+        <div id="dados1" class="dados piscar">a carregar dados... aguarde um pouco</div>
       </div>
 
       <div class="resposta">
@@ -163,7 +172,7 @@
         <div id="resposta2" class="dados">A sua resposta: ainda não respondeu :(</div>
         <div id="naoRespondido2" class="dados"></div>
         <div class="correta">✔ As mulheres são menos de 30% do total.</div>
-        <div id="dados2" class="dados">A calcular a média das respostas de todas as pessoas que responderam a este inquérito... aguarde um pouco</div>
+        <div id="dados2" class="dados piscar">a carregar dados... aguarde um pouco</div>
       </div>
     </div>
 
@@ -191,20 +200,20 @@
         document.getElementById(naoRespondidoCampo).innerText = "";
         localStorage.setItem(perguntaId, valor);
 
-        // Envia a resposta e só depois atualiza os dados
+        document.getElementById(campo).innerText = "a carregar dados... aguarde um pouco";
+        document.getElementById(campo).classList.add("piscar");
+
         fetch(scriptURL, {
           method: 'POST',
           body: JSON.stringify({ perguntaId: perguntaId, resposta: valor })
         })
-        .then(() => {
-          return fetch(scriptURL + '?perguntaId=' + perguntaId);
-        })
+        .then(() => fetch(scriptURL + '?perguntaId=' + perguntaId))
         .then(res => res.json())
         .then(data => {
           const media = data.media?.toFixed(1) ?? '-';
           const total = data.total ?? '-';
-          document.getElementById(campo).innerText =
-            `Média das respostas: ${media}%. Total de respostas: ${total}`;
+          document.getElementById(campo).innerText = `Média das respostas: ${media}%. Total de respostas: ${total}`;
+          document.getElementById(campo).classList.remove("piscar");
         })
         .catch(err => console.error('Erro ao enviar ou atualizar dados:', err));
       }
@@ -218,18 +227,19 @@
 
     function carregarResultados() {
       ['mercado', 'executivo'].forEach(perguntaId => {
+        const campo = perguntaId === 'mercado' ? 'dados1' : 'dados2';
+        document.getElementById(campo).innerText = "a carregar dados... aguarde um pouco";
+        document.getElementById(campo).classList.add("piscar");
+
         fetch(scriptURL + '?perguntaId=' + perguntaId)
           .then(res => res.json())
           .then(data => {
             const media = data.media?.toFixed(1) ?? '-';
             const total = data.total ?? '-';
-            const campo = perguntaId === 'mercado' ? 'dados1' : 'dados2';
-            document.getElementById(campo).innerText =
-              `Média das respostas: ${media}%. Total de respostas: ${total}`;
+            document.getElementById(campo).innerText = `Média das respostas: ${media}%. Total de respostas: ${total}`;
+            document.getElementById(campo).classList.remove("piscar");
           })
-          .catch(err => {
-            console.error('Erro ao carregar resultados:', err);
-          });
+          .catch(err => console.error('Erro ao carregar resultados:', err));
       });
     }
 
