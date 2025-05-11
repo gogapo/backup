@@ -167,7 +167,7 @@
       </div>
     </div>
 
-    <BR/><BR/><BR/><DIV STYLE="font-size:12px">FAÇA SCROLL PARA CONTINUAR A LER</DIV>
+    <br/><br/><br/><div style="font-size:12px">FAÇA SCROLL PARA CONTINUAR A LER</div>
   </section>
 
   <script>
@@ -180,6 +180,7 @@
     function submeter(perguntaId, valor) {
       const respostaCampo = perguntaId === 'mercado' ? 'resposta1' : 'resposta2';
       const naoRespondidoCampo = perguntaId === 'mercado' ? 'naoRespondido1' : 'naoRespondido2';
+      const campo = perguntaId === 'mercado' ? 'dados1' : 'dados2';
 
       if (valor === "0") {
         document.getElementById(respostaCampo).innerText = 'A sua resposta: ainda não respondeu :(';
@@ -190,17 +191,22 @@
         document.getElementById(naoRespondidoCampo).innerText = "";
         localStorage.setItem(perguntaId, valor);
 
-        // Atualiza resultados da base de dados imediatamente após submissão
-        fetch(scriptURL + '?perguntaId=' + perguntaId)
-          .then(res => res.json())
-          .then(data => {
-            const media = data.media?.toFixed(1) ?? '-';
-            const total = data.total ?? '-';
-            const campo = perguntaId === 'mercado' ? 'dados1' : 'dados2';
-            document.getElementById(campo).innerText =
-              `Média das respostas: ${media}%. Total de respostas: ${total}`;
-          })
-          .catch(err => console.error('Erro ao atualizar dados:', err));
+        // Envia a resposta e só depois atualiza os dados
+        fetch(scriptURL, {
+          method: 'POST',
+          body: JSON.stringify({ perguntaId: perguntaId, resposta: valor })
+        })
+        .then(() => {
+          return fetch(scriptURL + '?perguntaId=' + perguntaId);
+        })
+        .then(res => res.json())
+        .then(data => {
+          const media = data.media?.toFixed(1) ?? '-';
+          const total = data.total ?? '-';
+          document.getElementById(campo).innerText =
+            `Média das respostas: ${media}%. Total de respostas: ${total}`;
+        })
+        .catch(err => console.error('Erro ao enviar ou atualizar dados:', err));
       }
 
       if (perguntaId === 'mercado') {
@@ -208,11 +214,6 @@
       } else if (perguntaId === 'executivo') {
         scrollToSection(2);
       }
-
-      fetch(scriptURL, {
-        method: 'POST',
-        body: JSON.stringify({ perguntaId: perguntaId, resposta: valor })
-      }).catch(err => console.error('Erro ao enviar:', err));
     }
 
     function carregarResultados() {
