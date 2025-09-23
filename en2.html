@@ -265,31 +265,32 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 var pontos = [
-    { cidade: "Chaves", coords: [41.7401, -7.4688], tema: "O cu do mundo não fica aqui, filhinhos", estado: "FEITO", link: "#" },
-    { cidade: "Lamego", coords: [41.0976, -7.8093], tema: "Palavra de Ranger: o serviço militar obrigatório só faz é bem", estado: "FEITO", link: "#" },
-    { cidade: "São Pedro do Sul", coords: [40.7550, -8.0730], tema: "Esta minha voz que ensina as pedras a cantar", estado: "FEITO", link: "#" },
-    { cidade: "Viseu", coords: [40.6566, -7.9125], tema: "Processo Evangelizador em Curso", estado: "FEITO", link: "#" },
-    { cidade: "Santa Comba Dão", coords: [40.3986, -8.1311], tema: "Salazar não morreu", estado: "FEITO", link: "#" },
-    { cidade: "Lousã", coords: [40.1150, -8.2490], tema: "Que se lixem os eucaliptos", estado: "FEITO", link: "#" },
-    { cidade: "Pedrógão Grande", coords: [39.9180, -8.1456], tema: "Guilhermina perdeu o marido na Estrada da Morte, Guilhermina só precisa de conversar", estado: "FEITO", link: "#" },
-    { cidade: "Sertã", coords: [39.8049, -8.0956], tema: "A menina da rádio", estado: "FEITO", link: "#" },
-    { cidade: "Abrantes", coords: [39.4667, -8.1833], tema: "Olha ali os fardas-azuis", estado: "FEITO", link: "#" },
-    { cidade: "Avis", coords: [39.0550, -7.8920], tema: "Não é só quem está no convento que sabe o que lá vai dentro", estado: "EM CURSO", link: "#" },
-    { cidade: "Viana do Alentejo", coords: [38.3344, -8.0017], tema: "Aqui não pergunte as horas (se não quer ser corno)", estado: "EM CURSO", link: "#" },
-    { cidade: "Alcácer do Sal", coords: [38.3730, -8.5144], tema: "Eu sou o Francisco, mas podes chamar-me Alfe. Sou imigrante, sou engenheiro e corto carne", estado: "EM CURSO", link: "#" },
-    { cidade: "Castro Verde", coords: [37.6985, -8.0854], tema: "Triste vida do marujo, que anda no mar embarcado. Mais triste do mineiro, que anda em vida sepultado", estado: "EM CURSO", link: "#" },
-    { cidade: "Faro", coords: [37.0194, -7.9322], tema: "Chopim, o último comunista, não vai na cantiga do André", estado: "EM CURSO", link: "#" }
+    { cidade: "Chaves", coords: [41.7401, -7.4688], tema: "O cu do mundo não fica aqui, filhinhos", estado: "FEITO", link: "https://cnnportugal.iol.pt/o-pais-do-meio/reportagem/dia-1-chaves-o-cu-do-mundo-nao-fica-aqui-filhinhos/20250922/68b73a3dd34e3f0baea24644" },
+    { cidade: "Lamego", coords: [41.0976, -7.8093], tema: "Palavra de Ranger: o serviço militar obrigatório só faz é bem", estado: "FEITO", link: "https://cnnportugal.iol.pt/autarquicas-2025/lamego/dia-2-lamego-palavra-de-ranger-o-servico-militar-obrigatorio-so-faz-e-bem/20250923/68b73acfd34e3f0baea24652" },
+    { cidade: "São Pedro do Sul", coords: [40.7550, -8.0730], tema: "Esta minha voz que ensina as pedras a cantar", estado: "EM CURSO", link: "24 de setembro" },
+    { cidade: "Viseu", coords: [40.6566, -7.9125], tema: "Processo Evangelizador em Curso", estado: "EM CURSO", link: "25 de setembro" },
+    { cidade: "Santa Comba Dão", coords: [40.3986, -8.1311], tema: "Salazar não morreu", estado: "EM CURSO", link: "26 de setembro" },
+    { cidade: "Lousã", coords: [40.1150, -8.2490], tema: "Que se lixem os eucaliptos", estado: "EM CURSO", link: "27 de setembro" },
+    { cidade: "Pedrógão Grande", coords: [39.9180, -8.1456], tema: "Guilhermina perdeu o marido na Estrada da Morte, Guilhermina só precisa de conversar", estado: "EM CURSO", link: "28 de setembro" },
+    { cidade: "Sertã", coords: [39.8049, -8.0956], tema: "A menina da rádio", estado: "EM CURSO", link: "29 de setembro" },
+    { cidade: "Abrantes", coords: [39.4667, -8.1833], tema: "Olha ali os fardas-azuis", estado: "EM CURSO", link: "30 de setembro" },
+    { cidade: "Avis", coords: [39.0550, -7.8920], tema: "Não é só quem está no convento que sabe o que lá vai dentro", estado: "EM CURSO", link: "1 de outubro" },
+    { cidade: "Viana do Alentejo", coords: [38.3344, -8.0017], tema: "Aqui não pergunte as horas (se não quer ser corno)", estado: "EM CURSO", link: "2 de outubro" },
+    { cidade: "Alcácer do Sal", coords: [38.3730, -8.5144], tema: "Eu sou o Francisco, mas podes chamar-me Alfe. Sou imigrante, sou engenheiro e corto carne", estado: "EM CURSO", link: "3 de outubro" },
+    { cidade: "Castro Verde", coords: [37.6985, -8.0854], tema: "Triste vida do marujo, que anda no mar embarcado. Mais triste do mineiro, que anda em vida sepultado", estado: "EM CURSO", link: "4 de outubro" },
+    { cidade: "Faro", coords: [37.0194, -7.9322], tema: "Chopim, o último comunista, não vai na cantiga do André", estado: "EM CURSO", link: "5 de outubro" }
 ];
 
 var coordsLinha = pontos.map(p => p.coords);
 L.polyline(coordsLinha, { color: '#0d47a1', weight: 4, opacity: 0.8 }).addTo(map);
 
 function createPopupContent(p) {
+    var linkContent = (p.estado === "FEITO") ? `<a href="${p.link}" target="_blank">Ler artigo</a>` : `Disponível a ${p.link}`;
     return `
         <div class="popup-content">
             <div class="city-name">${p.cidade}</div>
             <div class="report-title">${p.tema}</div>
-            <a href="${p.link}" target="_blank">Ler artigo</a>
+            ${linkContent}
         </div>
     `;
 }
