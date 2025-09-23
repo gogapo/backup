@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EN2 - Reportagens CNN Portugal</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<style>
+/* Estilos base */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    min-height: 100vh;
+}
+
+#container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+#map-container {
+    flex-grow: 1;
+}
+
+#map {
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+}
+
+#info-area {
+    padding: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0d47a1;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.cnn-red {
+    color: #cc0000;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Estilos para o menu horizontal em mobile */
+#city-list-container {
+    padding: 10px 0;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Esconder a barra de scroll */
+#city-list-container::-webkit-scrollbar {
+    display: none;
+}
+#city-list-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#city-list {
+    list-style: none;
+    padding: 0 10px;
+    margin: 0;
+    display: flex;
+    white-space: nowrap;
+    gap: 10px;
+}
+
+#city-list li {
+    flex-shrink: 0;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+}
+#city-list li:hover {
+    background-color: #e3f2fd;
+    transform: translateY(-2px);
+}
+
+.city-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.city-status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.status-feito { background-color: #4CAF50; }
+.status-em-curso { background-color: #FF9800; }
+
+.legend {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+.legend-color {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+}
+
+/* Mensagem de dica para mobile */
+#menu-tip {
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    margin-top: 10px;
+    display: none;
+}
+
+/* Media query para ecrãs maiores (desktop) */
+@media (min-width: 768px) {
+    #container {
+        flex-direction: row;
+        height: 100vh;
+    }
+    #map {
+        height: 100%;
+    }
+    #info-area {
+        width: 300px;
+        flex-shrink: 0;
+        overflow-y: auto;
+    }
+    #city-list-container {
+        overflow-x: hidden;
+        padding: 0;
+    }
+    #city-list {
+        display: block;
+        white-space: normal;
+        margin-top: 20px;
+    }
+    #city-list li {
+        width: 100%;
+        margin-bottom: 8px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        transform: none;
+    }
+    #city-list li:hover {
+        transform: none;
+    }
+    .legend {
+        flex-direction: column;
+        gap: 10px;
+    }
+    #menu-tip {
+        display: none;
+    }
+}
+
+/* ESTILOS NOVOS PARA O POP-UP */
+.leaflet-popup-content-wrapper {
+    background: rgba(255, 255, 255, 0.95); /* Alterado para ter 95% de opacidade */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 20px !important;
+}
+
+.leaflet-popup-tip-container {
+    visibility: hidden; /* Esconde a ponta padrão do pop-up */
+}
+
+.leaflet-popup-content .city-name {
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #333;
+    margin: 0 0 4px 0;
+    letter-spacing: 0.5px;
+}
+.leaflet-popup-content .report-title {
+    font-weight: bold;
+    font-size: 16px;
+    color: #cc0000;
+    margin: 0 0 10px 0;
+}
+.leaflet-popup-content a {
+    color: #0d47a1;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 14px;
+    text-decoration: none;
+}
+.leaflet-popup-content a:hover {
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<div id="container">
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+    
+    <div id="info-area">
+        <h1 class="cnn-red">O país do meio</h1>
+        <p>Esta é uma série de 14 reportagens de Tiago Palma, para ler na CNN Portugal. De Trás-os-Montes ao Algarve, o jornalista desce 2202km pela Estrada Nacional 2 e recolhe retratos íntimos de quem é destes lugares</p>
+        
+        <div id="city-list-container">
+            <ul id="city-list"></ul>
+            <div id="menu-tip">
+                Deslize para a direita ou esquerda para ver mais cidades
+            </div>
+        </div>
+
+        <div class="legend">
+            <div>
+                <span class="legend-color status-feito"></span> Reportagem publicada
+            </div>
+            <div>
+                <span class="legend-color status-em-curso"></span> Em curso
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+var map = L.map('map', {
+    zoomControl: false,
+    scrollWheelZoom: true,
+    dragging: true
+}).setView([40.35, -8.0], 7);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+var pontos = [
+    { cidade: "Chaves", coords: [41.7401, -7.4688], tema: "O cu do mundo não fica aqui, filhinhos", estado: "FEITO", link: "#" },
+    { cidade: "Lamego", coords: [41.0976, -7.8093], tema: "Palavra de Ranger: o serviço militar obrigatório só faz é bem", estado: "FEITO", link: "#" },
+    { cidade: "São Pedro do Sul", coords: [40.7550, -8.0730], tema: "Esta minha voz que ensina as pedras a cantar", estado: "FEITO", link: "#" },
+    { cidade: "Viseu", coords: [40.6566, -7.9125], tema: "Processo Evangelizador em Curso", estado: "FEITO", link: "#" },
+    { cidade: "Santa Comba Dão", coords: [40.3986, -8.1311], tema: "Salazar não morreu", estado: "FEITO", link: "#" },
+    { cidade: "Lousã", coords: [40.1150, -8.2490], tema: "Que se lixem os eucaliptos", estado: "FEITO", link: "#" },
+    { cidade: "Pedrógão Grande", coords: [39.9180, -8.1456], tema: "Guilhermina perdeu o marido na Estrada da Morte, Guilhermina só precisa de conversar", estado: "FEITO", link: "#" },
+    { cidade: "Sertã", coords: [39.8049, -8.0956], tema: "A menina da rádio", estado: "FEITO", link: "#" },
+    { cidade: "Abrantes", coords: [39.4667, -8.1833], tema: "Olha ali os fardas-azuis", estado: "FEITO", link: "#" },
+    { cidade: "Avis", coords: [39.0550, -7.8920], tema: "Não é só quem está no convento que sabe o que lá vai dentro", estado: "EM CURSO", link: "#" },
+    { cidade: "Viana do Alentejo", coords: [38.3344, -8.0017], tema: "Aqui não pergunte as horas (se não quer ser corno)", estado: "EM CURSO", link: "#" },
+    { cidade: "Alcácer do Sal", coords: [38.3730, -8.5144], tema: "Eu sou o Francisco, mas podes chamar-me Alfe. Sou imigrante, sou engenheiro e corto carne", estado: "EM CURSO", link: "#" },
+    { cidade: "Castro Verde", coords: [37.6985, -8.0854], tema: "Triste vida do marujo, que anda no mar embarcado. Mais triste do mineiro, que anda em vida sepultado", estado: "EM CURSO", link: "#" },
+    { cidade: "Faro", coords: [37.0194, -7.9322], tema: "Chopim, o último comunista, não vai na cantiga do André", estado: "EM CURSO", link: "#" }
+];
+
+var coordsLinha = pontos.map(p => p.coords);
+L.polyline(coordsLinha, { color: '#0d47a1', weight: 4, opacity: 0.8 }).addTo(map);
+
+function createPopupContent(p) {
+    return `
+        <div class="popup-content">
+            <div class="city-name">${p.cidade}</div>
+            <div class="report-title">${p.tema}</div>
+            <a href="${p.link}" target="_blank">Ler artigo</a>
+        </div>
+    `;
+}
+
+var cityList = document.getElementById('city-list');
+var markers = [];
+
+pontos.forEach(p => {
+    var color = (p.estado === "FEITO") ? '#4CAF50' : '#FF9800';
+    
+    var marker = L.circleMarker(p.coords, {
+        radius: 7,
+        color: 'white',
+        weight: 2,
+        fillColor: color,
+        fillOpacity: 0.9
+    }).addTo(map);
+
+    marker.on('click', function() {
+        marker.bindPopup(createPopupContent(p)).openPopup();
+    });
+    markers.push(marker);
+
+    var listItem = document.createElement('li');
+    listItem.innerHTML = `
+        <span class="city-status ${p.estado === 'FEITO' ? 'status-feito' : 'status-em-curso'}"></span>
+        <a href="#" class="city-link">${p.cidade}</a>
+    `;
+    cityList.appendChild(listItem);
+
+    listItem.addEventListener('click', function(e) {
+        e.preventDefault();
+        map.flyTo(p.coords, 10);
+        
+        var targetMarker = markers[pontos.indexOf(p)];
+        targetMarker.bindPopup(createPopupContent(p)).openPopup();
+    });
+});
+
+var bounds = L.latLngBounds(pontos.map(p => p.coords));
+map.fitBounds(bounds.pad(0.05));
+
+function showMenuTip() {
+    if (window.innerWidth < 768) {
+        document.getElementById('menu-tip').style.display = 'block';
+    } else {
+        document.getElementById('menu-tip').style.display = 'none';
+    }
+}
+
+window.addEventListener('resize', showMenuTip);
+window.addEventListener('load', showMenuTip);
+</script>
+
+</body>
+</html>
