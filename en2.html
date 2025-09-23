@@ -74,7 +74,7 @@ p {
 
 #city-list {
     list-style: none;
-    padding: 0 10px;
+    padding: 0 0px;
     margin: 0;
     display: flex;
     white-space: nowrap;
@@ -114,7 +114,8 @@ p {
 .status-em-curso { background-color: #FF9800; }
 
 .legend {
-    margin-top: 20px;
+    margin-top: 5px;
+    margin-bottom: 2px;
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
@@ -123,7 +124,7 @@ p {
 .legend div {
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 10px;
 }
 .legend-color {
     display: inline-block;
@@ -170,7 +171,7 @@ p {
         width: 100%;
         margin-bottom: 8px;
         box-sizing: border-box;
-        border-radius: 5px;
+        border-radius: 20px;
         transform: none;
     }
     #city-list li:hover {
@@ -187,7 +188,7 @@ p {
 
 /* ESTILOS NOVOS PARA O POP-UP */
 .leaflet-popup-content-wrapper {
-    background: rgba(255, 255, 255, 0.95); /* Alterado para ter 95% de opacidade */
+    background: rgba(255, 255, 255, 0.75); /* Alterado para ter 95% de opacidade */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     padding: 20px !important;
@@ -198,7 +199,7 @@ p {
 }
 
 .leaflet-popup-content .city-name {
-    font-weight: 500;
+    font-weight: bold;
     text-transform: uppercase;
     font-size: 12px;
     color: #333;
@@ -207,7 +208,7 @@ p {
 }
 .leaflet-popup-content .report-title {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
     color: #cc0000;
     margin: 0 0 10px 0;
 }
@@ -233,7 +234,15 @@ p {
     <div id="info-area">
         <h1 class="cnn-red">O país do meio</h1>
         <p>Esta é uma série de 14 reportagens de Tiago Palma, para ler na CNN Portugal. De Trás-os-Montes ao Algarve, o jornalista desce 2202km pela Estrada Nacional 2 e recolhe retratos íntimos de quem é destes lugares</p>
-        
+   <div class="legend">
+            <div>
+                <span class="legend-color status-feito"></span> Reportagem publicada
+            </div>
+            <div>
+                <span class="legend-color status-em-curso"></span> Em curso
+            </div>
+        </div>        
+
         <div id="city-list-container">
             <ul id="city-list"></ul>
             <div id="menu-tip">
@@ -241,14 +250,7 @@ p {
             </div>
         </div>
 
-        <div class="legend">
-            <div>
-                <span class="legend-color status-feito"></span> Reportagem publicada
-            </div>
-            <div>
-                <span class="legend-color status-em-curso"></span> Em curso
-            </div>
-        </div>
+     
     </div>
 </div>
 
