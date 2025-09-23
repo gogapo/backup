@@ -188,7 +188,7 @@ p {
 
 /* ESTILOS NOVOS PARA O POP-UP */
 .leaflet-popup-content-wrapper {
-    background: rgba(255, 255, 255, 0.75); /* Alterado para ter 95% de opacidade */
+    background: rgba(255, 255, 255, 0.85); /* Alterado para ter 95% de opacidade */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     padding: 20px !important;
@@ -215,7 +215,7 @@ p {
 .leaflet-popup-content a {
     color: #0d47a1;
     font-style: italic;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 14px;
     text-decoration: none;
 }
@@ -287,7 +287,7 @@ var coordsLinha = pontos.map(p => p.coords);
 L.polyline(coordsLinha, { color: '#0d47a1', weight: 4, opacity: 0.8 }).addTo(map);
 
 function createPopupContent(p) {
-    var linkContent = (p.estado === "FEITO") ? `<a href="${p.link}" target="_blank">Ler artigo</a>` : `Disponível a ${p.link}`;
+    var linkContent = (p.estado === "FEITO") ? `<a href="${p.link}" target="_blank">carregue aqui para ler a reportagem</a>` : `Disponível a ${p.link}`;
     return `
         <div class="popup-content">
             <div class="city-name">${p.cidade}</div>
