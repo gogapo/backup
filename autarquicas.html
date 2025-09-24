@@ -62,7 +62,7 @@
         .map-container {
             width: 100%;
             max-width: 500px;
-            aspect-ratio: 1 / 1.2;
+            aspect-ratio: 1 / 1.3;
             position: relative;
             background-color: transparent;
             overflow: visible;
@@ -95,8 +95,8 @@
             content: '';
             position: absolute;
             top: -1%;
-            left: 10%;
-            width: 75%; /* Aumentado para sobrepor Espanha */
+            left: 0%;
+            width: 85%; /* Aumentado para sobrepor Espanha */
             height: 95%;
             background: 
                 radial-gradient(circle at 75% 50%, var(--portugal-red-light) 0%, transparent 60%),
@@ -207,49 +207,51 @@
         .btn-map.large { padding: 12px 18px; font-size: 1rem; }
         .btn-map.extra-large { padding: 14px 22px; font-size: 1.1rem; }
 
-        /* Posições dos botões - Mantidas, mas pode ser necessário ajuste fino */
-        .viana-do-castelo { top: 7%; left: 23%; }
-        .braga { top: 12%; left: 30%; }
-        .vila-real { top: 15%; left: 50%; }
-        .braganca { top: 10%; left: 65%; }
-        .porto { top: 21%; left: 26%; }
-        .aveiro { top: 30%; left: 24%; }
-        .viseu { top: 25%; left: 40%; }
-        .guarda { top: 27%; left: 63%; }
-        .coimbra { top: 35%; left: 32%; }
-        .castelo-branco { top: 41%; left: 58%; }
-        .leiria { top: 43%; left: 27%; }
-        .santarem { top: 51%; left: 40%; }
-        .portalegre { top: 51%; left: 62%; }
-        .lisboa { top: 61%; left: 24%; }
-        .setubal { top: 70%; left: 30%; }
-        .evora { top: 65%; left: 48%; }
-        .beja { top: 77%; left: 44%; }
-        .faro { top: 85%; left: 42%; }
-        
-        .acores { top: 99%; left: 20%; }
-        .madeira { top: 99%; left: 65%; }
+        /* Posições dos botões - Ajustadas para estarem mais centradas */
+.viana-do-castelo { top: 7%; left: 18%; } /* Era 23% */
+.braga { top: 12%; left: 25%; } /* Era 30% */
+.vila-real { top: 15%; left: 40%; } /* Era 50% */
+.braganca { top: 10%; left: 55%; } /* Era 65% */
+.porto { top: 21%; left: 20%; } /* Era 26% */
+.aveiro { top: 30%; left: 20%; } /* Era 24% */
+.viseu { top: 25%; left: 35%; } /* Era 40% */
+.guarda { top: 27%; left: 55%; } /* Era 63% */
+.coimbra { top: 35%; left: 28%; } /* Era 32% */
+.castelo-branco { top: 41%; left: 50%; } /* Era 58% */
+.leiria { top: 43%; left: 23%; } /* Era 27% */
+.santarem { top: 51%; left: 35%; } /* Era 40% */
+.portalegre { top: 51%; left: 55%; } /* Era 62% */
+.lisboa { top: 61%; left: 20%; } /* Era 24% */
+.setubal { top: 70%; left: 25%; } /* Era 30% */
+.evora { top: 65%; left: 40%; } /* Era 48% */
+.beja { top: 77%; left: 38%; } /* Era 44% */
+.faro { top: 85%; left: 35%; } /* Era 42% */
 
-        @media (max-width: 600px) {
-            .btn-map {
-                font-size: 0.7rem;
-                padding: 6px 10px;
-            }
-            .viana-do-castelo { top: 7%; left: 23%; }
-            .porto { top: 19%; left: 26%; }
-            .acores { top: 99%; left: 20%; }
-            .madeira { top: 99%; left: 65%; }
-            .faro { top: 85.5%; left: 42%; }
-            .beja { top: 78%; left: 44%; }
-            .setubal { top: 72%; left: 26%; }
-            
-            .spain-container {
-                top: -1%;
-                left: 75%;
-                width: 25%;
-                height: 95%;
-            }
-        }
+/* Os Açores e a Madeira podem manter a posição ou ser ajustados se necessário */
+.acores { top: 99%; left: 20%; }
+.madeira { top: 99%; left: 55%; }
+
+@media (max-width: 600px) {
+    /* Ajustar os mesmos valores aqui */
+    .btn-map {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+    }
+    .viana-do-castelo { top: 7%; left: 18%; }
+    .porto { top: 19%; left: 20%; }
+    .acores { top: 99%; left: 20%; }
+    .madeira { top: 99%; left: 55%; }
+    .faro { top: 85.5%; left: 35%; }
+    .beja { top: 78%; left: 38%; }
+    .setubal { top: 72%; left: 20%; }
+
+    .spain-container {
+        top: -1%;
+        left: 75%;
+        width: 25%;
+        height: 95%;
+    }
+}
     </style>
 </head>
 <body>
