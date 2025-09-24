@@ -17,10 +17,19 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: linear-gradient(to top, #89cff0 0%, #a7ddf8 50%, #d6edff 100%),
-                        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 0%, transparent 15%),
-                        radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 0%, transparent 15%);
-            background-size: cover, 50px 50px, 50px 50px;
+            background: 
+                /* Os novos gradientes para o "fade" para branco. Estão na frente para se sobreporem ao mar. */
+                linear-gradient(to top, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 15%),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 15%),
+                linear-gradient(to left, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 15%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 15%),
+                
+                /* O gradiente original do mar e os brilhos radiais, agora por baixo dos "fades" */
+                linear-gradient(to top, #89cff0 0%, #a7ddf8 50%, #d6edff 100%),
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 0%, transparent 15%),
+                radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 0%, transparent 15%);
+                
+            background-size: cover, cover, cover, cover, cover, 50px 50px, 50px 50px;
             filter: saturate(120%);
             margin: 0;
             padding: 30px;
@@ -123,7 +132,7 @@
         .faro { top: 83%; left: 42%; }
         
         .acores { top: 92%; left: 18%; }
-        .madeira { top: 92%; left: 40%; }
+        .madeira { top: 92%; right: 0%; }
 
         @media (max-width: 600px) {
             .btn-map {
@@ -132,8 +141,8 @@
             }
             .viana-do-castelo { top: 5%; left: 26%; }
             .porto { top: 17%; left: 26%; }
-            .acores { top: 93%; left: 18%; }
-            .madeira { top: 93%; left: 40%; }
+            .acores { top: 95%; left: 18%; }
+            .madeira { top: 95%; right: 0%; }
             .faro { top: 84%; left: 42%; }
             .beja { top: 76%; left: 44%; }
             .setubal { top: 70%; left: 26%; }
