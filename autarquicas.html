@@ -3,43 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de Portugal iOS 26 - Liquid Glass</title>
+    <title>Mapa de Portugal iOS 26 - Fronteira Fusão</title>
     <style>
         :root {
+            /* Cores dos botões iOS (padrão) */
             --ios-red: #FF3B30;
             --ios-yellow: #FFCC00;
             --ios-green: #34C759;
             --ios-blue: #007AFF;
+            
+            /* Cores de borda e texto */
             --glass-border-color: rgba(255, 255, 255, 0.3);
-            --text-color-dark: #212529; /* Cor do texto escuro */
-            --text-color-light: #ffffff; /* Cor do texto claro */
+            --text-color-dark: #212529;
+            
+            /* Paleta de Cores para Portugal (Impressionista) */
+            --portugal-green-light: #C8E6C9;
+            --portugal-green-medium: #81C784;
+            --portugal-green-dark: #388E3C;
+            --portugal-red-light: #EF9A9A;
+            --portugal-red-medium: #E57373;
+            --portugal-red-dark: #D32F2F;
+            --portugal-gold-light: #FFECB3;
+            --portugal-gold-dark: #FFC107;
+
+            /* Paleta de Cores para Espanha (Impressionista) */
+            --spain-red-light: #FFCDD2;
+            --spain-red-medium: #EF9A9A;
+            --spain-red-dark: #C62828;
+            --spain-yellow-light: #FFF9C4;
+            --spain-yellow-medium: #FFEB3B;
+            --spain-yellow-dark: #FBC02D;
+
+            /* Cores do Oceano Atlântico (Impressionista Aprimorado) */
+            --atlantic-blue-1: #E3F2FD;
+            --atlantic-blue-2: #BBDEFB;
+            --atlantic-blue-3: #90CAF9;
+            --atlantic-blue-4: #64B5F6;
+            --atlantic-blue-5: #42A5F5;
+            --atlantic-blue-6: #2196F3;
+            --atlantic-blue-7: #1976D2;
+
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #ffffff; /* Fundo branco puro */
+            background-color: #ffffff;
             margin: 0;
-            padding: 0px;
+            padding: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
+            position: relative;
         }
 
         .map-container {
             width: 100%;
             max-width: 500px;
-            aspect-ratio: 1 / 1.4;
+            aspect-ratio: 1 / 1.2;
             position: relative;
             background-color: transparent;
             overflow: visible;
         }
 
+        /* Retângulo de MAR (Fundo) - Impressionista Aprimorado */
+        
+
+        @keyframes moveImpressionistWaves {
+            0% { 
+                background-position: 0% 50%, 100% 0%, 0% 100%, 100% 100%, 50% 50%, 25% 75%, 75% 25%, 50% 50%;
+                filter: hue-rotate(0deg) brightness(1.0) saturate(1.0); 
+            }
+            33% { 
+                background-position: 100% 0%, 0% 50%, 100% 0%, 0% 0%, 25% 25%, 75% 75%, 50% 50%, 70% 30%;
+                filter: hue-rotate(3deg) brightness(1.05) saturate(1.02);
+            }
+            66% {
+                background-position: 50% 100%, 20% 20%, 80% 80%, 10% 90%, 90% 10%, 60% 40%, 40% 60%, 30% 70%;
+                filter: hue-rotate(-3deg) brightness(0.98) saturate(0.98);
+            }
+            100% { 
+                background-position: 0% 50%, 100% 0%, 0% 100%, 100% 100%, 50% 50%, 25% 75%, 75% 25%, 50% 50%;
+                filter: hue-rotate(0deg) brightness(1.0) saturate(1.0);
+            }
+        }
+        
+        /* Retângulo de PORTUGAL (Terra) - AGORA COM FUSÃO NA BORDA */
+        .map-container::before {
+            content: '';
+            position: absolute;
+            top: -1%;
+            left: 10%;
+            width: 75%; /* Aumentado para sobrepor Espanha */
+            height: 95%;
+            background: 
+                radial-gradient(circle at 75% 50%, var(--portugal-red-light) 0%, transparent 60%),
+                radial-gradient(circle at 25% 50%, var(--portugal-green-light) 0%, transparent 60%),
+                linear-gradient(20deg, var(--portugal-red-medium) 0%, transparent 70%),
+                linear-gradient(160deg, var(--portugal-green-medium) 0%, transparent 70%),
+                linear-gradient(to right, var(--portugal-green-dark) 0%, transparent 40%),
+                linear-gradient(to right, transparent 60%, var(--portugal-red-dark) 100%);
+            
+            background-blend-mode: overlay, overlay, soft-light, soft-light, multiply, multiply;
+            background-size: 150% 150%, 150% 150%, 120% 120%, 120% 120%, 100% 100%, 100% 100%;
+            background-position: 70% 50%, 30% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%;
+            
+            border-top-left-radius: 25px;
+            border-bottom-left-radius: 25px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            z-index: 1;
+            box-shadow: inset 8px 0 20px rgba(0, 0, 0, 0.25), 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.8s ease-in-out;
+            animation: breatheColors 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes breatheColors {
+            0% { filter: brightness(1.0) contrast(1.0); }
+            50% { filter: brightness(1.05) contrast(1.02); }
+            100% { filter: brightness(1.0) contrast(1.0); }
+        }
+
+        /* Retângulo da ESPANHA - Impressionista, com fusão na borda */
+        .spain-container {
+            position: absolute;
+            top: -1%;
+            left: 75%; /* Movido para a esquerda para sobrepor Portugal */
+            width: 25%; /* Aumentado para criar a área de sobreposição */
+            height: 95%;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--spain-yellow-light) 0%, transparent 60%),
+                linear-gradient(30deg, var(--spain-red-medium) 0%, transparent 70%),
+                linear-gradient(150deg, var(--spain-yellow-medium) 0%, transparent 80%),
+                linear-gradient(270deg, var(--spain-red-dark) 0%, transparent 90%),
+                linear-gradient(to right, var(--spain-yellow-dark) 0%, var(--spain-red-dark) 100%);
+            
+            background-blend-mode: overlay, soft-light, multiply, screen, normal;
+            background-size: 160% 160%, 140% 140%, 120% 120%, 100% 100%, 100% 100%;
+            background-position: 0% 0%, 100% 0%, 0% 100%, 50% 50%, 50% 50%;
+
+            border-top-right-radius: 25px;
+            border-bottom-right-radius: 25px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            z-index: 1;
+            box-shadow: inset -8px 0 20px rgba(0, 0, 0, 0.25), 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.8s ease-in-out;
+            animation: breatheColors 15s ease-in-out infinite alternate;
+        }
+        
+        /* Fusão entre Portugal e Espanha - Mask para simular pincelada na junção */
+        .map-container::before {
+            mask-image: linear-gradient(to right, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+        }
+        .spain-container {
+            mask-image: linear-gradient(to left, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to left, black 90%, transparent 100%);
+        }
+
+        /* Estilo dos botões Liquid Glass - Mantido com ajustes para o novo fundo */
         .btn-map {
             border: 1px solid var(--glass-border-color);
-            border-radius: 18px 10px 22px 8px;
+            border-radius: 20px 12px 25px 10px;
             padding: 10px 15px;
             text-align: center;
             text-decoration: none;
@@ -48,94 +176,85 @@
             white-space: nowrap;
             position: absolute;
             z-index: 2;
-            
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
-            
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 6px 25px rgba(0, 0, 0, 0.2);
-            
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                        box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        border-radius 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            transform: translate(-50%, -50%) perspective(1px);
-            
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px) saturate(200%);
+            -webkit-backdrop-filter: blur(15px) saturate(200%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.6);
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                        box-shadow 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                        border-radius 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform: translate(-50%, -50%) perspective(1px) scale(0.98);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            color: var(--text-color-dark);
+            background-color: rgba(255, 255, 255, 0.25);
         }
 
         .btn-map:hover {
-            transform: translate(-50%, -50%) scale(1.08) rotateZ(1deg);
-            border-radius: 10px 22px 8px 18px;
+            transform: translate(-50%, -50%) scale(1.05) rotateZ(2deg);
+            border-radius: 12px 25px 10px 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25), inset 0 0 15px rgba(255, 255, 255, 0.8);
         }
         
-        .ios-green {
-            background-color: rgba(52, 199, 89, 0.9);
-            color: var(--text-color-light);
-        }
-        
-        .ios-yellow {
-            background-color: rgba(255, 204, 0, 0.9);
-            color: var(--text-color-light);
-        }
-        
-        .ios-red {
-            background-color: rgba(255, 59, 48, 0.9);
-            color: var(--text-color-light);
-        }
-        
-        .ios-blue {
-            background-color: rgba(0, 122, 255, 0.9);
-            color: var(--text-color-light);
-        }
-        
-        .no-shadow {
-            /* Mantenha esta classe para os botões das ilhas, se desejar remover a sombra deles */
-        }
+        /* Tonalidade dos botões */
+        .ios-green { background-color: rgba(52, 199, 89, 0.4); }
+        .ios-yellow { background-color: rgba(255, 204, 0, 0.4); }
+        .ios-red { background-color: rgba(200, 50, 50, 0.4); }
+        .ios-blue { background-color: rgba(0, 122, 255, 0.4); }
+
+        .no-shadow { box-shadow: none !important; }
 
         .btn-map.small { padding: 8px 12px; font-size: 0.8rem; }
         .btn-map.medium { padding: 10px 15px; font-size: 0.9rem; }
         .btn-map.large { padding: 12px 18px; font-size: 1rem; }
         .btn-map.extra-large { padding: 14px 22px; font-size: 1.1rem; }
 
-        .viana-do-castelo { top: 5%; left: 18%; }
-        .braga { top: 10%; left: 30%; }
-        .vila-real { top: 13%; left: 50%; }
-        .braganca { top: 11%; left: 75%; }
-        .porto { top: 19%; left: 26%; }
-        .aveiro { top: 28%; left: 24%; }
-        .viseu { top: 23%; left: 40%; }
-        .guarda { top: 25%; left: 63%; }
-        .coimbra { top: 33%; left: 32%; }
-        .castelo-branco { top: 39%; left: 58%; }
-        .leiria { top: 41%; left: 27%; }
-        .santarem { top: 49%; left: 40%; }
-        .portalegre { top: 49%; left: 62%; }
-        .lisboa { top: 59%; left: 24%; }
-        .setubal { top: 68%; left: 30%; }
-        .evora { top: 63%; left: 48%; }
-        .beja { top: 75%; left: 44%; }
-        .faro { top: 83%; left: 42%; }
+        /* Posições dos botões - Mantidas, mas pode ser necessário ajuste fino */
+        .viana-do-castelo { top: 7%; left: 23%; }
+        .braga { top: 12%; left: 30%; }
+        .vila-real { top: 15%; left: 50%; }
+        .braganca { top: 10%; left: 65%; }
+        .porto { top: 21%; left: 26%; }
+        .aveiro { top: 30%; left: 24%; }
+        .viseu { top: 25%; left: 40%; }
+        .guarda { top: 27%; left: 63%; }
+        .coimbra { top: 35%; left: 32%; }
+        .castelo-branco { top: 41%; left: 58%; }
+        .leiria { top: 43%; left: 27%; }
+        .santarem { top: 51%; left: 40%; }
+        .portalegre { top: 51%; left: 62%; }
+        .lisboa { top: 61%; left: 24%; }
+        .setubal { top: 70%; left: 30%; }
+        .evora { top: 65%; left: 48%; }
+        .beja { top: 77%; left: 44%; }
+        .faro { top: 85%; left: 42%; }
         
-        .acores { top: 92%; left: 18%; }
-        .madeira { top: 92%; right: 0%; }
+        .acores { top: 99%; left: 20%; }
+        .madeira { top: 99%; left: 65%; }
 
         @media (max-width: 600px) {
             .btn-map {
                 font-size: 0.7rem;
                 padding: 6px 10px;
             }
-            .viana-do-castelo { top: 5%; left: 26%; }
-            .porto { top: 17%; left: 26%; }
-            .acores { top: 93%; left: 18%; }
-            .madeira { top: 93%; right: 0%; }
-            .faro { top: 84%; left: 42%; }
-            .beja { top: 76%; left: 44%; }
-            .setubal { top: 70%; left: 26%; }
+            .viana-do-castelo { top: 7%; left: 23%; }
+            .porto { top: 19%; left: 26%; }
+            .acores { top: 99%; left: 20%; }
+            .madeira { top: 99%; left: 65%; }
+            .faro { top: 85.5%; left: 42%; }
+            .beja { top: 78%; left: 44%; }
+            .setubal { top: 72%; left: 26%; }
+            
+            .spain-container {
+                top: -1%;
+                left: 75%;
+                width: 25%;
+                height: 95%;
+            }
         }
     </style>
 </head>
 <body>
-
     <div class="map-container">
+        <div class="spain-container"></div>
         <a href="https://cnnportugal.iol.pt/noticias/Viana-do-CasteloAutarquicas" target="_blank" class="btn-map small ios-green viana-do-castelo">Viana do Castelo</a>
         <a href="https://cnnportugal.iol.pt/noticias/BragaAutarquicas" target="_blank" class="btn-map small ios-green braga">Braga</a>
         <a href="https://cnnportugal.iol.pt/noticias/Vila-RealAutarquicas" target="_blank" class="btn-map medium ios-red vila-real">Vila Real</a>
@@ -158,6 +277,5 @@
         <a href="https://cnnportugal.iol.pt/noticias/AcoresAutarquicas" target="_blank" class="btn-map medium ios-green acores no-shadow">Açores</a>
         <a href="https://cnnportugal.iol.pt/noticias/MadeiraAutarquicas" target="_blank" class="btn-map medium ios-red madeira no-shadow">Madeira</a>
     </div>
-
 </body>
 </html>
