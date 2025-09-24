@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Portugal iOS 26 - Liquid Glass Mar</title>
+    <style>
+        :root {
+            --ios-red: #FF3B30;
+            --ios-yellow: #FFCC00;
+            --ios-green: #34C759;
+            --ios-blue: #007AFF;
+            --glass-border-color: rgba(255, 255, 255, 0.3);
+            --text-color-dark: #212529; /* Cor do texto escuro */
+            --text-color-light: #ffffff; /* Cor do texto claro */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(to top, #89cff0 0%, #a7ddf8 50%, #d6edff 100%),
+                        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 0%, transparent 15%),
+                        radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 0%, transparent 15%);
+            background-size: cover, 50px 50px, 50px 50px;
+            filter: saturate(120%);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .map-container {
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1 / 1.4;
+            position: relative;
+            background-color: transparent;
+            overflow: hidden;
+        }
+
+        .btn-map {
+            border: 1px solid var(--glass-border-color);
+            border-radius: 18px 10px 22px 8px;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            position: absolute;
+            z-index: 2;
+            
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 4px 20px rgba(0, 0, 0, 0.15);
+            
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        border-radius 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translate(-50%, -50%) perspective(1px);
+            
+            /* Melhoria na legibilidade */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-map:hover {
+            transform: translate(-50%, -50%) scale(1.08) rotateZ(1deg);
+            border-radius: 10px 22px 8px 18px;
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.6), 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
+        
+        .ios-green {
+            background-color: rgba(52, 199, 89, 0.7);
+            color: var(--text-color-light);
+        }
+        
+        .ios-yellow {
+            background-color: rgba(255, 204, 0, 0.7);
+            color: var(--text-color-dark); /* Alterado para texto escuro */
+        }
+        
+        .ios-red {
+            background-color: rgba(255, 59, 48, 0.7);
+            color: var(--text-color-light);
+        }
+        
+        .ios-blue {
+            background-color: rgba(0, 122, 255, 0.7);
+            color: var(--text-color-light);
+        }
+        
+        .btn-map.small { padding: 8px 12px; font-size: 0.8rem; }
+        .btn-map.medium { padding: 10px 15px; font-size: 0.9rem; }
+        .btn-map.large { padding: 12px 18px; font-size: 1rem; }
+        .btn-map.extra-large { padding: 14px 22px; font-size: 1.1rem; }
+
+        .viana-do-castelo { top: 7%; left: 18%; }
+        .braga { top: 10%; left: 34%; }
+        .vila-real { top: 13%; left: 50%; }
+        .braganca { top: 11%; left: 75%; }
+        .porto { top: 19%; left: 26%; }
+        .aveiro { top: 28%; left: 24%; }
+        .viseu { top: 23%; left: 40%; }
+        .guarda { top: 25%; left: 63%; }
+        .coimbra { top: 33%; left: 32%; }
+        .castelo-branco { top: 39%; left: 58%; }
+        .leiria { top: 41%; left: 27%; }
+        .santarem { top: 49%; left: 40%; }
+        .portalegre { top: 49%; left: 62%; }
+        .lisboa { top: 59%; left: 24%; }
+        .setubal { top: 68%; left: 30%; }
+        .evora { top: 63%; left: 48%; }
+        .beja { top: 75%; left: 44%; }
+        .faro { top: 83%; left: 42%; }
+        
+        .acores { top: 90%; left: 15%; }
+        .madeira { top: 90%; right: 10%; }
+
+        @media (max-width: 600px) {
+            .btn-map {
+                font-size: 0.7rem;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="map-container">
+        <a href="https://cnnportugal.iol.pt/noticias/Viana-do-CasteloAutarquicas" class="btn-map small ios-green viana-do-castelo">Viana do Castelo</a>
+        <a href="https://cnnportugal.iol.pt/noticias/BragaAutarquicas" class="btn-map small ios-green braga">Braga</a>
+        <a href="https://cnnportugal.iol.pt/noticias/Vila-RealAutarquicas" class="btn-map medium ios-red vila-real">Vila Real</a>
+        <a href="https://cnnportugal.iol.pt/noticias/BragancaAutarquicas" class="btn-map medium ios-red braganca">Bragança</a>
+        <a href="https://cnnportugal.iol.pt/noticias/PortoAutarquicas" class="btn-map medium ios-green porto">Porto</a>
+        <a href="https://cnnportugal.iol.pt/noticias/AveiroAutarquicas" class="btn-map small ios-green aveiro">Aveiro</a>
+        <a href="https://cnnportugal.iol.pt/noticias/ViseuAutarquicas" class="btn-map large ios-red viseu">Viseu</a>
+        <a href="https://cnnportugal.iol.pt/noticias/GuardaAutarquicas" class="btn-map large ios-red guarda">Guarda</a>
+        <a href="https://cnnportugal.iol.pt/noticias/CoimbraAutarquicas" class="btn-map medium ios-yellow coimbra">Coimbra</a>
+        <a href="https://cnnportugal.iol.pt/noticias/Castelo-BrancoAutarquicas" class="btn-map extra-large ios-red castelo-branco">Castelo Branco</a>
+        <a href="https://cnnportugal.iol.pt/noticias/LeiriaAutarquicas" class="btn-map medium ios-green leiria">Leiria</a>
+        <a href="https://cnnportugal.iol.pt/noticias/SantaremAutarquicas" class="btn-map extra-large ios-yellow santarem">Santarém</a>
+        <a href="https://cnnportugal.iol.pt/noticias/PortalegreAutarquicas" class="btn-map large ios-red portalegre">Portalegre</a>
+        <a href="https://cnnportugal.iol.pt/noticias/LisboaAutarquicas" class="btn-map small ios-green lisboa">Lisboa</a>
+        <a href="https://cnnportugal.iol.pt/noticias/SetubalAutarquicas" class="btn-map large ios-green setubal">Setúbal</a>
+        <a href="https://cnnportugal.iol.pt/noticias/EvoraAutarquicas" class="btn-map extra-large ios-red evora">Évora</a>
+        <a href="https://cnnportugal.iol.pt/noticias/BejaAutarquicas" class="btn-map extra-large ios-red beja">Beja</a>
+        <a href="https://cnnportugal.iol.pt/noticias/FaroAutarquicas" class="btn-map extra-large ios-red faro">Faro</a>
+        
+        <a href="https://cnnportugal.iol.pt/noticias/AcoresAutarquicas" class="btn-map medium ios-green acores">Açores</a>
+        <a href="https://cnnportugal.iol.pt/noticias/MadeiraAutarquicas" class="btn-map medium ios-red madeira">Madeira</a>
+    </div>
+
+</body>
+</html>
