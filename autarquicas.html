@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -43,19 +44,19 @@
         margin: 0;
         padding: 0;
         display: flex;
-        justify-content: center;
+        justify-content: left
         align-items: center;
         min-height: 100vh;
-        overflow: hidden;
-        position: relative;
+        overflow: visible
+        position: absolute;
     }
 
     .map-container {
-        width: 98%;
+        width: 100%;
         max-width: 500px;
         aspect-ratio: 1 / 1.5;
-        left:5%;
-        position: relative;
+        left:25%;
+        position: absolute;
         background-color: transparent;
         overflow: visible;
     }
@@ -85,9 +86,9 @@
         content: '';
         position: absolute;
         top: 1%;
-        left: 0%;
-        width: 60%;
-        height: 90%;
+        left: -10%;
+        width: 80%;
+        height: 100%;
         background: 
             radial-gradient(circle at 75% 50%, var(--portugal-red-light) 0%, transparent 80%),
             radial-gradient(circle at 25% 50%, var(--portugal-green-light) 0%, transparent 80%),
@@ -120,11 +121,11 @@
             
         mask-image:
             /* Máscara vertical */
-            linear-gradient(to bottom, transparent, black 19%, black 80%, transparent),
+            linear-gradient(to bottom, transparent, black 19%, black 50%, transparent),
             /* Máscara horizontal (lado esquerdo) */
-            linear-gradient(to right, transparent, black 15%),
+            linear-gradient(to right, transparent, black 45%),
             /* Máscara horizontal (lado direito) */
-            linear-gradient(to left, transparent, black 15%);
+            linear-gradient(to left, transparent, black 25%);
 
         -webkit-mask-composite: intersect;
         mask-composite: intersect;
@@ -202,7 +203,7 @@
     /* Estilos para os botões "partidos" dos Açores e da Madeira */
     .btn-map.acores {
         top: 28%;
-        left: -25%;
+        left: -10%;
         /* Certifica-se que o botão tem a sua cor */
         background-color: rgba(52, 199, 89, 0.4); 
     }
