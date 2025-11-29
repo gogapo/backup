@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Adeus, tristeza. Uma trilogia de Berlim</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* 1. VARIÁVEIS E RESET BÁSICO (DARK MODE) */
+    :root {
+      --cor-fundo-app: #141414; 
+      --cor-fundo-card: #1f1f1f; 
+      --cor-primaria: #b22222; 
+      --cor-secundaria: #ffffff; 
+      --cor-texto-claro: #a0a0a0; 
+      --cor-borda: #333333; 
+      --espacamento-padrao: 40px; 
+      --border-radius-padrao: 4px; 
+      --header-height: 70px; /* Altura do header fixo */
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: var(--font-body);
+      line-height: 1.6;
+      color: var(--cor-secundaria);
+      background: var(--cor-fundo-app);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* 2. LAYOUT GERAL */
+    .page-container {
+      max-width: 1200px; 
+      margin: 0 auto;
+      background: var(--cor-fundo-app);
+      padding-bottom: 80px;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative; 
+    }
+
+    /* 3. HEADER FIXO (Links completos) */
+    .app-header {
+      position: fixed; /* Mudei para 'fixed' para garantir que fica no topo */
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(20, 20, 20, 0.95);
+      border-bottom: 1px solid var(--cor-borda);
+      padding: 15px var(--espacamento-padrao);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: var(--header-height); 
+      box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+    }
+
+    .logo-text {
+      font-family: var(--font-body);
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--cor-primaria);
+      letter-spacing: -1px;
+      line-height: 1;
+      text-transform: uppercase; 
+    }
+    .logo-text span {
+        text-transform: capitalize; 
+        color: var(--cor-secundaria); 
+    }
+    
+    .header-nav {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+    .header-nav a {
+        color: var(--cor-texto-claro);
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 5px 0;
+        border-bottom: 2px solid transparent;
+        transition: color 0.2s, border-bottom-color 0.2s;
+    }
+    .header-nav a:hover {
+        color: var(--cor-primaria);
+        border-bottom-color: var(--cor-primaria);
+    }
+
+    /* 4. INTRODUÇÃO (FULL-WIDTH COVER) */
+    .intro-block-wrapper {
+        width: 100%;
+        /* Adicionar padding superior igual à altura do header para evitar sobreposição */
+        padding-top: var(--header-height); 
+        z-index: 500;
+        position: relative;
+    }
+
+    .intro-block {
+      background-image: linear-gradient(rgba(20, 20, 20, 0.7), rgba(20, 20, 20, 0.95)), url('https://picsum.photos/id/1029/1920/800'); 
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      
+      padding: 180px var(--espacamento-padrao) 80px; 
+      text-align: center;
+    }
+    
+    .tag {
+      font-size: 13px; 
+      color: #ffcccc; 
+      background: rgba(178, 34, 34, 0.1); 
+      padding: 4px 10px;
+      display: inline-block;
+      border-radius: 20px; 
+      margin-bottom: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.25em; 
+    }
+    .intro-block h1 { 
+        font-family: var(--font-display); 
+        font-size: 80px; 
+        line-height: 1;
+        margin-bottom: 25px; 
+        color: var(--cor-secundaria);
+        text-shadow: 0 0 15px rgba(0,0,0,0.5);
+        font-weight: 900;
+    }
+    .intro-text-wrapper {
+        max-width: 650px; 
+        margin: 0 auto;
+        color: var(--cor-texto-claro);
+        font-size: 17px;
+        line-height: 1.8;
+        font-weight: 300;
+    }
+    .intro-text-wrapper strong {
+        color: var(--cor-secundaria);
+        font-weight: 700;
+    }
+
+    /* 5. SEÇÃO DE CAPÍTULOS (Estilo TILE/POSTER) */
+    .chapters-feed {
+      padding: 40px var(--espacamento-padrao);
+    }
+    
+    .section-title {
+        color: var(--cor-secundaria); 
+        font-size: 24px; 
+        font-weight: 600;
+        padding: 0 var(--espacamento-padrao) 20px;
+        margin-top: 40px; 
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+    }
+    
+    .chapter-tile {
+      background: var(--cor-fundo-card);
+      margin-bottom: 30px;
+      border-radius: var(--border-radius-padrao);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      overflow: hidden;
+      display: flex; 
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 300px; 
+    }
+
+    .chapter-tile:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+    }
+
+    .tile-image-container {
+      width: 50%; 
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .tile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.9;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .chapter-tile:hover .tile-image {
+        opacity: 1;
+        transform: scale(1.03); 
+    }
+
+    .tile-content {
+      width: 50%;
+      padding: var(--espacamento-padrao);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tile-tag {
+        font-size: 14px;
+        color: var(--cor-texto-claro);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+    .tile-chapter-title {
+      font-family: var(--font-display);
+      font-size: 38px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: var(--cor-secundaria);
+    }
+    .tile-excerpt {
+      font-size: 17px;
+      color: var(--cor-texto-claro);
+      margin-bottom: 30px;
+    }
+
+    /* Botão CTA */
+    .btn-cta {
+        display: inline-block;
+        padding: 12px 25px;
+        background: var(--cor-primaria);
+        color: var(--cor-secundaria); 
+        font-weight: 700;
+        text-transform: uppercase;
+        border-radius: var(--border-radius-padrao);
+        letter-spacing: 0.1em;
+        transition: background 0.2s ease, transform 0.2s ease;
+        box-shadow: 0 4px 15px rgba(178, 34, 34, 0.4);
+    }
+    .btn-cta:hover {
+        background: #cc3333; 
+        transform: scale(1.05);
+    }
+    
+    /* Footer */
+    footer {
+      font-size: 14px;
+      color: var(--cor-texto-claro);
+      text-align: center;
+      padding: 40px var(--espacamento-padrao);
+      margin-top: 50px;
+      border-top: 1px solid var(--cor-borda);
+      background: var(--cor-fundo-app);
+    }
+
+    /* 6. OTIMIZAÇÃO MOBILE */
+    @media (max-width: 768px) {
+        
+        :root {
+            --espacamento-padrao: 20px;
+        }
+        
+        /* Header */
+        .logo-text {
+            font-size: 24px;
+        }
+        .header-nav {
+            gap: 8px; /* Mais compacto para caber */
+        }
+        .header-nav a {
+            font-size: 9px; 
+            letter-spacing: 0.05em;
+        }
+
+        /* Intro Poster - Corrigindo sobreposição do header */
+        .intro-block-wrapper {
+             /* Mantém o padding-top igual à altura do header em mobile */
+             padding-top: var(--header-height); 
+        }
+        .intro-block {
+            padding: 40px var(--espacamento-padrao) 40px; /* Reduzir o padding superior original */
+        }
+        .intro-block h1 {
+            font-size: 48px;
+        }
+        .intro-text-wrapper {
+            font-size: 16px;
+        }
+
+        /* Capítulos (Tiles) - Poster Vertical */
+        .chapters-feed {
+            padding: 20px var(--espacamento-padrao);
+        }
+
+        .chapter-tile {
+            flex-direction: column;
+            height: auto;
+        }
+
+        .tile-image-container {
+            width: 100%; 
+            height: 200px;
+        }
+        .tile-content {
+            width: 100%;
+            padding: 25px var(--espacamento-padrao);
+        }
+        .tile-chapter-title {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+        .tile-excerpt {
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 20px;
+        }
+    }
+  </style>
+</head>
+<body>
+    
+  <header class="app-header">
+    <span class="logo-text">CNN <span>Portugal</span></span> 
+    <nav class="header-nav">
+      <a href="#capitulo-1">Capítulo I</a>
+      <a href="#capitulo-2">Capítulo II</a>
+      <a href="#capitulo-3">Capítulo III</a>
+      <a href="#capitulo-4">Capítulo IV</a>
+    </nav>
+  </header>
+
+  <div class="intro-block-wrapper">
+    <div class="intro-block" id="intro">
+        <div class="tag">TRILOGIA DE BERLIM</div> <h1>Adeus, tristeza.</h1>
+        <div class="intro-text-wrapper">
+            <p>
+                Em Berlim, um prédio de betão do Siza tem “Bonjour Tristesse” escrito em letras tortas. É sobre a ironia disto, mas é sobretudo sobre o apelo grafitado em 2012 na mesma fachada, que se tornou um lema: **“BITTE LEBN”** (“por favor, vive”).
+            </p>
+            <p>
+                Este grito à vida encapsula a jornada de uma geração que trocou a crise pela chance de "começar a viver". Tal como Bowie, estas histórias acompanham recomeços, vidas feitas fora e a complexidade agridoce do regresso. É um sonoro: <strong>adeus, tristeza</strong>.
+            </p>
+        </div>
+    </div>
+  </div>
+  
+  <div class="page-container">
+    
+    <h2 class="section-title">Capítulos da Série</h2>
+
+    <section class="chapters-feed">
+      
+      <article class="chapter-tile" id="capitulo-1">
+        <div class="tile-image-container">
+          <img src="https://picsum.photos/id/1084/600/300" alt="Pessoas a recomeçar" class="tile-image">
+        </div>
+        <div class="tile-content">
+            <div class="tile-tag">CAPÍTULO 1 | 45 MIN</div>
+            <h3 class="tile-chapter-title">Recomeço</h3>
+            <p class="tile-excerpt">Berlim acolheu-o "aos trancos e barrancos", ele aceitou-a de coração. Pedro trocou o protesto pelo exílio e conta como a cidade se tornou o seu lar.</p>
+            <a href="#ler-capitulo-1" class="btn-cta">Ver Capítulo</a>
+        </div>
+      </article>
+
+      <article class="chapter-tile" id="capitulo-2">
+        <div class="tile-image-container">
+          <img src="https://picsum.photos/id/1054/600/300" alt="Amigos a jantar" class="tile-image">
+        </div>
+        <div class="tile-content">
+            <div class="tile-tag">CAPÍTULO 2 | 52 MIN</div>
+            <h3 class="tile-chapter-title">Vidas Feitas Fora</h3>
+            <p class="tile-excerpt">Arrendaram casa em Berlim, mas continuam a viver em dois mundos. Joana e amigos falam de estabilidade e da complexa sensação de ter a vida suspensa em Portugal.</p>
+            <a href="#ler-capitulo-2" class="btn-cta">Ver Capítulo</a>
+        </div>
+      </article>
+      
+      <article class="chapter-tile" id="capitulo-3">
+        <div class="tile-image-container">
+          <img src="https://picsum.photos/id/1075/600/300" alt="Malas de viagem desfeitas" class="tile-image">
+        </div>
+        <div class="tile-content">
+            <div class="tile-tag">CAPÍTULO 3 | 48 MIN</div>
+            <h3 class="tile-chapter-title">Regresso</h3>
+            <p class="tile-excerpt">Regressar não é voltar ao mesmo lugar. Acompanhamos quem tenta encaixar a experiência de Berlim num país que já não é o mesmo. </p>
+            <a href="#ler-capitulo-3" class="btn-cta">Ver Capítulo</a>
+        </div>
+      </article>
+
+      <article class="chapter-tile" id="capitulo-4">
+        <div class="tile-image-container">
+          <img src="https://picsum.photos/id/111/600/300" alt="Grafitti do Muro de Berlim" class="tile-image">
+        </div>
+        <div class="tile-content">
+            <div class="tile-tag">CAPÍTULO 4 | 40 MIN</div>
+            <h3 class="tile-chapter-title">O Muro (e o que resta dele)</h3>
+            <p class="tile-excerpt">Uma reflexão sobre a divisão, a memória e a herança histórica que moldou a Berlim de hoje e as vidas dos portugueses que lá procuraram futuro. </p>
+            <a href="#ler-capitulo-4" class="btn-cta">Ver Capítulo</a>
+        </div>
+      </article>
+
+    </section>
+
+    <footer>
+        <p>Reportagem multimédia desenvolvida no âmbito da Bolsa de Jornalismo **CNN Portugal** 2025.</p>
+        <p>Produção Executiva: **CNN Portugal** · Texto, fotografia e vídeo: [teu nome] · Edição: [editor].</p>
+    </footer>
+  </div>
+</body>
+</html>
