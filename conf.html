@@ -1,206 +1,222 @@
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiência Mobile First - Reportagem</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Special+Elite&display=swap');
 
-    .horror-wrap {
-        background: #000;
-        height: 100vh;
-        width: 100%;
-        position: relative;
-        overflow: hidden;
-        font-family: 'Special Elite', sans-serif;
-        color: #fff;
-    }
+        body, html { 
+            margin: 0; padding: 0; 
+            background: #000; 
+            color: #fff;
+            font-family: 'Courier Prime', monospace;
+            height: 100%;
+            overflow-x: hidden;
+        }
 
-    /* Camada de interferência e scanlines */
-    .overlay-efx {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
-                    linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
-        background-size: 100% 3px, 3px 100%;
-        z-index: 10;
-        pointer-events: none;
-    }
+        /* Efeito de ruído visual */
+        .overlay-noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://media.giphy.com/media/oEI9uWUic8S9mI97O9/giphy.gif');
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 99;
+        }
 
-    .video-grid {
-        display: none; 
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-        padding: 20px;
-        height: 80vh;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+        /* Container Principal */
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-    .video-box {
-        background: #050505;
-        border: 1px solid #444;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 0 20px rgba(0,0,0,1);
-    }
+        /* Ecrã Inicial */
+        #gate-screen {
+            text-align: center;
+            z-index: 100;
+        }
 
-    .video-label {
-        position: absolute;
-        top: 15px; left: 15px;
-        background: rgba(255,0,0,0.8);
-        padding: 4px 12px;
-        font-size: 11px;
-        z-index: 15;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
+        .btn-warning {
+            background: #f00;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-family: 'Special Elite', cursive;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px #f00;
+        }
 
-    video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        /* Efeito de camera de segurança */
-        filter: brightness(0.8) contrast(1.2) saturate(0.5);
-    }
+        /* Grid de Vídeo - Mobile First (Coluna única) */
+        .video-grid {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            gap: 15px;
+            flex-direction: column; /* Mobile: Um por cima do outro */
+        }
 
-    /* Estilo específico para o vídeo do "Predador" */
-    #predator-video {
-        filter: brightness(0.4) contrast(1.5) sepia(0.2) hue-rotate(-15deg);
-    }
+        /* Desktop: Lado a Lado */
+        @media (min-width: 768px) {
+            .video-grid {
+                flex-direction: row; 
+            }
+        }
 
-    .dark-chat {
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 85%;
-        max-width: 600px;
-        background: rgba(10, 0, 0, 0.9);
-        border-left: 5px solid #f00;
-        padding: 20px;
-        z-index: 20;
-        display: none;
-        box-shadow: 0 0 30px rgba(255,0,0,0.2);
-    }
+        .video-container {
+            flex: 1;
+            background: #050505;
+            border: 1px solid #333;
+            position: relative;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+        }
 
-    #text-target {
-        font-size: 1.2rem;
-        line-height: 1.4;
-        min-height: 1.4em;
-    }
+        .video-tag {
+            position: absolute;
+            top: 10px; left: 10px;
+            background: #f00;
+            font-size: 10px;
+            padding: 3px 8px;
+            z-index: 10;
+        }
 
-    .start-screen {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        z-index: 30;
-        position: relative;
-        background: radial-gradient(circle, #1a0000 0%, #000 100%);
-    }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    .warning-btn {
-        background: transparent;
-        color: #f00;
-        border: 2px solid #f00;
-        padding: 20px 50px;
-        font-family: 'Special Elite';
-        font-size: 1.3rem;
-        cursor: pointer;
-        transition: all 0.4s;
-    }
+        #predator-video {
+            filter: brightness(0.5) contrast(1.4) grayscale(0.5);
+        }
 
-    .warning-btn:hover {
-        background: #f00;
-        color: #000;
-        box-shadow: 0 0 30px #f00;
-        transform: scale(1.05);
-    }
+        #user-webcam {
+            transform: scaleX(-1);
+            filter: sepia(0.2);
+        }
 
-    /* Animação de tremor para o susto final */
-    @keyframes screen-shake {
-        0% { transform: translate(0,0); }
-        20% { transform: translate(-8px, 5px); }
-        40% { transform: translate(-8px, -5px); }
-        60% { transform: translate(8px, 5px); }
-        80% { transform: translate(8px, -5px); }
-        100% { transform: translate(0,0); }
-    }
-</style>
+        /* Caixa de Chat */
+        .chat-ui {
+            display: none;
+            width: 100%;
+            max-width: 600px;
+            background: rgba(15, 0, 0, 0.9);
+            border: 1px solid #f00;
+            padding: 15px;
+            margin-top: 20px;
+            box-sizing: border-box;
+        }
 
-<div class="horror-wrap" id="stage">
-    <div class="overlay-efx"></div>
+        /* Animação de Glitch Final */
+        @keyframes horror-glitch {
+            0% { transform: translate(0); }
+            10% { transform: translate(-5px, 5px); background-color: #200; }
+            20% { transform: translate(5px, -5px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body>
 
-    <!-- ECRÃ 1: A PORTA DE ENTRADA -->
-    <div class="start-screen" id="gate">
-        <h2 style="color: #f00; margin-bottom: 10px;">AVISO: CONEXÃO NÃO ENCRIPTADA</h2>
-        <p style="margin-bottom: 30px; opacity: 0.7;">Estás prestes a entrar num domínio de chat aleatório.</p>
-        <button class="warning-btn" onclick="initExperience()">LIGAR CÂMARA E ENTRAR</button>
+<div class="overlay-noise"></div>
+
+<div class="main-wrapper" id="horror-stage">
+    
+    <!-- PASSO 1: ENTRADA -->
+    <div id="gate-screen">
+        <h2 style="color: #f00; font-family: 'Special Elite';">AVISO DE SEGURANÇA</h2>
+        <p style="opacity: 0.7;">Estás a entrar numa zona de chat não moderada.</p>
+        <button class="btn-warning" onclick="startExperience()">Aceitar e Ligar Câmara</button>
     </div>
 
-    <!-- ECRÃ 2: O CONFRONTOS (VÍDEOS) -->
-    <div class="video-grid" id="interface">
-        <div class="video-box">
-            <div class="video-label">LIVE: STRANGER_404</div>
-            <!-- Vídeo do Homem Misterioso (Loop) -->
-            <video id="predator-video" autoplay muted loop playsinline>
-                <source src="https://cdn.pixabay.com/video/2021/04/13/71004-538166540_tiny.mp4" type="video/mp4">
+    <!-- PASSO 2: INTERFACE DE VÍDEO -->
+    <div class="video-grid" id="video-interface">
+        
+        <!-- ESQUERDA: WEBCAM DO UTILIZADOR -->
+        <div class="video-container">
+            <div class="video-tag">TU (CONVIDADO)</div>
+            <video id="user-webcam" autoplay playsinline muted></video>
+        </div>
+
+        <!-- DIREITA: VÍDEO DO HOMEM (Link IOL) -->
+        <div class="video-container">
+            <div class="video-tag">ESTRANHO_404 (LIVE)</div>
+            <video id="predator-video" autoplay loop muted playsinline>
+                <source src="https://www.iol.pt/videos-file/4/3/0/8/6a0212b50cf2d0ed34b84308-L-1000k.mp4" type="video/mp4">
+                O teu navegador não suporta este vídeo.
             </video>
         </div>
-        
-        <div class="video-box">
-            <div class="video-label">YOU: (GUEST_USER)</div>
-            <!-- Webcam do Leitor -->
-            <video id="webcam" autoplay playsinline muted></video>
-        </div>
     </div>
 
-    <!-- ECRÃ 3: O DIÁLOGO -->
-    <div class="dark-chat" id="msg-box">
-        <div id="text-target">> A iniciar protocolo de vídeo...</div>
+    <!-- PASSO 3: MENSAGENS -->
+    <div class="chat-ui" id="chat-box">
+        <div id="chat-text" style="color: #f00;">> Ligação estabelecida...</div>
     </div>
+
 </div>
 
 <script>
-    async function initExperience() {
-        // Ativar Webcam
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            document.getElementById('webcam').srcObject = stream;
-        } catch (err) {
-            console.log("Câmara bloqueada ou não encontrada.");
+    function startExperience() {
+        // Iniciar Webcam
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                var vUser = document.getElementById('user-webcam');
+                vUser.srcObject = stream;
+                vUser.play();
+            })
+            .catch(function(err) {
+                console.log("Webcam bloqueada.");
+            });
         }
 
-        // Trocar ecrãs
-        document.getElementById('gate').style.display = 'none';
-        document.getElementById('interface').style.display = 'grid';
-        document.getElementById('msg-box').style.display = 'block';
+        // Forçar play no vídeo do "Estranho"
+        var vPredator = document.getElementById('predator-video');
+        vPredator.play();
 
-        const lines = [
-            "> [Stranger_404]: Olá... por que é que não falas?",
-            "> [Stranger_404]: Pareces ser muito nova para estar aqui a estas horas.",
-            "> [Stranger_404]: Eu tenho algo para te mostrar. Queres ver?",
-            "> [Stranger_404]: Tens uma camisola bonita. É do teu quarto que estás a falar?",
-            "> [SISTEMA]: ALERTA - TENTATIVA DE ACESSO REMOTO DETETADA.",
-            "> [Stranger_404]: Eu já sei onde moras. Vemo-nos em breve."
+        // Alternar Ecrãs
+        document.getElementById('gate-screen').style.display = 'none';
+        document.getElementById('video-interface').style.display = 'flex';
+        document.getElementById('chat-box').style.display = 'block';
+
+        // Script de Mensagens
+        const logs = [
+            "> [Estranho]: Olá... finalmente alguém real.",
+            "> [Estranho]: O que faz uma criança sozinha nestes sites?",
+            "> [Estranho]: Não precisas de ter medo de mim.",
+            "> [SISTEMA]: ALERTA - INVASÃO DE PRIVACIDADE DETETADA.",
+            "> [Estranho]: Estás no teu quarto? Vou ter contigo agora."
         ];
 
-        let i = 0;
-        const target = document.getElementById('text-target');
+        let count = 0;
+        const target = document.getElementById('chat-text');
         
-        const interval = setInterval(() => {
-            if (i < lines.length) {
-                target.innerHTML = lines[i];
-                i++;
-                
-                // No final, faz o ecrã tremer e mudar para vermelho
-                if(i === lines.length) {
+        const loop = setInterval(() => {
+            if (count < logs.length) {
+                target.innerHTML = logs[count];
+                count++;
+
+                if (count === logs.length) {
                     setTimeout(() => {
-                        document.getElementById('stage').style.animation = "screen-shake 0.1s infinite";
-                        document.getElementById('stage').style.backgroundColor = "#300";
-                        target.innerHTML = "<span style='color:#fff; font-weight:bold;'>ESTE É O PERIGO REAL. O que começou como curiosidade tornou-se uma ameaça direta.</span>";
-                    }, 2000);
+                        document.getElementById('horror-stage').style.animation = "horror-glitch 0.1s infinite";
+                        target.innerHTML = "<span style='color:white'>ISTO É O QUE ACONTECE A MILHARES DE CRIANÇAS. O PERIGO É REAL.</span>";
+                    }, 3000);
                 }
             } else {
-                clearInterval(interval);
+                clearInterval(loop);
             }
-        }, 3500);
+        }, 4000);
     }
 </script>
+
+</body>
+</html>
