@@ -1,0 +1,206 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+    .horror-wrap {
+        background: #000;
+        height: 100vh;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        font-family: 'Special Elite', sans-serif;
+        color: #fff;
+    }
+
+    /* Camada de interferência e scanlines */
+    .overlay-efx {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                    linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+        background-size: 100% 3px, 3px 100%;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    .video-grid {
+        display: none; 
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        padding: 20px;
+        height: 80vh;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .video-box {
+        background: #050505;
+        border: 1px solid #444;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0,0,0,1);
+    }
+
+    .video-label {
+        position: absolute;
+        top: 15px; left: 15px;
+        background: rgba(255,0,0,0.8);
+        padding: 4px 12px;
+        font-size: 11px;
+        z-index: 15;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* Efeito de camera de segurança */
+        filter: brightness(0.8) contrast(1.2) saturate(0.5);
+    }
+
+    /* Estilo específico para o vídeo do "Predador" */
+    #predator-video {
+        filter: brightness(0.4) contrast(1.5) sepia(0.2) hue-rotate(-15deg);
+    }
+
+    .dark-chat {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 85%;
+        max-width: 600px;
+        background: rgba(10, 0, 0, 0.9);
+        border-left: 5px solid #f00;
+        padding: 20px;
+        z-index: 20;
+        display: none;
+        box-shadow: 0 0 30px rgba(255,0,0,0.2);
+    }
+
+    #text-target {
+        font-size: 1.2rem;
+        line-height: 1.4;
+        min-height: 1.4em;
+    }
+
+    .start-screen {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        z-index: 30;
+        position: relative;
+        background: radial-gradient(circle, #1a0000 0%, #000 100%);
+    }
+
+    .warning-btn {
+        background: transparent;
+        color: #f00;
+        border: 2px solid #f00;
+        padding: 20px 50px;
+        font-family: 'Special Elite';
+        font-size: 1.3rem;
+        cursor: pointer;
+        transition: all 0.4s;
+    }
+
+    .warning-btn:hover {
+        background: #f00;
+        color: #000;
+        box-shadow: 0 0 30px #f00;
+        transform: scale(1.05);
+    }
+
+    /* Animação de tremor para o susto final */
+    @keyframes screen-shake {
+        0% { transform: translate(0,0); }
+        20% { transform: translate(-8px, 5px); }
+        40% { transform: translate(-8px, -5px); }
+        60% { transform: translate(8px, 5px); }
+        80% { transform: translate(8px, -5px); }
+        100% { transform: translate(0,0); }
+    }
+</style>
+
+<div class="horror-wrap" id="stage">
+    <div class="overlay-efx"></div>
+
+    <!-- ECRÃ 1: A PORTA DE ENTRADA -->
+    <div class="start-screen" id="gate">
+        <h2 style="color: #f00; margin-bottom: 10px;">AVISO: CONEXÃO NÃO ENCRIPTADA</h2>
+        <p style="margin-bottom: 30px; opacity: 0.7;">Estás prestes a entrar num domínio de chat aleatório.</p>
+        <button class="warning-btn" onclick="initExperience()">LIGAR CÂMARA E ENTRAR</button>
+    </div>
+
+    <!-- ECRÃ 2: O CONFRONTOS (VÍDEOS) -->
+    <div class="video-grid" id="interface">
+        <div class="video-box">
+            <div class="video-label">LIVE: STRANGER_404</div>
+            <!-- Vídeo do Homem Misterioso (Loop) -->
+            <video id="predator-video" autoplay muted loop playsinline>
+                <source src="https://cdn.pixabay.com/video/2021/04/13/71004-538166540_tiny.mp4" type="video/mp4">
+            </video>
+        </div>
+        
+        <div class="video-box">
+            <div class="video-label">YOU: (GUEST_USER)</div>
+            <!-- Webcam do Leitor -->
+            <video id="webcam" autoplay playsinline muted></video>
+        </div>
+    </div>
+
+    <!-- ECRÃ 3: O DIÁLOGO -->
+    <div class="dark-chat" id="msg-box">
+        <div id="text-target">> A iniciar protocolo de vídeo...</div>
+    </div>
+</div>
+
+<script>
+    async function initExperience() {
+        // Ativar Webcam
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            document.getElementById('webcam').srcObject = stream;
+        } catch (err) {
+            console.log("Câmara bloqueada ou não encontrada.");
+        }
+
+        // Trocar ecrãs
+        document.getElementById('gate').style.display = 'none';
+        document.getElementById('interface').style.display = 'grid';
+        document.getElementById('msg-box').style.display = 'block';
+
+        const lines = [
+            "> [Stranger_404]: Olá... por que é que não falas?",
+            "> [Stranger_404]: Pareces ser muito nova para estar aqui a estas horas.",
+            "> [Stranger_404]: Eu tenho algo para te mostrar. Queres ver?",
+            "> [Stranger_404]: Tens uma camisola bonita. É do teu quarto que estás a falar?",
+            "> [SISTEMA]: ALERTA - TENTATIVA DE ACESSO REMOTO DETETADA.",
+            "> [Stranger_404]: Eu já sei onde moras. Vemo-nos em breve."
+        ];
+
+        let i = 0;
+        const target = document.getElementById('text-target');
+        
+        const interval = setInterval(() => {
+            if (i < lines.length) {
+                target.innerHTML = lines[i];
+                i++;
+                
+                // No final, faz o ecrã tremer e mudar para vermelho
+                if(i === lines.length) {
+                    setTimeout(() => {
+                        document.getElementById('stage').style.animation = "screen-shake 0.1s infinite";
+                        document.getElementById('stage').style.backgroundColor = "#300";
+                        target.innerHTML = "<span style='color:#fff; font-weight:bold;'>ESTE É O PERIGO REAL. O que começou como curiosidade tornou-se uma ameaça direta.</span>";
+                    }, 2000);
+                }
+            } else {
+                clearInterval(interval);
+            }
+        }, 3500);
+    }
+</script>
